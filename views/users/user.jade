@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+    h1= user.displayName
+    div
+        label For the last:
+        input(type='number', id='period', value=period)
+        |  days
+        button(id='show') Show
+    div.comments-block
+        h2 Latest Jira Comments
+        each comment in jiraComments
+            .user-comment.jira-comment
+                p
+                    strong
+                        a(href='https://jira.symmetrics.de/browse/' + comment.issue.key)= comment.issue.key
+                        = ' ' + comment.issue.summary
+                    = ' - ' + comment.dateFormatted
+                != md(comment.body)
+    div.comments-block
+        h2 Latest Fecru Comments
+        each comment in fecruComments
+            .user-comment.fecru-comment
+                p
+                    strong
+                        a(href='https://fecru.symmetrics.de/cru/' + comment.review.key)= comment.review.key
+                        = ' ' + comment.review.summary
+                    = ' - ' + comment.dateFormatted
+                != md(comment.body)
+    script(src='/javascripts/users.js')
