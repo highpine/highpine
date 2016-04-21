@@ -16,7 +16,7 @@ var UserService = function(jira, fecru) {
                 maxResults: 500,
                 fields: ['summary', 'comment']
             };
-            jira.client.searchJira(jql, searchParams, function (err, result) {
+            jira.client.search(jql, searchParams, function (err, result) {
                 if (err) {
                     callback(err);
                     return;
@@ -25,7 +25,7 @@ var UserService = function(jira, fecru) {
                 var userComments = result.issues.reduce(function(currentValue, issue) {
                     var userIssueComments = issue.fields.comment.comments
                         .filter(function(comment) {
-                            return jiraCommentIsRelevant(comment, username, periodStartDate)
+                            return jiraCommentIsRelevant(comment, username, periodStartDate);
                         })
                         .map(function(comment) {
                             return convertJiraComment(comment, issue);
@@ -63,7 +63,7 @@ var UserService = function(jira, fecru) {
                 callback(null, userComments.sort(commentsSorter));
             });
         }
-    }
+    };
 };
 
 function getJiraDate(date) {
@@ -91,7 +91,7 @@ function convertJiraComment(comment, issue) {
             key: issue.key,
             summary: issue.fields.summary
         }
-    }
+    };
 }
 
 function convertFecruComment(comment, review) {
@@ -104,7 +104,7 @@ function convertFecruComment(comment, review) {
             key: review.permaId.id,
             summary: review.name
         }
-    }
+    };
 }
 
 function commentsSorter(comment1, comment2) {

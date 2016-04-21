@@ -1,5 +1,4 @@
-var jira = require('../lib/jira-extended');
-var url = require('url');
+var jira = require('../lib/jira');
 
 module.exports = function(jiraUrl, user, password, apiVersion) {
     var urlParts = url.parse(jiraUrl);
@@ -12,6 +11,7 @@ module.exports = function(jiraUrl, user, password, apiVersion) {
         null,
         false
     );
+    jiraClient.authorize(null, null, function() {});
     return {
         client: jiraClient
     };
