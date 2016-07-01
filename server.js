@@ -8,9 +8,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var jira = require('./server/services/jira');
 var jiraProxy = require('node-jira-api-proxy');
-var fecru = require('./server/services/fecru');
 var session = require('express-session');
 var auth = require('./server/services/auth');
 
@@ -19,11 +17,9 @@ if (!process.env.MONGO_URL) {
     console.log('Mongo URL is not set in env variables.');
     process.exit(1);
 }
-
 mongoose.connect(process.env.MONGO_URL);
 
 var app = express();
-
 app.set('env', process.env.ENV);
 app.use(session({
     resave: false,
@@ -38,7 +34,7 @@ app.set('jira-proxy', new jiraProxy.JiraApiProxyRegistry(process.env.JIRA_URL, '
 
 // view engine setup
 app.set('views', path.join(__dirname, 'server', 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -51,12 +47,16 @@ app.use(expressPromise());
 
 app.use('/', require('./server/routes/index'));
 app.use('/auth', require('./server/routes/auth'));
-app.use('/users', require('./server/routes/users'));
-app.use('/jira', require('./server/routes/jira'));
-app.use('/fecru', require('./server/routes/fecru'));
 
 app.use('/api', auth.authorizationChecker);
-app.use('/api/jira', require('./server/routes/api/jira'));
+//app.use('/api/jira', require('./server/routes/api/jira'));
+
+var requestProxy = require('express-request-proxy');
+app.use('/api/proxy/jira/auth/*', requestProxy({
+    url: 'https://jira.symmetrics.de/rest/auth/latest/*'
+}));
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
