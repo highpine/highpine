@@ -1,0 +1,10 @@
+<div class="container">
+
+    <pre>
+        {{ user }}
+    </pre>
+
+    <a ng-if="isLoggedIn" href="#/logout" data-ng-click="logout()">Logout</a>
+    <a ng-if="!isLoggedIn" href="#/login">Login</a>
+
+</div>

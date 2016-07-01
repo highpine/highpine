@@ -1,0 +1,16 @@
+<div class="container">
+
+    <form class="form-signin" data-ng-submit="login()">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <p class="alert alert-danger" ng-if="errorMessage">{{ errorMessage }}</p>
+        <label class="sr-only">LDAP username</label>
+        <input type="text" class="form-control" data-ng-model="username"
+               placeholder="LDAP username" required autofocus>
+        <label class="sr-only">LDAP password</label>
+        <input type="password" class="form-control" data-ng-model="password"
+               placeholder="LDAP password" required>
+        <p>Your username and password will be used to authorize in Jira, Fecru and Gitlab.</p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+
+</div>
