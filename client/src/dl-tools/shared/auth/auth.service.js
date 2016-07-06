@@ -1,21 +1,25 @@
 define([], function() {
-    /* @ngInject */
-    function authService($http) {
-        var userInfo = null;
+    /* @ngInjinect */
+    function authService($http, $sessionStorage) {
         return {
             login: function(username, password) {
-                return $http.post('/auth/login', {username: username, password: password})
-                    .then(function(result) {
-                        userInfo = result;
-                    });
+                return $http.post('/auth/login', {
+                    username: username,
+                    password: password
+                })
+                .then(function(result, data) {
+                    $sessionStorage.user = result;
+                    return result.data;
+                });
             },
             isLoggedIn: function() {
-                return !!userInfo;
+                return !!$sessionStorage.user;
             },
             logout: function() {
                 return $http.post('/auth/logout', {})
                     .then(function(result) {
-                        userInfo = null;
+                        delete $sessionStorage.user;
+                        return result.data;
                     });
             },
             verify: function() {

@@ -1,10 +1,13 @@
 <div class="container">
-
-    <pre>
-        {{ user }}
-    </pre>
-
-    <a ng-if="isLoggedIn" href="#/logout" data-ng-click="logout()">Logout</a>
-    <a ng-if="!isLoggedIn" href="#/login">Login</a>
-
+    <div data-ng-if="user">
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="" alt="{{ user.displayName }}"
+                     data-ng-src="{{ user.avatarUrls['32x32'] }}">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{ user.displayName }}</h4>
+            </div>
+        </div>
+    </div>
 </div>

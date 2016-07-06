@@ -1,4 +1,13 @@
 extends layout
 
 block content
-    div(data-ng-view)
+    //div(data-ng-view)
+    div(data-ui-view)
+    div.navbar.navbar-default.navbar-fixed-bottom
+        div.container
+            div(data-data-services-manager)
+            ul.navbar-nav.nav.navbar-right
+                li
+                    div(data-logout-link)
+                li
+                    p.navbar-text &copy; Highpine

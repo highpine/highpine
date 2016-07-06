@@ -1,0 +1,7 @@
+<div class="data-services">
+    <div class="navbar-text" data-ng-repeat="service in services">
+        <span data-ng-show="service.isAuthorized()" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+        <span data-ng-hide="service.isAuthorized()" class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span>
+        {{ service.getName() }}
+    </div>
+</div>

@@ -13,6 +13,8 @@ module.exports = {
             'angular-messages/angular-messages.min.js.map',
             'angular-resource/angular-resource.min.js',
             'angular-resource/angular-resource.min.js.map',
+            'angular-ui-router/release/angular-ui-router.min.js',
+            'ngstorage/ngStorage.min.js',
             'bootstrap/dist/js/bootstrap.min.js'
         ],
         css: [

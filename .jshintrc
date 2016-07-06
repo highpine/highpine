@@ -8,6 +8,8 @@
         "$": false,
         "angular": false,
         "confirm": false,
-        "window": false
+        "window": false,
+        "document": false,
+        "define": false
     }
 }

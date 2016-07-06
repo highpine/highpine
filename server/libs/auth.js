@@ -1,6 +1,9 @@
 var Auth = {
+    STATUS_SUCCESS: 'success',
+    STATUS_ERROR: 'error',
+
     authorizationChecker: function(req, res, next) {
-        if (false && !req.session.user) {
+        if (!req.session.jiraToken) {
             var error = new Error('Unauthorized.');
             error.status = 401;
             next(error);

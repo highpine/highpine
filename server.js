@@ -1,5 +1,7 @@
 require('dot-env');
 
+require('app-module-path').addPath('./server');
+
 var express = require('express');
 var expressPromise = require('express-promise');
 var path = require('path');
@@ -10,8 +12,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var jiraProxy = require('node-jira-api-proxy');
 var session = require('express-session');
-var auth = require('./server/services/auth');
-
+var auth = require('libs/auth');
 
 if (!process.env.MONGO_URL) {
     console.log('Mongo URL is not set in env variables.');
@@ -24,11 +25,11 @@ app.set('env', process.env.ENV);
 app.use(session({
     resave: false,
     saveUninitialized: false,
-    secret: 'l;searopxjnweioprcnjio;awwej;cxrz'
+    secret: process.env.SESSION_SECRET
 }));
 
 jiraProxy.JiraApiProxyConfig.strictSSL = false;
-app.set('jira-proxy', new jiraProxy.JiraApiProxyRegistry(process.env.JIRA_URL, '/api/jira/proxy'));
+app.set('jira-proxy-registry', new jiraProxy.JiraApiProxyRegistry(process.env.JIRA_URL, '/api/jira/proxy'));
 //app.set('jira', jira(process.env.JIRA_URL, process.env.JIRA_USER, process.env.JIRA_PASSWORD, process.env.JIRA_API_VERSION));
 //app.set('fecru', fecru(process.env.FECRU_URL, process.env.JIRA_USER, process.env.JIRA_PASSWORD));
 
@@ -49,13 +50,7 @@ app.use('/', require('./server/routes/index'));
 app.use('/auth', require('./server/routes/auth'));
 
 app.use('/api', auth.authorizationChecker);
-//app.use('/api/jira', require('./server/routes/api/jira'));
-
-var requestProxy = require('express-request-proxy');
-app.use('/api/proxy/jira/auth/*', requestProxy({
-    url: 'https://jira.symmetrics.de/rest/auth/latest/*'
-}));
-
+app.use('/api/jira/proxy', require('./server/routes/api/jira/proxy'));
 
 
 // catch 404 and forward to error handler

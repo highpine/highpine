@@ -4,6 +4,8 @@ require.config({
         angularRoute: '/vendor/angular-route/angular-route.min',
         angularResource: '/vendor/angular-resource/angular-resource.min',
         angularMessages: '/vendor/angular-messages/angular-messages.min',
+        angularUiRouter: '/vendor/angular-ui-router/release/angular-ui-router.min',
+        ngStorage: '/vendor/ngstorage/ngStorage.min',
         bootstrap: '/vendor/bootstrap/dist/js/bootstrap.min',
         jquery: '/vendor/jquery/dist/jquery.min'
     },
@@ -12,6 +14,8 @@ require.config({
         angularRoute: ['angular'],
         angularResource: ['angular'],
         angularMessages: ['angular'],
+        angularUiRouter: ['angular'],
+        ngStorage: ['angular'],
         bootstrap: ['jquery']
     },
     //priority: [

@@ -1,14 +1,15 @@
 define([], function() {
     /* @ngInject */
-    function jiraApiClientService($resource) {
+    function JiraApiClientFactory($resource) {
         return {
             session: function() {
-                return $resource('/api/jira/proxy/session', {}, {
-                    authorize: {method: 'post', url: '/api/jira/session/authorize'}
-                });
+                return $resource('/api/jira/proxy/session', {});
+            },
+            myself: function() {
+                return $resource('/api/jira/proxy/myself', {});
             }
         };
     }
 
-    return jiraApiClientService;
+    return JiraApiClientFactory;
 });

@@ -1,48 +1,48 @@
 var express = require('express');
 var router = express.Router();
 var async = require('async');
+var Auth = require('libs/auth');
+var jiraDataService = require('libs/jira/data-service');
+
+var mainDataProvider = 'jira';
+var requiredDataProviders = [mainDataProvider];
 
 router.post('/login', function (req, res, next) {
-    async.parallel([
-        function(callback) {
-            var jiraProxy = req.app.get('jira-proxy');
-            var request = {__proto__: req};
-            request.originalUrl = request.url = '/session';
-            jiraProxy.anonymous().relay(request, function(error, jiraResponse, body) {
-                if (error) {
-                    callback(error);
-                    return;
-                }
-                if (jiraResponse.statusCode != 200 || !body.session) {
-                    var customError = new Error('Login failed');
-                    customError.status = 401;
-                    callback(customError);
-                    return;
-                }
-                jiraProxy.registerToken(body.session);
-                req.session.jiraToken = body.session;
-                callback();
+
+    async.parallel({
+        jira: function (callback) {
+            jiraDataService.authorize(req, callback);
+        },
+        // Just for testing
+        badService: function(callback) {
+            callback(null, {
+                status: Auth.STATUS_ERROR,
+                result: {message:'Well, I\'m a bad service.'}
             });
         }
-    ], function(err, results) {
-        if (err) {
+    }, function(err, results) {
+        var loginFailed = err || requiredDataProviders.some(function(dataProviderName) {
+            return results[dataProviderName].status == Auth.STATUS_ERROR;
+        });
+        if (loginFailed) {
             res.statusCode = 401;
             res.json({
-                status: 'error',
-                message: err
+                status: Auth.STATUS_ERROR,
+                error: err,
+                dataServices: results
             });
             return;
         }
         res.json({
-            status: 'success',
-            results: results
+            status: Auth.STATUS_SUCCESS,
+            dataServices: results
         });
     });
 });
 
 router.post('/logout', function (req, res, next) {
-    var jiraProxy = req.app.get('jira-proxy');
-    jiraProxy.dropToken(req.session.jiraToken);
+    var jiraProxyRegistry = req.app.get('jira-proxy-registry');
+    jiraProxyRegistry.dropToken(req.session.jiraToken);
     req.session.destroy();
     res.json({
         status: 'success'
