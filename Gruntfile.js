@@ -4,6 +4,22 @@ module.exports = function (grunt) {
 
     var meta = require('./grunt.meta.js');
     var watchConfig = require('./grunt.watch.js');
+
+    meta.clientPackages.requireConfig = meta.clientPackages.names.map(function(packageName) {
+        return {
+            name: packageName,
+            location: '/vendor/' + packageName,
+            main: 'setup'
+        };
+    });
+    meta.clientPackages.js = meta.clientPackages.names.map(function(packageName) {
+        return packageName + '/**/*.js';
+    });
+    meta.clientPackages.tpl = meta.clientPackages.names.map(function(packageName) {
+        return meta.vendor.cwd + '/' + packageName + '/**/*.tpl.html';
+    });
+    //meta.clientPackages.tpl = ['client-shared-fecru/test.tpl.html', 'client-shared-fecru/test2.tpl.html'];
+
     var gruntConfig = {
         meta: meta,
         jshint: {
@@ -48,7 +64,8 @@ module.exports = function (grunt) {
                 src: [
                     '<%= meta.vendor.js %>',
                     '<%= meta.vendor.css %>',
-                    '<%= meta.vendor.fonts %>'
+                    '<%= meta.vendor.fonts %>',
+                    '<%= meta.clientPackages.js %>'
                 ],
                 dest: 'public/vendor',
                 cwd: '<%= meta.vendor.cwd %>',
@@ -69,13 +86,22 @@ module.exports = function (grunt) {
             dlTools: {
                 options: {
                     base: 'client/src/dl-tools',
-                    fileHeaderString: 'define([\'angular\'],function(angular){',
+                    fileHeaderString: 'define([\'angular\'], function(angular) {',
                     fileFooterString: '});'
                 },
                 src: ['client/src/dl-tools/**/*.tpl.html'],
                 dest: 'public/javascripts/dl-tools/templates.js',
                 module: 'dl-tools-templates'
-
+            },
+            vendor: {
+                options: {
+                    base: '<%= meta.vendor.cwd %>',
+                    fileHeaderString: 'define([\'angular\'], function(angular) {',
+                    fileFooterString: '});'
+                },
+                src: ['<%= meta.clientPackages.tpl %>'],
+                dest: 'public/javascripts/dl-tools/vendor-templates.js',
+                module: 'dl-tools-vendor-templates'
             }
         },
         less: {
@@ -86,20 +112,22 @@ module.exports = function (grunt) {
             }
         },
 
-        //
-        //concat: {
-        //    options: {
-        //        separator: ';\n'
-        //    },
-        //    tododo: {
-        //        src: meta.tododo.concat_order.js.map(function(path) {
-        //            return '<%= meta.dist %>/js/tododo/' + path;
-        //        }),
-        //        dest: '<%= meta.dist %>/js/tododo/tododo.all.js'
-        //    }
-        //},
-        //
-
+        replace: {
+            requireConfigClientPackages: {
+                options: {
+                    patterns: [{
+                        match: /\[\/\*\* @clientPackages \*\/\]/,
+                        replacement: meta.clientPackages.requireConfig
+                    }]
+                },
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    src: ['public/javascripts/require.main.js'],
+                    dest: 'public/javascripts'
+                }]
+            }
+        },
 
         watch: watchConfig
     };
@@ -111,6 +139,7 @@ module.exports = function (grunt) {
         'default',
         'clean',
         'copy',
+        'replace',
         'ngAnnotate',
         'html2js',
         'less'

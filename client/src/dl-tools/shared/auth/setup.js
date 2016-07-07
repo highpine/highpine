@@ -1,9 +1,9 @@
 define([
     'dl-tools/shared/auth/auth.service',
     'dl-tools/shared/auth/logout-link.directive'
-], function(AuthServiceFactory, LogoutLinkDirective) {
+], function(authServiceFactory, logoutLinkDirective) {
     return function(module) {
-        module.factory('Auth', AuthServiceFactory);
-        module.directive('logoutLink', LogoutLinkDirective);
+        module.factory('Auth', authServiceFactory);
+        module.directive('logoutLink', logoutLinkDirective);
     };
 });

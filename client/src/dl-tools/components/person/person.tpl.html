@@ -1,0 +1,32 @@
+<div class="container">
+    <div data-ng-if="person">
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object" src="" alt="{{ person.displayName }}"
+                     data-ng-src="{{ person.avatarUrls['48x48'] }}">
+            </div>
+            <div class="media-body">
+                <h2 class="media-heading">{{ person.displayName }}</h2>
+                <div>
+                    <label for="period">For the last:</label>
+                    <input type="number" id="period" ng-model="period"/> days
+                    <button ng-click="$state.go('person', {period: period})">Show</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="comments-block">
+            <h3>Latest Jira Comments</h3>
+            <div data-person-jira-comments
+                 data-jira-base-url="'https://jira.symmetrics.de'"
+                 data-username="username" data-from-date="fromDate"></div>
+        </div>
+
+        <div class="comments-block">
+            <h3>Latest Fecru Comments</h3>
+            <div data-person-fecru-comments
+                 data-fecru-base-url="'https://fecru.symmetrics.de'"
+                 data-username="username" data-from-date="fromDate"></div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 define([
+    'angular-ui-router',
     'dl-tools/components/auth/auth.controller'
-], function(authController) {
+], function(angularUiRouter, authController) {
     return function(module) {
         /* @ngInject */
         module.config(function($stateProvider, $urlRouterProvider) {
@@ -16,7 +17,6 @@ define([
 
             $urlRouterProvider.otherwise("/login");
         });
-
 
         module.controller('AuthController', authController);
     };

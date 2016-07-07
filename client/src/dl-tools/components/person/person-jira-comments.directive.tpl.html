@@ -1,0 +1,11 @@
+<!--todo: implement loading and not found-->
+<div class="user-comment jira-comment" ng-repeat="comment in comments">
+    <p>
+        <strong>
+            <a href="{{ jiraBaseUrl }}/browse/{{ comment.issue.key }}">{{ comment.issue.key }}</a>
+            {{ comment.issue.summary }}
+        </strong>
+        - {{ comment.dateFormatted }}
+    </p>
+    <div marked="comment.body"></div>
+</div>

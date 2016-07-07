@@ -1,0 +1,11 @@
+<!--todo: implement loading and not found-->
+<div class="user-comment fecru-comment" ng-repeat="comment in comments">
+    <p>
+        <strong>
+            <a href="{{ fecruBaseUrl }}/cru/{{ comment.review.key }}">{{ comment.review.key }}</a>
+            {{ comment.review.summary }}
+        </strong>
+        - {{ comment.dateFormatted }}
+    </p>
+    <div marked="comment.body"></div>
+</div>

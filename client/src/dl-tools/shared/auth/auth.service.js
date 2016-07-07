@@ -1,4 +1,6 @@
-define([], function() {
+define([
+    'ngstorage'
+], function() {
     /* @ngInjinect */
     function authService($http, $sessionStorage) {
         return {

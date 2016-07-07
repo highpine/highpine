@@ -1,6 +1,5 @@
 define([
-    'angular',
-    'dl-tools/shared/data-services-manager/setup'
+    'angular'
 ], function(angular) {
     /* @ngInject */
     return function (AbstractDataService) {

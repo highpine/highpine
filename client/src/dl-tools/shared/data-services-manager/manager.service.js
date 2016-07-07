@@ -10,10 +10,10 @@ define([], function() {
         return {
             /**
              * Register data service.
-             * @param {string} name
-             * @param {object} service
+             * @param {{getKey: function}} service
              */
-            register: function(name, service) {
+            register: function(service) {
+                var name = service.getKey();
                 if (registry[name]) {
                     throw new Error('Data Service with name "' + name + '" is already registered.');
                 }

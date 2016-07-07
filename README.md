@@ -77,3 +77,9 @@ See: [doc/Assignment visualization.png](doc/Assignment visualization.png)
 2. Run `npm install`.
 3. Run `node ./bin/www`.
 4. Open [http://localhost:3000](http://localhost:3000).
+
+### Modularity problems
+
+1. Include .less files from client packages.
+2. Include additional libraries from client packages (i.e. marked and angular-marked).
+3. Include server code required for client packages (i.e. router for jira proxy).

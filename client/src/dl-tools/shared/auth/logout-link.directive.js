@@ -1,14 +1,16 @@
-define([], function() {
+define([
+    'angular-ui-router'
+], function(angularUiRouter, authSetup) {
     /* @ngInject */
     function logoutLinkDirective() {
         return {
             /* @ngInject */
-            controller: function($scope, $rootScope, $location, Auth) {
+            controller: function($scope, $rootScope, $state, Auth) {
                 $scope.Auth = Auth;
                 $scope.logout = function() {
                     Auth.logout().then(function() {
                         $rootScope.$broadcast('logout');
-                        $location.url('/');
+                        $state.go('login');
                     });
                 };
             },

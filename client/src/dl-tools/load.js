@@ -11,12 +11,14 @@
  * });
  */
 define([
-    'dl-tools/shared/auth/setup',
-    'dl-tools/shared/jira-api/setup',
-    'dl-tools/shared/data-services-manager/setup',
+    'client-shared-auth',
+    'client-shared-jira',
+    'client-shared-fecru',
+    'client-shared-data-services-manager',
 
     'dl-tools/components/auth/setup',
-    'dl-tools/components/profile/setup'
+    'dl-tools/components/profile/setup',
+    'dl-tools/components/person/setup'
 ], function() {
     var setups = arguments;
     /* @ngInject */

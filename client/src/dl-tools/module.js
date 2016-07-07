@@ -1,36 +1,51 @@
 define([
     'angular',
-    'angularRoute',
-    'angularResource',
-    'angularUiRouter',
-    'ngStorage',
+    'angular-route',
+    'angular-resource',
+    'angular-ui-router',
+    'ngstorage',
+    'angular-marked',
+    'marked',
 
     'dl-tools/load',
-    'dl-tools/templates'
+    'dl-tools/templates',
+    'dl-tools/vendor-templates'
 ], function(
-    angular, ngRoute, angularResource, angularUiRouter, ngStorage,
+    angular, ngRoute, angularResource, angularUiRouter, ngStorage, angularMarked, marked,
 
-    load, templates
+    load, templates, vendoerTemplates
 ) {
     var dlTools = angular.module('DlTools', [
         'ngRoute',
         'ngResource',
         'ngStorage',
         'ui.router',
-        'dl-tools-templates'
+        'hc.marked',
+        'dl-tools-templates',
+        'dl-tools-vendor-templates'
     ]);
 
     load(dlTools);
 
     /* @ngInject */
+    dlTools.config(function (markedProvider) {
+        markedProvider.setOptions({
+            gfm: true,
+            tables: true,
+            breaks: true
+        });
+    });
+
+    /* @ngInject */
     dlTools.run(function ($rootScope, $state, $stateParams, $injector, Auth, DataServicesManager) {
 
         var jiraDataService = $injector.get('JiraDataService');
-        DataServicesManager.register(jiraDataService.getKey(), jiraDataService);
-
+        DataServicesManager.register(jiraDataService);
+        var fecruDataService = $injector.get('FecruDataService');
+        DataServicesManager.register(fecruDataService);
         // todo: remove, for testing only
         var AbstractDataService = $injector.get('AbstractDataService');
-        DataServicesManager.register('badService', angular.extend({}, AbstractDataService, {
+        DataServicesManager.register(angular.extend({}, AbstractDataService, {
             getName: function() {
                 return 'Bad Service';
             },

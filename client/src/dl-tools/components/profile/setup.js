@@ -1,6 +1,7 @@
 define([
+    'angular-ui-router',
     'dl-tools/components/profile/profile.controller'
-], function(profileController) {
+], function(angularUiRouter, profileController) {
     return function(module) {
         /* @ngInject */
         module.config(function($stateProvider) {
