@@ -1,0 +1,8 @@
+{
+    "proxyHeaderPrefix": "X-Fecru-Proxy-",
+    "headersPreset": {
+        "accept": "application/json"
+    },
+    "remoteApiPath": "/rest/api",
+    "authTokenKey": "FEAUTH"
+}

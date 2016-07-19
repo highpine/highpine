@@ -20,6 +20,8 @@ define([], function() {
                 registry[name] = service;
             },
             getServices: function() {
+                // todo: make it return array:
+                // return Object.keys(registry).map(function(key) { return registry[key]; });
                 return registry;
             },
             getService: function(name) {

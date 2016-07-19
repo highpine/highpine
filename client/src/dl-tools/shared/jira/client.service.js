@@ -3,16 +3,16 @@ define([], function() {
     function jiraApiClientFactory($resource) {
         return {
             session: function() {
-                return $resource('/api/jira/proxy/session', {});
+                return $resource('/api/proxy/jira/session', {});
             },
             myself: function() {
-                return $resource('/api/jira/proxy/myself', {});
+                return $resource('/api/proxy/jira/myself', {});
             },
             user: function() {
-                return $resource('/api/jira/proxy/user', {});
+                return $resource('/api/proxy/jira/user', {});
             },
             search: function() {
-                return $resource('/api/jira/proxy/search', {});
+                return $resource('/api/proxy/jira/search', {});
             }
         };
     }

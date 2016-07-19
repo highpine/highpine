@@ -16,10 +16,10 @@ define([], function() {
                     reviewer: username
                 };
                 if (fromDate) {
-                    filter.fromDate = fromDate.getTime()
+                    filter.fromDate = fromDate.getTime();
                 }
                 if (toDate) {
-                    filter.toDate = toDate.getTime()
+                    filter.toDate = toDate.getTime();
                 }
 
                 /**
@@ -57,7 +57,8 @@ define([], function() {
                             .concat(review.versionedComments.comments)
                             .filter(commentFilter)
                             .map(function(comment) {
-                                return convertFecruComment(comment, review);
+                                comment.review = review;
+                                return comment;
                             });
                         return currentValue.concat(userReviewComments);
                     }, []);

@@ -43,6 +43,8 @@ define([
         DataServicesManager.register(jiraDataService);
         var fecruDataService = $injector.get('FecruDataService');
         DataServicesManager.register(fecruDataService);
+        var gitlabDataService = $injector.get('GitlabDataService');
+        DataServicesManager.register(gitlabDataService);
         // todo: remove, for testing only
         var AbstractDataService = $injector.get('AbstractDataService');
         DataServicesManager.register(angular.extend({}, AbstractDataService, {

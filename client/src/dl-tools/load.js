@@ -14,6 +14,7 @@ define([
     'client-shared-auth',
     'client-shared-jira',
     'client-shared-fecru',
+    'client-shared-gitlab',
     'client-shared-data-services-manager',
 
     'dl-tools/components/auth/setup',

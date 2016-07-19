@@ -23,8 +23,16 @@ var requireConfig = {
         'bootstrap': ['jquery']
     },
     packages: [{
+        name: 'client-shared-fecru',
+        location: 'dl-tools/shared/fecru',
+        main: 'setup'
+    }, {
         name: 'client-shared-jira',
         location: 'dl-tools/shared/jira',
+        main: 'setup'
+    }, {
+        name: 'client-shared-gitlab',
+        location: 'dl-tools/shared/gitlab',
         main: 'setup'
     }, {
         name: 'client-shared-auth',

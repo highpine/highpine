@@ -33,6 +33,7 @@
     "node-fecru-api": "0.0.1",
     "node-jira-api-proxy": "0.0.1",
     "pug": "^2.0.0-beta3",
+    "request": "^2.73.0",
     "requirejs": "~2.1.22",
     "serve-favicon": "~2.3.0"
   },

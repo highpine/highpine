@@ -83,3 +83,12 @@ See: [doc/Assignment visualization.png](doc/Assignment visualization.png)
 1. Include .less files from client packages.
 2. Include additional libraries from client packages (i.e. marked and angular-marked).
 3. Include server code required for client packages (i.e. router for jira proxy).
+
+## Links
+
+- [Gitlab Api Documentation](http://docs.gitlab.com/ce/api/README.html)
+- [Jira Api Documentation](https://docs.atlassian.com/jira/REST/latest/)
+- [Fecru Api Documentation](https://developer.atlassian.com/fecrudev/remote-api-reference/rest-api-guide)
+    - [Fecru](https://docs.atlassian.com/fisheye-crucible/latest/wadl/fecru.html)
+    - [Crucible](https://docs.atlassian.com/fisheye-crucible/latest/wadl/crucible.html)
+    - [FishEye](https://docs.atlassian.com/fisheye-crucible/latest/wadl/fisheye.html)

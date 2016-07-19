@@ -3,7 +3,7 @@ define([], function() {
     function fecruApiClientFactory($resource) {
         return {
             reviews: function() {
-                return $resource('/api/fecru/proxy/reviews', {});
+                return $resource('/api/proxy/fecru/rest-service/reviews-v1/filter/details', {});
             }
         };
     }
