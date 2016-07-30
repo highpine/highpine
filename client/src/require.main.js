@@ -1,4 +1,4 @@
-var clientPackages = [/** @clientPackages */];
+var vendorClientPackages = [/** @clientPackages */];
 var requireConfig = {
     paths: {
         'angular': '/vendor/angular/angular.min',
@@ -22,34 +22,59 @@ var requireConfig = {
         'ngstorage': ['angular'],
         'bootstrap': ['jquery']
     },
-    packages: [{
-        name: 'client-shared-fecru',
-        location: 'dl-tools/shared/fecru',
-        main: 'setup'
-    }, {
-        name: 'client-shared-jira',
-        location: 'dl-tools/shared/jira',
-        main: 'setup'
-    }, {
-        name: 'client-shared-gitlab',
-        location: 'dl-tools/shared/gitlab',
-        main: 'setup'
-    }, {
-        name: 'client-shared-auth',
-        location: 'dl-tools/shared/auth',
-        main: 'setup'
-    }, {
-        name: 'client-shared-data-services-manager',
-        location: 'dl-tools/shared/data-services-manager',
-        main: 'setup'
-    }],
+    packages: [
+        // shared
+        {
+            name: 'client-shared-fecru',
+            location: 'dl-tools/shared/fecru',
+            main: 'setup'
+        }, {
+            name: 'client-shared-jira',
+            location: 'dl-tools/shared/jira',
+            main: 'setup'
+        }, {
+            name: 'client-shared-gitlab',
+            location: 'dl-tools/shared/gitlab',
+            main: 'setup'
+        }, {
+            name: 'client-shared-auth',
+            location: 'dl-tools/shared/auth',
+            main: 'setup'
+        }, {
+            name: 'client-shared-data-services-manager',
+            location: 'dl-tools/shared/data-services-manager',
+            main: 'setup'
+        }, {
+            name: 'client-shared-jira-user-finder',
+            location: 'dl-tools/shared/jira-user-finder',
+            main: 'setup'
+        },
+        // components
+        {
+            name: 'dl-tools-dashboard',
+            location: 'dl-tools/components/dashboard',
+            main: 'setup'
+        }, {
+            name: 'dl-tools-auth',
+            location: 'dl-tools/components/auth',
+            main: 'setup'
+        }, {
+            name: 'dl-tools-person',
+            location: 'dl-tools/components/person',
+            main: 'setup'
+        }, {
+            name: 'dl-tools-profile',
+            location: 'dl-tools/components/profile',
+            main: 'setup'
+        }
+    ],
     //priority: [
     //    "angular"
     //],
     deps: [],
     baseUrl: '/javascripts'
 };
-requireConfig.packages = requireConfig.packages.concat(clientPackages);
+requireConfig.packages = requireConfig.packages.concat(vendorClientPackages);
 require.config(requireConfig);
 
 

@@ -14,8 +14,6 @@ define([
                         guestAccess: true
                     }
                 });
-
-            $urlRouterProvider.otherwise("/login");
         });
 
         module.controller('AuthController', authController);

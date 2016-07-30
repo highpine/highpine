@@ -11,6 +11,9 @@ define([], function() {
             user: function() {
                 return $resource('/api/proxy/jira/user', {});
             },
+            userPicker: function() {
+                return $resource('/api/proxy/jira/user/picker', {cancellable: true});
+            },
             search: function() {
                 return $resource('/api/proxy/jira/search', {});
             }

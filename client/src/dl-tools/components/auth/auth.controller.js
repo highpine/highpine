@@ -8,7 +8,7 @@ define([
             Auth.login($scope.username, $scope.password).then(function(result) {
                 $scope.errorMessage = null;
                 $rootScope.$broadcast('login.success', result);
-                $state.go('profile');
+                $state.go('dashboard');
             }, function(result) {
                 console.log(result);
                 $scope.errorMessage = result.message || 'Login failed';

@@ -16,10 +16,12 @@ define([
     'client-shared-fecru',
     'client-shared-gitlab',
     'client-shared-data-services-manager',
+    'client-shared-jira-user-finder',
 
-    'dl-tools/components/auth/setup',
-    'dl-tools/components/profile/setup',
-    'dl-tools/components/person/setup'
+    'dl-tools-dashboard',
+    'dl-tools-auth',
+    'dl-tools-profile',
+    'dl-tools-person'
 ], function() {
     var setups = arguments;
     /* @ngInject */
