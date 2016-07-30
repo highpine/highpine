@@ -3,12 +3,12 @@ define([
     'client-shared-auth'
 ], function() {
     /* @ngInject */
-    function authController($scope, $rootScope, $state, Auth) {
+    function authController($scope, $rootScope, $location, Auth) {
         $scope.login = function() {
             Auth.login($scope.username, $scope.password).then(function(result) {
                 $scope.errorMessage = null;
                 $rootScope.$broadcast('login.success', result);
-                $state.go('dashboard');
+                $location.path('/');
             }, function(result) {
                 console.log(result);
                 $scope.errorMessage = result.message || 'Login failed';

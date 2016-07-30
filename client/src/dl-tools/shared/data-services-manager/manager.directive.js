@@ -3,7 +3,7 @@ define(['angular'], function(angular) {
     function managerDirectiveFactory() {
         return {
             /* @ngInject */
-            controller: function($scope, $sessionStorage, DataServicesManager, AUTH_STATUS_SUCCESS) {
+            controller: function($scope, $sessionStorage, $state, DataServicesManager, AUTH_STATUS_SUCCESS) {
 
                 $scope.services = DataServicesManager.getServices();
 
@@ -17,7 +17,13 @@ define(['angular'], function(angular) {
                 });
                 $scope.$on('logout', function(event) {
                     delete $sessionStorage.dataServicesAuthInfo;
-                    authorizeDataServices($sessionStorage.dataServicesAuthInfo);
+                    unauthorizeDataServices();
+                    $state.go('login');
+                });
+                $scope.$on('unauthorized', function(event) {
+                    delete $sessionStorage.dataServicesAuthInfo;
+                    unauthorizeDataServices();
+                    $state.go('login');
                 });
 
                 function authorizeDataServices(dataServicesAuthInfo) {
@@ -29,6 +35,12 @@ define(['angular'], function(angular) {
                         } else {
                             dataService.unauthorize();
                         }
+                    });
+                }
+
+                function unauthorizeDataServices() {
+                    angular.forEach(DataServicesManager.getServices(), function (dataService) {
+                        dataService.unauthorize();
                     });
                 }
             },
