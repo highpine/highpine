@@ -19,11 +19,26 @@ define([], function() {
             onUnauthorized: function () {
                 this.unauthorize();
             },
+            /**
+             * @abstract
+             * @returns {string}
+             */
             getName: function () {
                 return '[Abstract]';
             },
+            /**
+             * @abstract
+             * @returns {string}
+             */
             getKey: function() {
                 return '[abstract]';
+            },
+            /**
+             * @abstract
+             * @returns {null|Object}
+             */
+            getApiClient: function() {
+                return null;
             }
         };
     };

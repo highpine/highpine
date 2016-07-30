@@ -2,9 +2,9 @@ define([
     'client-shared-jira'
 ], function() {
     /* @ngInject */
-    function profileController($scope, JiraApiClient) {
+    function profileController($scope, JiraDataService) {
         $scope.user = {};
-        JiraApiClient.myself().get({}, function(user) {
+        JiraDataService.getApiClient().myself().get({}, function(user) {
             $scope.user = user;
         });
     }

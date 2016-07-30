@@ -1,6 +1,6 @@
 define([], function() {
     /* @ngInject */
-    function GitlabHelperFactory(GitlabApiClient) {
+    function GitlabHelperFactory(GitlabDataService) {
         return {
             
         };

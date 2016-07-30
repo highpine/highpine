@@ -3,14 +3,14 @@ define([
     'client-shared-jira'
 ], function() {
     /* @ngInject */
-    function personController($scope, $stateParams, JiraApiClient) {
+    function personController($scope, $stateParams, JiraDataService) {
 
         $scope.person = null;
         $scope.username = $stateParams.username;
         $scope.period = parseInt($stateParams.period) || 7;
         $scope.fromDate = getFromDate($scope.period);
 
-        JiraApiClient.user().get({
+        JiraDataService.getApiClient().user().get({
             username: $stateParams.username
         }, function(user) {
             $scope.person = user;

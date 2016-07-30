@@ -9,7 +9,7 @@ define([
                 minSearchTermLength: '=?minLength'
             },
             /* @ngInject */
-            controller: function($scope, $timeout, $sce, JiraApiClient) {
+            controller: function($scope, $timeout, $sce, JiraDataService) {
 
                 $scope.users = [];
 
@@ -27,7 +27,7 @@ define([
                     if (searchTerm && searchTerm.length >= minSearchTermLength) {
                         searchPromise = $timeout(function() {
                             searchPromise = null;
-                            pickerRequest = JiraApiClient.userPicker()
+                            pickerRequest = JiraDataService.getApiClient().userPicker()
                                 .get({query: searchTerm}, function (result) {
                                     if (result.users) {
                                         $scope.users = result.users;

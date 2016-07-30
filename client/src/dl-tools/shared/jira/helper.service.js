@@ -1,6 +1,6 @@
 define([], function() {
     /* @ngInject */
-    function JiraHelperFactory(JiraApiClient) {
+    function JiraHelperFactory(JiraDataService) {
 
         /**
          * Get Jira-style formatted date.
@@ -70,7 +70,7 @@ define([], function() {
                     return 0;
                 };
 
-                return JiraApiClient.search().get(searchParams, function (result) {
+                return JiraDataService.getApiClient().search().get(searchParams, function (result) {
                     var userComments = result.issues.reduce(function(currentValue, issue) {
                         var userIssueComments = issue.fields.comment.comments
                             .filter(commentFilter)

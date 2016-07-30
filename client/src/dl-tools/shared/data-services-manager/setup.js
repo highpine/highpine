@@ -15,6 +15,7 @@ define([
             $httpProvider.interceptors.push(function($q, $rootScope) {
                 return {
                     responseError: function(rejection) {
+                        // todo: responses from the services should be marked with the service name, so that it is clear what service failed.
                         if (rejection.status == 401) {
                             $rootScope.$broadcast('unauthorized', rejection);
                         }
