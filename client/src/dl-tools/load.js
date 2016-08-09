@@ -17,11 +17,14 @@ define([
     'client-shared-gitlab',
     'client-shared-data-services-manager',
     'client-shared-jira-user-finder',
+    'client-shared-loading-indicator',
 
     'dl-tools-dashboard',
     'dl-tools-auth',
     'dl-tools-profile',
-    'dl-tools-person'
+    'dl-tools-person',
+    'dl-tools-project',
+    'dl-tools-projects'
 ], function() {
     var setups = arguments;
     /* @ngInject */

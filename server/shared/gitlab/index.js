@@ -13,8 +13,8 @@ module.exports.setup = function(app, env) {
 
     var gitlabUrl = env.GITLAB_URL;
     var gitlabApiVersion = env.GITLAB_API_VERSION;
-    var useStrictSsl = env.GITLAB_API_PROXY_USE_STRICT_SSL;
-    var debugMode = env.GITLAB_API_PROXY_DEBUG_MODE;
+    var useStrictSsl = env.GITLAB_API_PROXY_USE_STRICT_SSL == 'yes';
+    var debugMode = env.GITLAB_API_PROXY_DEBUG_MODE == 'yes';
 
     var proxyMountPath = '/api/proxy/gitlab';
 

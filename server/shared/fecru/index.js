@@ -14,8 +14,8 @@ module.exports.setup = function(app, env) {
 
     var fecruUrl = env.FECRU_URL;
     var fecruApiVersion = env.FECRU_API_VERSION;
-    var useStrictSsl = env.FECRU_API_PROXY_USE_STRICT_SSL;
-    var debugMode = env.FECRU_API_PROXY_DEBUG_MODE;
+    var useStrictSsl = env.FECRU_API_PROXY_USE_STRICT_SSL == 'yes';
+    var debugMode = env.FECRU_API_PROXY_DEBUG_MODE == 'yes';
 
     var proxyMountPath = '/api/proxy/fecru';
 

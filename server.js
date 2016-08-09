@@ -1,3 +1,5 @@
+// todo: run separate static-files server for client app based on 'public' folder.
+
 require('dot-env');
 
 require('app-module-path').addPath('./server');
@@ -46,7 +48,9 @@ app.set('view engine', 'pug');
 /*
  * Setup application.
  */
-app.use(favicon(path.join(__dirname, 'public', 'images', 'pine.ico')));
+app.use(favicon(path.join(
+    __dirname, 'public', 'media', 'dl-tools', 'components', 'app', 'images', 'pine.ico'
+)));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

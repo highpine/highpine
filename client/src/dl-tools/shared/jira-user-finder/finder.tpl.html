@@ -1,11 +1,15 @@
-<div class="jira-user-finder form-inline">
-    <div class="form-group">
-        <input type="text" class="form-control" placeholder="Username"
-               ng-model="searchTerm"  ng-change="searchUsers(searchTerm)" />
+<div class="jira-user-finder">
+    <div class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Username"
+                   ng-model="searchTerm"  ng-change="searchUsers(searchTerm)" />
+            <ul class="list-group">
+                <li class="list-group-item"
+                    ng-repeat="user in users">
+                    <a ng-click="selectUser(user)" ng-bind-html="user.trustedHtml"></a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <ul>
-        <li ng-repeat="user in users">
-            <a ng-click="selectUser(user)" ng-bind-html="user.trustedHtml"></a>
-        </li>
-    </ul>
+
 </div>

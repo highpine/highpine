@@ -3,5 +3,6 @@
     "headersPreset": {
         "accept": "application/json"
     },
-    "remoteApiPath": "/api"
+    "remoteApiPath": "/api",
+    "authTokenKey": "private_token"
 }

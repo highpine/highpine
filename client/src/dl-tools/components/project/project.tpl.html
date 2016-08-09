@@ -1,0 +1,16 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li class="active">
+            <span loading-indicator data-flag="!project" data-type="inline"></span>
+            {{ project.name }}
+        </li>
+    </ol>
+
+    <div ng-show="project">
+        <h3>{{ project.name }}</h3>
+    </div>
+    <div loading-indicator data-flag="!project" data-type="big"></div>
+</div>

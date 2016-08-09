@@ -60,6 +60,12 @@ module.exports = function (grunt) {
                 cwd: 'client/src',
                 expand: true
             },
+            clientMedia: {
+                src: ['**/*.gif', '**/*.png', '**/*.jpg', '**/*.svg'],
+                dest: 'public/media',
+                cwd: 'client/src',
+                expand: true
+            },
             vendor: {
                 src: [
                     '<%= meta.vendor.js %>',

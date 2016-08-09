@@ -15,8 +15,8 @@ module.exports.setup = function(app, env) {
     var jiraUrl = env.JIRA_URL;
     var jiraApiVersion = env.JIRA_API_VERSION;
     var jiraAuthVersion = env.JIRA_AUTH_VERSION;
-    var useStrictSsl = env.JIRA_API_PROXY_USE_STRICT_SSL;
-    var debugMode = env.JIRA_API_PROXY_DEBUG_MODE;
+    var useStrictSsl = env.JIRA_API_PROXY_USE_STRICT_SSL == 'yes';
+    var debugMode = env.JIRA_API_PROXY_DEBUG_MODE == 'yes';
 
     var proxyMountPath = '/api/proxy/jira';
 

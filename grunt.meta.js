@@ -17,7 +17,8 @@ module.exports = {
             'marked/marked.min.js',
             'angular-marked/dist/angular-marked.min.js',
             'ngstorage/ngStorage.min.js',
-            'bootstrap/dist/js/bootstrap.min.js'
+            'bootstrap/dist/js/bootstrap.min.js',
+            'async/lib/async.js'
         ],
         css: [
             'angular/angular-csp.css',

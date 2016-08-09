@@ -1,4 +1,21 @@
 var vendorClientPackages = [/** @clientPackages */];
+var components = [
+    'dashboard',
+    'auth',
+    'person',
+    'profile',
+    'project',
+    'projects'
+];
+var shared = [
+    'auth',
+    'data-services-manager',
+    'fecru',
+    'gitlab',
+    'jira',
+    'jira-user-finder',
+    'loading-indicator'
+];
 var requireConfig = {
     paths: {
         'angular': '/vendor/angular/angular.min',
@@ -10,7 +27,8 @@ var requireConfig = {
         'marked': '/vendor/marked/marked.min',
         'angular-marked': '/vendor/angular-marked/dist/angular-marked.min',
         'bootstrap': '/vendor/bootstrap/dist/js/bootstrap.min',
-        'jquery': '/vendor/jquery/dist/jquery.min'
+        'jquery': '/vendor/jquery/dist/jquery.min',
+        'async': '/vendor/async/lib/async'
     },
     shim: {
         'angular': {'exports' : 'angular'},
@@ -22,52 +40,19 @@ var requireConfig = {
         'ngstorage': ['angular'],
         'bootstrap': ['jquery']
     },
-    packages: [
-        // shared
-        {
-            name: 'client-shared-fecru',
-            location: 'dl-tools/shared/fecru',
-            main: 'setup'
-        }, {
-            name: 'client-shared-jira',
-            location: 'dl-tools/shared/jira',
-            main: 'setup'
-        }, {
-            name: 'client-shared-gitlab',
-            location: 'dl-tools/shared/gitlab',
-            main: 'setup'
-        }, {
-            name: 'client-shared-auth',
-            location: 'dl-tools/shared/auth',
-            main: 'setup'
-        }, {
-            name: 'client-shared-data-services-manager',
-            location: 'dl-tools/shared/data-services-manager',
-            main: 'setup'
-        }, {
-            name: 'client-shared-jira-user-finder',
-            location: 'dl-tools/shared/jira-user-finder',
-            main: 'setup'
-        },
-        // components
-        {
-            name: 'dl-tools-dashboard',
-            location: 'dl-tools/components/dashboard',
-            main: 'setup'
-        }, {
-            name: 'dl-tools-auth',
-            location: 'dl-tools/components/auth',
-            main: 'setup'
-        }, {
-            name: 'dl-tools-person',
-            location: 'dl-tools/components/person',
-            main: 'setup'
-        }, {
-            name: 'dl-tools-profile',
-            location: 'dl-tools/components/profile',
-            main: 'setup'
-        }
-    ],
+    packages: components.map(function(component) {
+            return {
+                name: 'dl-tools-' + component,
+                location: 'dl-tools/components/' + component,
+                main: 'setup'
+            };
+        }).concat(shared.map(function(component) {
+            return {
+                name: 'client-shared-' + component,
+                location: 'dl-tools/shared/' + component,
+                main: 'setup'
+            };
+        })),
     //priority: [
     //    "angular"
     //],
