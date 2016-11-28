@@ -2,7 +2,7 @@
 <div class="user-comment fecru-comment" ng-repeat="comment in comments">
     <p>
         <strong>
-            <a href="{{ fecruBaseUrl }}/cru/{{ comment.review.key }}">{{ comment.review.key }}</a>
+            <a href="{{ fecruBaseUrl }}/cru/{{ comment.review.key }}#c{{ comment.id }}">{{ comment.review.key }}</a>
             {{ comment.review.summary }}
         </strong>
         - {{ comment.dateFormatted }}

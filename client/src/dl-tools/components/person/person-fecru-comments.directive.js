@@ -11,7 +11,9 @@ define([
          */
         function convertFecruComment(comment) {
             var date = new Date(comment.createDate);
+            var id = (typeof comment.permaId == 'object') ? comment.permaId.id : comment.permaId;
             return {
+                id: ('' + id).replace('CMT:', ''),
                 date: date,
                 dateFormatted: date.toLocaleString(),
                 body: comment.message.replace(/</g, '&lt;').replace(/>/g, '&gt;'), // todo: maybe use method from http://stackoverflow.com/questions/1787322/htmlspecialchars-equivalent-in-javascript
