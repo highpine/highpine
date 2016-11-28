@@ -26,7 +26,8 @@ define([], function() {
             },
             link: function (scope, element, attrs, controller) {
                 var config = types[scope.type] || {};
-                element.html($compile(config.template || '')(scope));
+                element.html('');
+                element.append($compile(config.template || '')(scope));
             },
             template: ''
         };
