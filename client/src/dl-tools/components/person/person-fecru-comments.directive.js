@@ -14,7 +14,7 @@ define([
             return {
                 date: date,
                 dateFormatted: date.toLocaleString(),
-                body: comment.message,
+                body: comment.message.replace(/</g, '&lt;').replace(/>/g, '&gt;'), // todo: maybe use method from http://stackoverflow.com/questions/1787322/htmlspecialchars-equivalent-in-javascript
                 review: {
                     key: comment.review.permaId.id,
                     summary: comment.review.name
