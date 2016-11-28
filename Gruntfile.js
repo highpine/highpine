@@ -61,7 +61,7 @@ module.exports = function (grunt) {
                 expand: true
             },
             clientMedia: {
-                src: ['**/*.gif', '**/*.png', '**/*.jpg', '**/*.svg'],
+                src: ['**/*.gif', '**/*.png', '**/*.jpg', '**/*.svg', '**/*.ico'],
                 dest: 'public/media',
                 cwd: 'client/src',
                 expand: true
@@ -124,12 +124,15 @@ module.exports = function (grunt) {
                     patterns: [{
                         match: /\[\/\*\* @clientPackages \*\/\]/,
                         replacement: meta.clientPackages.requireConfig
+                    }, {
+                        match: 'backendUrl',
+                        replacement: meta.backendUrl
                     }]
                 },
                 files: [{
                     expand: true,
                     flatten: true,
-                    src: ['public/javascripts/require.main.js'],
+                    src: ['public/javascripts/require.main.js', 'public/javascripts/config.js'],
                     dest: 'public/javascripts'
                 }]
             }

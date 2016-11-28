@@ -1,19 +1,17 @@
-// todo: run separate static-files server for client app based on 'public' folder.
-
+/**
+ * Highpine backend web server.
+ */
 require('dot-env');
-
 require('app-module-path').addPath('./server');
 
-var express = require('express');
-var expressPromise = require('express-promise');
 var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var session = require('express-session');
-var Auth = require('shared/auth');
+
+/*
+ * Create express app.
+ */
+var express = require('express');
+var app = express();
+app.set('env', process.env.ENV);
 
 /*
  * Setup Mongo connection.
@@ -22,17 +20,13 @@ if (!process.env.MONGO_URL) {
     console.log('Mongo URL is not set in env variables.');
     process.exit(1);
 }
+var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL);
-
-/*
- * Create express app.
- */
-var app = express();
-app.set('env', process.env.ENV);
 
 /*
  * Setup Session support.
  */
+var session = require('express-session');
 app.use(session({
     resave: false,
     saveUninitialized: false,
@@ -46,27 +40,31 @@ app.set('views', path.join(__dirname, 'server', 'views'));
 app.set('view engine', 'pug');
 
 /*
- * Setup application.
+ * Setup basic middleware.
  */
-app.use(favicon(path.join(
-    __dirname, 'public', 'media', 'dl-tools', 'components', 'app', 'images', 'pine.ico'
-)));
+var cors = require('cors');
+var logger = require('morgan');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var expressPromise = require('express-promise');
+app.use(cors({
+    origin: process.env.CLIENT_ORIGIN,
+    methods: 'GET,HEAD,PUT,POST,DELETE,OPTIONS',
+    credentials: true
+}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressPromise());
 
 /**
  * Setup basic routes.
  */
 app.use('/', require('routes/index'));
-// todo: move to component?
-app.use('/api', Auth.auth.authorizationChecker);
 
 /*
- * Load and setup shared components
+ * Load and setup shared components.
  */
 var shared = [
     'api-proxy-manager',
@@ -74,12 +72,38 @@ var shared = [
     'jira',
     'fecru',
     'gitlab',
-    'auth'
+    'auth',
+    'api',
+    'person'
 ];
 shared.forEach(function(componentName) {
     var component = require(path.join('shared', componentName));
     if (typeof component.setup === 'function') {
         component.setup(app, process.env);
+    }
+});
+
+// todo: trigger 'components-setup' event
+// catch API error
+let isDevMode = app.get('env') === 'development';
+app.use(function(err, req, res, next) {
+    if (err instanceof Error) {
+        if (err.name == 'ValidationError') {
+            res.statusCode = 400;
+            res.json({
+                message: 'Validation error',
+                error: isDevMode ? err : {}
+            });
+        } else {
+            res.statusCode = 500;
+            res.json({
+                message: 'Server error',
+                error: isDevMode ? err : {}
+            });
+        }
+        console.warn('Internal error(%d): %s', res.statusCode, err.message);
+    } else {
+        next();
     }
 });
 
@@ -100,7 +124,11 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
+        var code = err.status || 500;
+        if (err.syscall === 'getaddrinfo' && err.code === 'ENOTFOUND') {
+            code = 502;
+        }
+        res.status(code);
         res.render('error', {
           message: err.message,
           error: err
@@ -111,7 +139,11 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
+    var code = err.status || 500;
+    if (err.syscall === 'getaddrinfo' && err.code === 'ENOTFOUND') {
+        code = 502;
+    }
+    res.status(code);
     res.render('error', {
         message: err.message,
         error: {}

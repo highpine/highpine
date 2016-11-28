@@ -13,7 +13,7 @@ module.exports = {
 
     clientJs: {
         files: ['client/src/**/*.js'],
-        tasks: ['jshint:client', 'copy:clientJs', 'ngAnnotate']
+        tasks: ['jshint:client', 'copy:clientJs', 'replace', 'ngAnnotate']
     },
     clientTpl: {
         files: ['client/src/**/*.tpl.html'],

@@ -4,16 +4,21 @@ define([
     'angular-resource',
     'angular-ui-router',
     'ngstorage',
-    'angular-marked',
     'marked',
+    'angular-marked',
+    'chart',
+    'angular-chart',
+    'moment',
 
+    'config',
     'dl-tools/load',
     'dl-tools/templates',
     'dl-tools/vendor-templates'
 ], function(
-    angular, ngRoute, angularResource, angularUiRouter, ngStorage, angularMarked, marked,
+    angular, ngRoute, angularResource, angularUiRouter, ngStorage, marked, angularMarked, chart, angularChart,
+    moment,
 
-    load, templates, vendoerTemplates
+    config, load, templates, vendorTemplates
 ) {
     var dlTools = angular.module('DlTools', [
         'ngRoute',
@@ -21,14 +26,24 @@ define([
         'ngStorage',
         'ui.router',
         'hc.marked',
+        'chart.js',
         'dl-tools-templates',
         'dl-tools-vendor-templates'
     ]);
 
-    load(dlTools);
+    /*
+     * Common app configuration.
+     */
+    dlTools.constant('BACKEND_URL', config.backendUrl);
+    dlTools.constant('API_BASE_URL', config.backendUrl + '/api');
 
     /* @ngInject */
-    dlTools.config(function (markedProvider) {
+    dlTools.config(function ($httpProvider, markedProvider) {
+
+        // Backend is located on another domain, so we need to allow cookies in Cross-Origin requests.
+        $httpProvider.defaults.withCredentials = true;
+
+        // Set markdown options.
         markedProvider.setOptions({
             gfm: true,
             tables: true,
@@ -36,6 +51,14 @@ define([
         });
     });
 
+    /*
+     * Loading components.
+     */
+    load(dlTools);
+
+    /*
+     * Running the app.
+     */
     /* @ngInject */
     dlTools.run(function ($rootScope, $state, $stateParams, $injector, Auth, DataServicesManager) {
 
@@ -45,17 +68,6 @@ define([
         DataServicesManager.register(fecruDataService);
         var gitlabDataService = $injector.get('GitlabDataService');
         DataServicesManager.register(gitlabDataService);
-        // todo: remove, for testing only
-        var AbstractDataService = $injector.get('AbstractDataService');
-        DataServicesManager.register(angular.extend({}, AbstractDataService, {
-            getName: function() {
-                return 'Bad Service';
-            },
-            getKey: function() {
-                return 'badService';
-            }
-        }));
-
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;

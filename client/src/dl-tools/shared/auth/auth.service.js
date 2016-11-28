@@ -2,10 +2,10 @@ define([
     'ngstorage'
 ], function() {
     /* @ngInjinect */
-    function authService($http, $sessionStorage) {
+    function authService($http, $sessionStorage, BACKEND_URL) {
         return {
             login: function(username, password) {
-                return $http.post('/auth/login', {
+                return $http.post(BACKEND_URL + '/auth/login', {
                     username: username,
                     password: password
                 })
@@ -18,7 +18,7 @@ define([
                 return !!$sessionStorage.user;
             },
             logout: function() {
-                return $http.post('/auth/logout', {})
+                return $http.post(BACKEND_URL + '/auth/logout', {})
                     .then(function(result) {
                         delete $sessionStorage.user;
                         return result.data;

@@ -28,17 +28,23 @@ var requireConfig = {
         'angular-marked': '/vendor/angular-marked/dist/angular-marked.min',
         'bootstrap': '/vendor/bootstrap/dist/js/bootstrap.min',
         'jquery': '/vendor/jquery/dist/jquery.min',
-        'async': '/vendor/async/lib/async'
+        'async': '/vendor/async/lib/async',
+        'moment': '/vendor/moment/moment',
+        'chart': '/vendor/chart.js/dist/Chart',
+        'angular-chart': '/vendor/angular-chart.js/dist/angular-chart.min'
     },
     shim: {
-        'angular': {'exports' : 'angular'},
+        'angular': {exports: 'angular'},
         'angular-route': ['angular'],
         'angular-resource': ['angular'],
         'angular-messages': ['angular'],
         'angular-ui-router': ['angular'],
         'angular-marked': ['angular', 'marked'],
         'ngstorage': ['angular'],
-        'bootstrap': ['jquery']
+        'angular-chart': ['angular', 'chart'],
+        'bootstrap': ['jquery'],
+        'moment': {exports: 'moment'},
+        'chart': ['moment']
     },
     packages: components.map(function(component) {
             return {
@@ -57,11 +63,35 @@ var requireConfig = {
     //    "angular"
     //],
     deps: [],
-    baseUrl: '/javascripts'
+    baseUrl: '/javascripts',
+    map: {
+        // For all modules, if they ask for 'moment', use 'moment-adapter'
+        '*': {
+            'moment': 'moment-adapter'
+        },
+        // However, for moment-adapter, and moment/ modules, give them the
+        // real 'moment*' modules.
+        'moment-adapter': {
+            'moment': 'moment'
+        },
+        'moment': {
+            'moment': 'moment'
+        }
+    }
 };
 requireConfig.packages = requireConfig.packages.concat(vendorClientPackages);
 require.config(requireConfig);
 
+// Define this module inline after the two requirejs calls. Or, it could be defined
+// in its own file, an just make it an anonymous define in that case, define(['moment...
+/**
+ * @see: https://github.com/requirejs/requirejs/issues/1554#issuecomment-226269905
+ */
+define('moment-adapter', ['moment'], function(moment) {
+    moment.locale('en');
+    window.moment = moment;
+    return moment;
+});
 
 require([
     'angular',

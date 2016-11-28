@@ -1,4 +1,5 @@
 module.exports = {
+    backendUrl: 'http://highpine-server.me:3030',
     vendor: {
         cwd: 'node_modules',
         js: [
@@ -18,7 +19,13 @@ module.exports = {
             'angular-marked/dist/angular-marked.min.js',
             'ngstorage/ngStorage.min.js',
             'bootstrap/dist/js/bootstrap.min.js',
-            'async/lib/async.js'
+            'async/lib/async.js',
+            'moment/min/moment.min.js',
+            'moment/moment.js',
+            'chart.js/dist/Chart.js',
+            'chart.js/dist/Chart.min.js',
+            'angular-chart.js/dist/angular-chart.min.js',
+            'angular-chart.js/dist/angular-chart.min.js.map'
         ],
         css: [
             'angular/angular-csp.css',
@@ -33,7 +40,7 @@ module.exports = {
     },
     clientPackages: {
         names: [
-            'client-shared-fecru'
+            //'client-shared-fecru'
         ]
     }
 };

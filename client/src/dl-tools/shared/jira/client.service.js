@@ -1,30 +1,33 @@
 define([], function() {
     /* @ngInject */
-    function jiraApiClientFactory($resource) {
+    function jiraApiClientFactory($resource, API_BASE_URL) {
+        function url(path) {
+            return API_BASE_URL + '/proxy/jira' + path;
+        }
         return {
             session: function() {
-                return $resource('/api/proxy/jira/session', {});
+                return $resource(url('/session'), {});
             },
             myself: function() {
-                return $resource('/api/proxy/jira/myself', {});
+                return $resource(url('/myself'), {});
             },
             user: function() {
-                return $resource('/api/proxy/jira/user', {});
+                return $resource(url('/user'), {});
             },
             userPicker: function() {
-                return $resource('/api/proxy/jira/user/picker', {cancellable: true});
+                return $resource(url('/user/picker'), {cancellable: true});
             },
             search: function() {
-                return $resource('/api/proxy/jira/search', {});
+                return $resource(url('/search'), {});
             },
             projects: function() {
-                return $resource('/api/proxy/jira/project', {}, {
-                    query: {method:'GET', isArray:true, cache: true}
+                return $resource(url('/project'), {}, {
+                    query: { method:'GET', isArray:true, cache: true }
                 });
             },
             project: function() {
-                return $resource('/api/proxy/jira/project/:key', {}, {
-                    get: {method:'GET', cache: true}
+                return $resource(url('/project/:key'), {}, {
+                    get: { method:'GET', cache: true }
                 });
             }
         };
