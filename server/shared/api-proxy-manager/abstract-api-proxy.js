@@ -122,7 +122,7 @@ var AbstractApiProxy = function (serviceUrl, mountPath) {
         debugMode && console.log('Requesting:', options);
 
         request(options, function (error, response, body) {
-            debugMode && console.log(error, response && response.statusCode, body);
+            //debugMode && console.log(error, response && response.statusCode, body);
             callback(error, response, body);
         });
     };
