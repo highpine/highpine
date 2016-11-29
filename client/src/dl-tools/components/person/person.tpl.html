@@ -7,14 +7,24 @@
             </div>
             <div class="media-body">
                 <h2 class="media-heading">{{ person.displayName }}</h2>
-                <div>
-                    <label>Jira: <input type="checkbox" ng-model="showJira" /></label> |
-                    <label>Fecru: <input type="checkbox" ng-model="showFecru" /></label> |
-                    <label>Git: <input type="checkbox" ng-model="showGit" /></label> |
-                    <label for="period">For the last:</label>
-                    <input type="number" min="1" id="period" ng-model="period"/>
-                        day{{ period > 1 ? 's (including today)' : ' (today)' }}
-                    <button ng-click="$state.go('person', {period: period})">Show</button>
+                <div class="form-inline person-comments-filter">
+                    <strong>Display: </strong>
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="showJira" /> Jira comments</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="showFecru"/> Fecru comments</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="showGit"/> Git commits</label>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <label for="period">For the last:</label>
+                        <input type="number" min="1" id="period" class="form-control"  ng-model="period"/>
+                            day{{ period > 1 ? 's (including today)' : ' (today)' }}
+                    </div>
+                    <button class="btn btn-primary" ng-click="$state.go('person', {period: period})">Show</button>
                 </div>
             </div>
         </div>
