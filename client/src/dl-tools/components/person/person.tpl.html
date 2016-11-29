@@ -8,21 +8,25 @@
             <div class="media-body">
                 <h2 class="media-heading">{{ person.displayName }}</h2>
                 <div>
+                    <label>Jira: <input type="checkbox" ng-model="showJira" /></label> |
+                    <label>Fecru: <input type="checkbox" ng-model="showFecru" /></label> |
+                    <label>Git: <input type="checkbox" ng-model="showGit" /></label> |
                     <label for="period">For the last:</label>
-                    <input type="number" id="period" ng-model="period"/> days
+                    <input type="number" min="1" id="period" ng-model="period"/>
+                        day{{ period > 1 ? 's (including today)' : ' (today)' }}
                     <button ng-click="$state.go('person', {period: period})">Show</button>
                 </div>
             </div>
         </div>
 
-        <div class="comments-block">
+        <div class="comments-block" ng-if="showJira">
             <h3>Latest Jira comments</h3>
             <div data-person-jira-comments
                  data-jira-base-url="'https://jira.symmetrics.de'"
                  data-username="username" data-from-date="fromDate"></div>
         </div>
 
-        <div class="comments-block">
+        <div class="comments-block" ng-if="showFecru">
             <h3>Latest Fecru comments</h3>
             <div data-person-fecru-comments
                  data-fecru-base-url="'https://fecru.symmetrics.de'"
@@ -31,7 +35,7 @@
 
         <!-- todo: MP-CR-287 is not shown in list for 200n days -->
         <!-- todo: check replies in comments also -->
-        <div class="comments-block">
+        <div class="comments-block" ng-if="showGit">
             <h3>Latest Git commits</h3>
             <div data-person-git-commits
                  data-gitlab-base-url="'https://gitlab.symmetrics.de'"
