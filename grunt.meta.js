@@ -1,4 +1,4 @@
-module.exports = {
+var basicMeta = {
     backendUrl: 'http://highpine-server.me:3030',
     vendor: {
         cwd: 'node_modules',
@@ -15,8 +15,6 @@ module.exports = {
             'angular-resource/angular-resource.min.js',
             'angular-resource/angular-resource.min.js.map',
             'angular-ui-router/release/angular-ui-router.min.js',
-            'marked/marked.min.js',
-            'angular-marked/dist/angular-marked.min.js',
             'ngstorage/ngStorage.min.js',
             'bootstrap/dist/js/bootstrap.min.js',
             'async/lib/async.js',
@@ -38,9 +36,34 @@ module.exports = {
             'bootstrap/dist/fonts/*'
         ]
     },
+    // client packages included as node modules:
     clientPackages: {
         names: [
             //'client-shared-fecru'
         ]
     }
 };
+
+var extend = require('util')._extend;
+function mergeMeta(basicMeta, packageMeta) {
+    var mergedMeta = extend({}, basicMeta);
+    for (let section of ['js', 'css', 'fonts']) {
+        if (packageMeta.vendor && packageMeta.vendor[section]) {
+            mergedMeta.vendor[section] = mergedMeta.vendor[section].concat(packageMeta.vendor[section]);
+        }
+    }
+    return mergedMeta;
+}
+
+var packages = require('./grunt.packages.js');
+var mergedMeta = packages.reduce(function(mergedMeta, packagePath) {
+    try {
+        var packageMeta = require('./' + packagePath + '/.grunt.meta.js');
+        return mergeMeta(mergedMeta, packageMeta);
+    } catch (e) {
+        console.log(packagePath + ' doesn\'t have a .grunt.meta.js file.');
+    }
+    return mergedMeta;
+}, basicMeta);
+
+module.exports = mergedMeta;

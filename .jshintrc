@@ -4,6 +4,7 @@
     "eqnull": true,
     "eqeqeq": false,
     "undef": true,
+    "esnext": true,
     "globals": {
         "$": false,
         "angular": false,

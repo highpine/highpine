@@ -1,12 +1,19 @@
 var vendorClientPackages = [/** @clientPackages */];
 var components = [
+    'app',
     'dashboard',
     'auth',
     'person',
     'profile',
     'project',
     'projects'
-];
+].map(function(component) {
+    return {
+        name: 'dl-tools-' + component,
+        location: 'dl-tools/components/' + component,
+        main: 'setup'
+    };
+});
 var shared = [
     'auth',
     'data-services-manager',
@@ -15,7 +22,13 @@ var shared = [
     'jira',
     'jira-user-finder',
     'loading-indicator'
-];
+].map(function(component) {
+    return {
+        name: 'client-shared-' + component,
+        location: 'dl-tools/shared/' + component,
+        main: 'setup'
+    };
+});
 var requireConfig = {
     paths: {
         'angular': '/vendor/angular/angular.min',
@@ -24,8 +37,6 @@ var requireConfig = {
         'angular-messages': '/vendor/angular-messages/angular-messages.min',
         'angular-ui-router': '/vendor/angular-ui-router/release/angular-ui-router.min',
         'ngstorage': '/vendor/ngstorage/ngStorage.min',
-        'marked': '/vendor/marked/marked.min',
-        'angular-marked': '/vendor/angular-marked/dist/angular-marked.min',
         'bootstrap': '/vendor/bootstrap/dist/js/bootstrap.min',
         'jquery': '/vendor/jquery/dist/jquery.min',
         'async': '/vendor/async/lib/async',
@@ -39,26 +50,13 @@ var requireConfig = {
         'angular-resource': ['angular'],
         'angular-messages': ['angular'],
         'angular-ui-router': ['angular'],
-        'angular-marked': ['angular', 'marked'],
         'ngstorage': ['angular'],
         'angular-chart': ['angular', 'chart'],
         'bootstrap': ['jquery'],
         'moment': {exports: 'moment'},
         'chart': ['moment']
     },
-    packages: components.map(function(component) {
-            return {
-                name: 'dl-tools-' + component,
-                location: 'dl-tools/components/' + component,
-                main: 'setup'
-            };
-        }).concat(shared.map(function(component) {
-            return {
-                name: 'client-shared-' + component,
-                location: 'dl-tools/shared/' + component,
-                main: 'setup'
-            };
-        })),
+    packages: components.concat(shared),
     //priority: [
     //    "angular"
     //],

@@ -4,32 +4,30 @@ define([
     'angular-resource',
     'angular-ui-router',
     'ngstorage',
-    'marked',
-    'angular-marked',
     'chart',
     'angular-chart',
     'moment',
 
     'config',
-    'dl-tools/load',
+    'dl-tools/packages',
     'dl-tools/templates',
     'dl-tools/vendor-templates'
 ], function(
-    angular, ngRoute, angularResource, angularUiRouter, ngStorage, marked, angularMarked, chart, angularChart,
-    moment,
+    angular, ngRoute, angularResource, angularUiRouter, ngStorage, chart, angularChart, moment,
 
-    config, load, templates, vendorTemplates
+    config, packages, templates, vendorTemplates
 ) {
-    var dlTools = angular.module('DlTools', [
+    var globalDependencies = [
         'ngRoute',
         'ngResource',
         'ngStorage',
         'ui.router',
-        'hc.marked',
         'chart.js',
         'dl-tools-templates',
         'dl-tools-vendor-templates'
-    ]);
+    ];
+
+    var dlTools = angular.module('DlTools', globalDependencies.concat(packages.dependencies));
 
     /*
      * Common app configuration.
@@ -38,23 +36,15 @@ define([
     dlTools.constant('API_BASE_URL', config.backendUrl + '/api');
 
     /* @ngInject */
-    dlTools.config(function ($httpProvider, markedProvider) {
-
+    dlTools.config(function ($httpProvider) {
         // Backend is located on another domain, so we need to allow cookies in Cross-Origin requests.
         $httpProvider.defaults.withCredentials = true;
-
-        // Set markdown options.
-        markedProvider.setOptions({
-            gfm: true,
-            tables: true,
-            breaks: true
-        });
     });
 
     /*
      * Loading components.
      */
-    load(dlTools);
+    packages.load(dlTools);
 
     /*
      * Running the app.
