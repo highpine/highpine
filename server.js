@@ -74,7 +74,8 @@ var shared = [
     'gitlab',
     'auth',
     'api',
-    'person'
+    'person',
+    'project'
 ];
 shared.forEach(function(componentName) {
     var component = require(path.join('shared', componentName));
@@ -89,19 +90,19 @@ let isDevMode = app.get('env') === 'development';
 app.use(function(err, req, res, next) {
     if (err instanceof Error) {
         if (err.name == 'ValidationError') {
-            res.statusCode = 400;
-            res.json({
-                message: 'Validation error',
-                error: isDevMode ? err : {}
-            });
-        } else {
-            res.statusCode = 500;
-            res.json({
-                message: 'Server error',
-                error: isDevMode ? err : {}
-            });
+            err.status = 400;
         }
-        console.warn('Internal error(%d): %s', res.statusCode, err.message);
+        res.statusCode = err.status || 500;
+        if (res.statusCode >= 400 && res.statusCode < 500) {
+            res.json({
+                message: err.message
+            });
+        } else if (res.statusCode >= 500 && res.statusCode < 600) {
+            res.json({
+                message: isDevMode ? 'Server error: ' + err : 'Server error'
+            });
+            console.warn('Internal error(%d): %s', res.statusCode, err.message);
+        }
     } else {
         next();
     }
@@ -122,7 +123,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (isDevMode) {
     app.use(function(err, req, res, next) {
         var code = err.status || 500;
         if (err.syscall === 'getaddrinfo' && err.code === 'ENOTFOUND') {
