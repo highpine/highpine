@@ -75,7 +75,8 @@ var shared = [
     'auth',
     'api',
     'person',
-    'project'
+    'project',
+    'profile'
 ];
 shared.forEach(function(componentName) {
     var component = require(path.join('shared', componentName));
