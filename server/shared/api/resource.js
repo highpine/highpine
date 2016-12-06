@@ -17,7 +17,7 @@ function createResourceRouter(mongooseModel) {
                 return next(err);
             }
             if (!document) {
-                return next(ApiError.withStatusCode(404, 'Model not found'));
+                return next(ApiError.withStatusCode(404, mongooseModel.modelName + ' not found'));
             }
             req.document = document;
             next();
