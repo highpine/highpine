@@ -14,17 +14,26 @@ var personSchema = new Schema({
     salt: String,
     avatar: String
 });
-
+personSchema.set('toObject', { versionKey: false });
 personSchema.virtual('full_name').get(function() {
-    return this.first_name + ' ' + this.last_name;
+    if (this.first_name == undefined && this.last_name == undefined) {
+        return null;
+    }
+    return ((this.first_name || '') + ' ' + (this.last_name || '')).trim();
 });
 personSchema.virtual('full_name').set(function(name) {
+    if (typeof name != 'string') {
+        return;
+    }
     [this.first_name, this.last_name] = name.split(' ');
 });
-
-var personModel = mongoose.model('Person', personSchema);
-personModel.apiFields = {
-    list: ['_id', 'first_name', 'last_name', 'full_name', 'jira_id', 'username', 'email', 'avatar'],
-    view: ['_id', 'first_name', 'last_name', 'full_name', 'jira_id', 'username', 'email', 'avatar']
+personSchema.statics.getIdQuery = function(id) {
+    if (id.charAt(0) === '@') {
+        return { username: id.substr(1) };
+    } else {
+        return { _id: id };
+    }
 };
-module.exports.Person = personModel;
+
+
+module.exports.Person = mongoose.model('Person', personSchema);

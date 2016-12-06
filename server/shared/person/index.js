@@ -1,5 +1,5 @@
 var models = require('./models');
-var routes = require('./routes');
+var routers = require('./routers');
 
 /**
  * Setup component.
@@ -7,7 +7,7 @@ var routes = require('./routes');
  * @param {Object}   env Environment variables.
  */
 module.exports.setup = function(app, env) {
-    app.use('/api', routes);
+    app.use('/api/people', routers.people);
 };
 
 module.exports.models = models;
