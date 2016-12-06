@@ -6,12 +6,17 @@ require('app-module-path').addPath('./server');
 
 var path = require('path');
 
+const EventEmitter = require('events');
+class HighpineEventEmitter extends EventEmitter {}
+const eventEmitter = new HighpineEventEmitter();
+
 /*
  * Create express app.
  */
 var express = require('express');
 var app = express();
 app.set('env', process.env.ENV);
+app.set('eventEmitter', eventEmitter);
 
 /*
  * Setup Mongo connection.
@@ -66,18 +71,7 @@ app.use('/', require('routes/index'));
 /*
  * Load and setup shared components.
  */
-var shared = [
-    'api-proxy-manager',
-    'data-services-manager',
-    'jira',
-    'fecru',
-    'gitlab',
-    'auth',
-    'api',
-    'person',
-    'project',
-    'profile'
-];
+var shared = require('./server.shared-packages');
 shared.forEach(function(componentName) {
     var component = require(path.join('shared', componentName));
     if (typeof component.setup === 'function') {
@@ -85,29 +79,7 @@ shared.forEach(function(componentName) {
     }
 });
 
-// todo: trigger 'components-setup' event
-// catch API error
-let isDevMode = app.get('env') === 'development';
-app.use(function(err, req, res, next) {
-    if (err instanceof Error) {
-        if (err.name == 'ValidationError') {
-            err.status = 400;
-        }
-        res.statusCode = err.status || 500;
-        if (res.statusCode >= 400 && res.statusCode < 500) {
-            res.json({
-                message: err.message
-            });
-        } else if (res.statusCode >= 500 && res.statusCode < 600) {
-            res.json({
-                message: isDevMode ? 'Server error: ' + err : 'Server error'
-            });
-            console.warn('Internal error(%d): %s', res.statusCode, err.message);
-        }
-    } else {
-        next();
-    }
-});
+eventEmitter.emit('shared-components-setup');
 
 /*
  * Handle errors.
@@ -124,7 +96,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (isDevMode) {
+if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         var code = err.status || 500;
         if (err.syscall === 'getaddrinfo' && err.code === 'ENOTFOUND') {

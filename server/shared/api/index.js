@@ -1,5 +1,6 @@
 var Auth = require('shared/auth');
 var helper = require('./helper');
+var errorHandler = require('./error-handler');
 var ApiError = require('./error');
 var ApiResource = require('./resource');
 
@@ -10,8 +11,9 @@ var ApiResource = require('./resource');
  */
 module.exports.setup = function(app, env) {
     // app.use('/api', Auth.auth.authorizationChecker);
-
-    // todo: subscribe to 'components-setup' event and add common API error handlers.
+    app.get('eventEmitter').on('shared-components-setup', () => {
+        app.use(errorHandler(app.get('env')));
+    });
 };
 
 module.exports.helper = helper;
