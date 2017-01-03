@@ -29,16 +29,6 @@ var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL);
 
 /*
- * Setup Session support.
- */
-var session = require('express-session');
-app.use(session({
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET
-}));
-
-/*
  * Setup View engine.
  */
 app.set('views', path.join(__dirname, 'server', 'views'));
@@ -54,7 +44,7 @@ var cookieParser = require('cookie-parser');
 var expressPromise = require('express-promise');
 app.use(cors({
     origin: process.env.CLIENT_ORIGIN,
-    methods: 'GET,HEAD,PUT,POST,DELETE,OPTIONS',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true
 }));
 app.use(logger('dev'));
@@ -62,6 +52,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressPromise());
+
+/*
+ * Setup Session support.
+ */
+var session = require('express-session');
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.SESSION_SECRET
+}));
+
+/*
+ * Setup Passport.
+ */
+var passport = require('passport');
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 /**
  * Setup basic routes.

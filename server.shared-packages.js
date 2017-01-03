@@ -1,12 +1,16 @@
 module.exports = [
+    'api-client',
+    'api-server',
     'api-proxy-manager',
     'data-services-manager',
     'jira',
-    'fecru',
-    'gitlab',
-    'auth',
-    'api',
+    'jira-auth-cookies',
+    'jira-auth-oauth',
+    // 'fecru',
+    // 'gitlab',
+
     'person',
+    'auth',
     'project',
     'profile'
 ];

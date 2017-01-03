@@ -1,52 +1,61 @@
-var Auth = require('shared/auth');
+let Auth = require('shared/auth');
 
-var jiraDataService = {
-    getKey: function() {
-        return 'jira';
-    },
-    getProxyRegistry: function(req) {
-        return req.app.get('jira-proxy-registry');
-    },
-    authorize: function (req, callback) {
-        // todo: maybe just pass username, password, session and callback
-        var proxyRegistry = this.getProxyRegistry(req);
-        var request = {__proto__: req};
-        request.originalUrl = request.url = '/session';
-        proxyRegistry.anonymous().relay(request, function (error, apiResponse, body) {
-            if (error) {
-                callback(null, {
-                    status: Auth.STATUS_ERROR,
-                    result: error
-                });
-                return;
-            }
+function JiraDataService(JiraProxyRegistry) {
+    this.jiraProxyRegistry = JiraProxyRegistry;
+}
 
-            if (apiResponse.statusCode != 200 || !body.session) {
-                callback(null, {
-                    status: Auth.STATUS_ERROR,
-                    statusCode: apiResponse.statusCode,
-                    result: body
-                });
-                return;
-            }
-
-            proxyRegistry.registerToken(body.session);
-            req.session.jiraToken  = body.session;
-
-            callback(null, {
-                status: Auth.STATUS_SUCCESS,
-                result: body
-            });
-        });
-    },
-    unauthorize: function(req) {
-        var proxyRegistry = this.getProxyRegistry(req);
-        proxyRegistry.dropToken(req.session.jiraToken);
-        delete req.session.jiraToken;
-    },
-    isAuthorized: function(req) {
-        return typeof req.session.jiraToken !== 'undefined';
-    }
+JiraDataService.prototype.getKey = function() {
+    return 'jira';
 };
 
-module.exports = jiraDataService;
+JiraDataService.prototype.getProxyRegistry = function() {
+    return this.jiraProxyRegistry;
+};
+
+JiraDataService.prototype.authorize = function(username, password, callback) {
+    let anonymousProxy = this.jiraProxyRegistry.anonymous();
+    let options = {
+        url: anonymousProxy.proxyUrl('/session'),
+        method: 'POST',
+        json: true,
+        body: {
+            username: username,
+            password: password
+        }
+    };
+    anonymousProxy.request(options, function (error, apiResponse, body) {
+        if (error) {
+            return callback(error);
+        }
+        if (apiResponse.statusCode !== 200 || !body.session) {
+            let error = new Error('Authorization failed.');
+                error.statusCode = apiResponse.statusCode;
+                error.responseBody = body;
+            callback(error);
+            return;
+        }
+
+        callback(null, {
+            token: body.session
+        });
+    });
+};
+
+/**
+ * @deprecated
+ * @param session
+ */
+JiraDataService.prototype.unauthorize = function(session) {
+    this.jiraProxyRegistry.dropToken(session.jiraToken);
+    delete session.jiraToken;
+};
+
+/**
+ * @deprecated
+ * @param req
+ */
+JiraDataService.prototype.isAuthorized = function(req) {
+    return typeof req.session.jiraToken !== 'undefined';
+};
+
+module.exports = JiraDataService;

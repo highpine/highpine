@@ -8,10 +8,13 @@ module.exports = [
     'client/src/dl-tools/components/projects',
 
     'client/src/dl-tools/shared/auth',
+    'client/src/dl-tools/shared/alt-auth',
     'client/src/dl-tools/shared/data-service-manager',
     'client/src/dl-tools/shared/fecru',
     'client/src/dl-tools/shared/gitlab',
     'client/src/dl-tools/shared/jira',
+    'client/src/dl-tools/shared/jira-alt-auth-cookies',
+    'client/src/dl-tools/shared/jira-alt-auth-oauth',
     'client/src/dl-tools/shared/jira-user-finder',
     'client/src/dl-tools/shared/loading-indicator'
 ];

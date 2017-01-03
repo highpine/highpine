@@ -34,6 +34,8 @@ node_modules
 .node_repl_history
 
 .env.json
+*.pem
+*.pub
 public/vendor
 public/javascripts
 public/stylesheets
