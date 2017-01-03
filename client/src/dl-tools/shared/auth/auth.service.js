@@ -1,31 +1,48 @@
 define([
     'ngstorage'
 ], function() {
-    /* @ngInjinect */
+    /* @ngInject */
     function authService($http, $sessionStorage, BACKEND_URL) {
+        function dropSessionUser() {
+            delete $sessionStorage.user;
+        }
+        function setSessionUser(user) {
+            $sessionStorage.user = user;
+        }
+        function getSessionUser() {
+            return $sessionStorage.user;
+        }
         return {
-            login: function(username, password) {
-                return $http.post(BACKEND_URL + '/auth/login', {
-                    username: username,
-                    password: password
-                })
-                .then(function(result, data) {
-                    $sessionStorage.user = result;
-                    return result.data;
-                });
+            /**
+             * @param {object} credentials Normally: { username: username, password: password }
+             * @returns {Promise.<TResult>|Promise|*}
+             */
+            login: function(credentials) {
+                return $http.post(BACKEND_URL + '/auth/login', credentials)
+                    .then(function(response) {
+                        setSessionUser(response.data);
+                        return response.data;
+                    }, function() {
+                        dropSessionUser();
+                    });
             },
             isLoggedIn: function() {
-                return !!$sessionStorage.user;
+                return typeof getSessionUser() !== 'undefined';
             },
             logout: function() {
                 return $http.post(BACKEND_URL + '/auth/logout', {})
                     .then(function(result) {
-                        delete $sessionStorage.user;
+                        dropSessionUser();
                         return result.data;
                     });
             },
             verify: function() {
-                return $http.get('/auth/verify');
+                return $http.get(BACKEND_URL + '/auth/verify').then(function(response) {
+                    setSessionUser(response.data);
+                    return response.data;
+                }, function() {
+                    dropSessionUser();
+                });
             }
         };
     }
