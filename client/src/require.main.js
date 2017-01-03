@@ -16,10 +16,13 @@ var components = [
 });
 var shared = [
     'auth',
+    'alt-auth',
     'data-services-manager',
     'fecru',
     'gitlab',
     'jira',
+    'jira-alt-auth-cookies',
+    'jira-alt-auth-oauth',
     'jira-user-finder',
     'loading-indicator'
 ].map(function(component) {
