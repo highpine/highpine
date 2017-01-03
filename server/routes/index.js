@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 router.get('/', function(req, res, next) {
-  res.json({ appName: 'Highpine REST API v1' });
+  res.json({ appName: 'Highpine backend' });
 });
 
 module.exports = router;
