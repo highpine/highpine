@@ -1,4 +1,4 @@
-var ApiError = require('./error');
+var ApiError = require('./api-error');
 
 /**
  * @param {object} mongooseModel Mongoose model.

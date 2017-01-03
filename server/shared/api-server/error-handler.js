@@ -11,9 +11,12 @@ module.exports = function(environment) {
                     message: err.message
                 });
             } else if (res.statusCode >= 500 && res.statusCode < 600) {
-                res.json({
-                    message: isDevMode ? 'Server error: ' + err : 'Server error'
-                });
+                let response = { message: 'Server error' };
+                if (isDevMode) {
+                    response.message = '' + err;
+                    response.stack = err.stack;
+                }
+                res.json(response);
                 console.warn('Internal error(%d): %s', res.statusCode, err.message);
             }
         } else {
