@@ -17,7 +17,7 @@ define([
 
     config, packages, templates, vendorTemplates
 ) {
-    var globalDependencies = [
+    let globalDependencies = [
         'ngRoute',
         'ngResource',
         'ngStorage',
@@ -27,7 +27,7 @@ define([
         'dl-tools-vendor-templates'
     ];
 
-    var dlTools = angular.module('DlTools', globalDependencies.concat(packages.dependencies));
+    let dlTools = angular.module('DlTools', globalDependencies.concat(packages.dependencies));
 
     /*
      * Common app configuration.
@@ -50,31 +50,14 @@ define([
      * Running the app.
      */
     /* @ngInject */
-    dlTools.run(function ($rootScope, $state, $stateParams, $injector, Auth, DataServicesManager) {
-
-        var jiraDataService = $injector.get('JiraDataService');
-        DataServicesManager.register(jiraDataService);
-        var fecruDataService = $injector.get('FecruDataService');
-        DataServicesManager.register(fecruDataService);
-        var gitlabDataService = $injector.get('GitlabDataService');
-        DataServicesManager.register(gitlabDataService);
+    dlTools.run(function ($rootScope, $state, $stateParams, $injector) {
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
-        // todo: implement user model. Save to to session storage (?).
-        //$rootScope.user = null;
-
-        $rootScope.$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams) {
-                if (!Auth.isLoggedIn()) {
-                    var guestAccessAllowed = toState.data && toState.data.guestAccess;
-                    if (!guestAccessAllowed) {
-                        event.preventDefault();
-                        $state.go('login');
-                    }
-                }
-            }
-        );
+        /*
+         * Running components.
+         */
+        packages.run(dlTools, $injector);
     });
 });
