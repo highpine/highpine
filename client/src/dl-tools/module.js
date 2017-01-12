@@ -1,50 +1,23 @@
 define([
     'angular',
-    'angular-route',
-    'angular-resource',
-    'angular-ui-router',
-    'ngstorage',
-    'chart',
-    'angular-chart',
-    'moment',
-
-    'config',
+    'highpine/module',
     'dl-tools/packages',
     'dl-tools/templates',
     'dl-tools/vendor-templates'
-], function(
-    angular, ngRoute, angularResource, angularUiRouter, ngStorage, chart, angularChart, moment,
+], function(angular, highpine, packages, templates, vendorTemplates) {
 
-    config, packages, templates, vendorTemplates
-) {
     let globalDependencies = [
-        'ngRoute',
-        'ngResource',
-        'ngStorage',
-        'ui.router',
-        'chart.js',
         'dl-tools-templates',
-        'dl-tools-vendor-templates'
+        'dl-tools-vendor-templates',
+        'highpine'
     ];
 
-    let dlTools = angular.module('DlTools', globalDependencies.concat(packages.dependencies));
+    let dlTools = angular.module('dlTools', [...globalDependencies,...packages.dependencies]);
 
     /*
-     * Common app configuration.
+     * Initializing components.
      */
-    dlTools.constant('BACKEND_URL', config.backendUrl);
-    dlTools.constant('API_BASE_URL', config.backendUrl + '/api');
-
-    /* @ngInject */
-    dlTools.config(function ($httpProvider) {
-        // Backend is located on another domain, so we need to allow cookies in Cross-Origin requests.
-        $httpProvider.defaults.withCredentials = true;
-    });
-
-    /*
-     * Loading components.
-     */
-    packages.load(dlTools);
+    packages.init(dlTools);
 
     /*
      * Running the app.
@@ -60,4 +33,6 @@ define([
          */
         packages.run(dlTools, $injector);
     });
+
+    return dlTools;
 });

@@ -1,22 +1,5 @@
 define([
-    'client-shared-auth',
-    'client-shared-alt-auth',
-    'client-shared-jira',
-    'client-shared-jira-alt-auth-cookies',
-    'client-shared-jira-alt-auth-oauth',
-    'client-shared-jira-user-finder',
-    'client-shared-fecru',
-    'client-shared-gitlab',
-    'client-shared-data-services-manager',
-    'client-shared-loading-indicator',
 
-    'dl-tools-app',
-    'dl-tools-dashboard',
-    'dl-tools-auth',
-    'dl-tools-profile',
-    'dl-tools-person',
-    'dl-tools-project',
-    'dl-tools-projects'
 ], function(...setups) {
 
     function init(module) {
@@ -36,7 +19,7 @@ define([
         });
     }
 
-    let dependencies = setups.reduce(function(dependencies, setup) {
+    let dependencies = Array.prototype.reduce.call(setups, function(dependencies, setup) {
         let packageDependencies = typeof setup === 'function' ? [] : (setup.dependencies || []);
         return dependencies.concat(packageDependencies);
     }, []);
