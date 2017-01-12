@@ -2,25 +2,10 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    var meta = require('./grunt.meta.js');
-    var watchConfig = require('./grunt.watch.js');
+    let meta = require('./grunt.meta.js');
+    let watchConfig = require('./grunt.watch.js');
 
-    meta.clientPackages.requireConfig = meta.clientPackages.names.map(function(packageName) {
-        return {
-            name: packageName,
-            location: '/vendor/' + packageName,
-            main: 'setup'
-        };
-    });
-    meta.clientPackages.js = meta.clientPackages.names.map(function(packageName) {
-        return packageName + '/**/*.js';
-    });
-    meta.clientPackages.tpl = meta.clientPackages.names.map(function(packageName) {
-        return meta.vendor.cwd + '/' + packageName + '/**/*.tpl.html';
-    });
-    //meta.clientPackages.tpl = ['client-shared-fecru/test.tpl.html', 'client-shared-fecru/test2.tpl.html'];
-
-    var gruntConfig = {
+    let gruntConfig = {
         meta: meta,
         jshint: {
             options: {
@@ -71,7 +56,6 @@ module.exports = function (grunt) {
                     '<%= meta.vendor.js %>',
                     '<%= meta.vendor.css %>',
                     '<%= meta.vendor.fonts %>',
-                    '<%= meta.clientPackages.js %>'
                 ],
                 dest: 'public/vendor',
                 cwd: '<%= meta.vendor.cwd %>',
@@ -105,7 +89,7 @@ module.exports = function (grunt) {
                     fileHeaderString: 'define([\'angular\'], function(angular) {',
                     fileFooterString: '});'
                 },
-                src: ['<%= meta.clientPackages.tpl %>'],
+                src: ['<%= meta.vendor.tpl %>'],
                 dest: 'public/javascripts/dl-tools/vendor-templates.js',
                 module: 'dl-tools-vendor-templates'
             }
@@ -119,12 +103,9 @@ module.exports = function (grunt) {
         },
 
         replace: {
-            requireConfigClientPackages: {
+            appConfig: {
                 options: {
                     patterns: [{
-                        match: /\[\/\*\* @clientPackages \*\/\]/,
-                        replacement: meta.clientPackages.requireConfig
-                    }, {
                         match: 'backendUrl',
                         replacement: meta.backendUrl
                     }]
@@ -132,7 +113,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     flatten: true,
-                    src: ['public/javascripts/require.main.js', 'public/javascripts/config.js'],
+                    src: ['public/javascripts/config.js'],
                     dest: 'public/javascripts'
                 }]
             }

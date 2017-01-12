@@ -1,4 +1,4 @@
-var basicMeta = {
+let basicMeta = {
     backendUrl: 'http://highpine-server.me:3030',
     vendor: {
         cwd: 'node_modules',
@@ -34,19 +34,14 @@ var basicMeta = {
         ],
         fonts: [
             'bootstrap/dist/fonts/*'
-        ]
-    },
-    // client packages included as node modules:
-    clientPackages: {
-        names: [
-            //'client-shared-fecru'
-        ]
+        ],
+        tpl: []
     }
 };
 
-var extend = require('util')._extend;
+let extend = require('util')._extend;
 function mergeMeta(basicMeta, packageMeta) {
-    var mergedMeta = extend({}, basicMeta);
+    let mergedMeta = extend({}, basicMeta);
     for (let section of ['js', 'css', 'fonts']) {
         if (packageMeta.vendor && packageMeta.vendor[section]) {
             mergedMeta.vendor[section] = mergedMeta.vendor[section].concat(packageMeta.vendor[section]);
@@ -55,10 +50,10 @@ function mergeMeta(basicMeta, packageMeta) {
     return mergedMeta;
 }
 
-var packages = require('./grunt.packages.js');
-var mergedMeta = packages.reduce(function(mergedMeta, packagePath) {
+let packages = require('./grunt.packages.js');
+let mergedMeta = packages.reduce(function(mergedMeta, packagePath) {
     try {
-        var packageMeta = require('./' + packagePath + '/.grunt.meta.js');
+        let packageMeta = require('./' + packagePath + '/.grunt.meta.js');
         return mergeMeta(mergedMeta, packageMeta);
     } catch (e) {
         console.log(packagePath + ' doesn\'t have a .grunt.meta.js file.');

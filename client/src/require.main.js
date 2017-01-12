@@ -1,8 +1,3 @@
-/**
- * Populated by Grunt during the build process.
- * @type {Array}
- */
-let vendorClientPackages = [/** @clientPackages */];
 let baseRequireConfig = {
     paths: {
         'angular': '/vendor/angular/angular.min',
@@ -13,7 +8,7 @@ let baseRequireConfig = {
         'angular': {exports: 'angular'},
         'bootstrap': ['jquery'],
     },
-    packages: vendorClientPackages,
+    packages: [],
     deps: [],
     map: {}
 };

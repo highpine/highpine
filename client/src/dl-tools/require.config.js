@@ -1,21 +1,7 @@
 define(['highpine/require.config'], function(customizeConfig) {
     return function(baseConfig) {
         baseConfig = customizeConfig(baseConfig);
-        let components = [
-            'app',
-            'dashboard',
-            'auth',
-            'person',
-            'profile',
-            'project',
-            'projects'
-        ].map(function (component) {
-            return {
-                name: 'dl-tools-' + component,
-                location: 'dl-tools/components/' + component,
-                main: 'setup'
-            };
-        });
+
         let shared = [
             'auth',
             'alt-auth',
@@ -35,7 +21,33 @@ define(['highpine/require.config'], function(customizeConfig) {
             };
         });
 
-        baseConfig.packages = (baseConfig.packages || []).concat(components.concat(shared));
+        let components = [
+            'app',
+            'dashboard',
+            'auth',
+            'person',
+            'profile',
+            'project',
+            'projects'
+        ].map(function (component) {
+            return {
+                name: 'dl-tools-' + component,
+                location: 'dl-tools/components/' + component,
+                main: 'setup'
+            };
+        });
+
+        let vendor = [
+
+        ].map(function(packageName) {
+            return {
+                name: packageName,
+                location: '/vendor/' + packageName,
+                main: 'setup'
+            };
+        });
+
+        baseConfig.packages = [...(baseConfig.packages || []), ...shared, ...components, ...vendor];
 
         return baseConfig;
     }
