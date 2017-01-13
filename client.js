@@ -29,6 +29,14 @@ app.use(favicon(path.join(
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+/**
+ * Setup basic routes.
+ */
+app.use(/\/.*/, function(req, res, next) {
+    res.render('index');
+});
+
+
 /*
  * Handle errors.
  */

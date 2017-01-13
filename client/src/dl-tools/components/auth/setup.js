@@ -14,6 +14,7 @@ define([
                         templateUrl: 'dl-tools/components/auth/login.tpl.html',
                         controller: 'AuthController',
                         data: {
+                            documentTitle: 'Sign in',
                             guestAccess: true
                         }
                     });

@@ -35,7 +35,10 @@ define([
                         .state('person', {
                             url: '/person/:username?period',
                             templateUrl: 'dl-tools/components/person/person.tpl.html',
-                            controller: 'PersonController'
+                            controller: 'PersonController',
+                            data: {
+                                documentTitle: 'Person'
+                            }
                         });
 
                     // Set markdown options.

@@ -23,6 +23,7 @@ define(['async', 'moment'], function(async, moment) {
         jiraApiClient.project()
             .get({key: projectKey}, function (project) {
                 $scope.project = project;
+                $scope.document.title = 'Project: ' + project.name;
             });
 
 

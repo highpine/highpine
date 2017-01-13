@@ -21,6 +21,7 @@ define([
             username: $stateParams.username
         }, function(user) {
             $scope.person = user;
+            $scope.document.title = user.displayName;
         });
 
         function getFromDate(periodInDays) {

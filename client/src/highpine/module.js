@@ -37,7 +37,11 @@ define([
     highpine.constant('API_BASE_URL', config.backendUrl + '/api');
 
     /* @ngInject */
-    highpine.config(function ($httpProvider) {
+    highpine.config(function ($httpProvider, $locationProvider, $qProvider) {
+
+        $locationProvider.html5Mode(true);
+        $qProvider.errorOnUnhandledRejections(false);
+
         // Backend is located on another domain, so we need to allow cookies in Cross-Origin requests.
         $httpProvider.defaults.withCredentials = true;
     });

@@ -9,7 +9,10 @@ define([
                 .state('dashboard', {
                     url: '/dashboard',
                     templateUrl: 'dl-tools/components/dashboard/dashboard.tpl.html',
-                    controller: 'DashboardController'
+                    controller: 'DashboardController',
+                    data: {
+                        documentTitle: 'Dashboard'
+                    }
                 });
 
             $urlRouterProvider.otherwise("/dashboard");

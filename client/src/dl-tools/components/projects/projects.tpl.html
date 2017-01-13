@@ -1,7 +1,7 @@
 <div class="container">
 
     <ol class="breadcrumb">
-        <li><a href="#">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li class="active">Projects</li>
     </ol>
 
@@ -16,10 +16,10 @@
 
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="project in projects | filter:filter">
-            <a href="#/project/{{ project.key }}">
+            <a href="/project/{{ project.key }}">
                 <img data-ng-src="{{ project.avatarUrls['16x16'] }}" alt=""/>
             </a>
-            <a href="#/project/{{ project.key }}">{{ project.name }}</a>
+            <a href="/project/{{ project.key }}">{{ project.name }}</a>
         </li>
     </ul>
 

@@ -17,6 +17,14 @@ define([
     /* @ngInject */
     dlTools.run(function ($rootScope, $state, $stateParams, $injector) {
 
+        $rootScope.document = $rootScope.document || {};
+
+        let defaultDocumentTitle = 'Highpine';
+        $rootScope.document.title = defaultDocumentTitle;
+        $rootScope.$on('$stateChangeStart', function (event, toState) {
+            $rootScope.document.title = (toState.data ? toState.data.documentTitle : null) || defaultDocumentTitle;
+        });
+
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 

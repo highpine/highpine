@@ -9,7 +9,10 @@ define([
                 .state('profile', {
                     url: '/profile',
                     templateUrl: 'dl-tools/components/profile/profile.tpl.html',
-                    controller: 'ProfileController'
+                    controller: 'ProfileController',
+                    data: {
+                        documentTitle: 'Profile'
+                    }
                 });
         });
         module.controller('ProfileController', profileController);

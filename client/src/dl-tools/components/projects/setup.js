@@ -9,7 +9,10 @@ define([
                 .state('projects', {
                     url: '/projects',
                     templateUrl: 'dl-tools/components/projects/projects.tpl.html',
-                    controller: 'ProjectsController'
+                    controller: 'ProjectsController',
+                    data: {
+                        documentTitle: 'Projects'
+                    }
                 });
         });
 
