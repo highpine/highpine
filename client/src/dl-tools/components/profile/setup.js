@@ -8,7 +8,7 @@ define([
             $stateProvider
                 .state('profile', {
                     url: '/profile',
-                    templateUrl: 'components/profile/profile.tpl.html',
+                    templateUrl: 'dl-tools/components/profile/profile.tpl.html',
                     controller: 'ProfileController'
                 });
         });

@@ -8,7 +8,7 @@ define([
             $stateProvider
                 .state('dashboard', {
                     url: '/dashboard',
-                    templateUrl: 'components/dashboard/dashboard.tpl.html',
+                    templateUrl: 'dl-tools/components/dashboard/dashboard.tpl.html',
                     controller: 'DashboardController'
                 });
 

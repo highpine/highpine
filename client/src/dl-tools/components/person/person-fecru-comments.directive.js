@@ -39,7 +39,7 @@ define([
                         $scope.comments = comments.map(convertFecruComment);
                     });
             },
-            templateUrl: 'components/person/person-fecru-comments.directive.tpl.html'
+            templateUrl: 'dl-tools/components/person/person-fecru-comments.directive.tpl.html'
         };
     }
 

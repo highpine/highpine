@@ -35,7 +35,7 @@ define([
                             .filter(commitsFilter);
                     });
             },
-            templateUrl: 'components/person/person-git-commits.directive.tpl.html'
+            templateUrl: 'dl-tools/components/person/person-git-commits.directive.tpl.html'
         };
     }
 

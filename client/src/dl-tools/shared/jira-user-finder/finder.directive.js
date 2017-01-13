@@ -46,7 +46,7 @@ define([
                 };
 
             },
-            templateUrl: 'shared/jira-user-finder/finder.tpl.html'
+            templateUrl: 'dl-tools/shared/jira-user-finder/finder.tpl.html'
         };
     }
 

@@ -1,18 +1,10 @@
 define([
     'angular',
     'highpine/module',
-    'dl-tools/packages',
-    'dl-tools/templates',
-    'dl-tools/vendor-templates'
+    'dl-tools/packages'
 ], function(angular, highpine, packages, templates, vendorTemplates) {
 
-    let globalDependencies = [
-        'dl-tools-templates',
-        'dl-tools-vendor-templates',
-        'highpine'
-    ];
-
-    let dlTools = angular.module('dlTools', [...globalDependencies,...packages.dependencies]);
+    let dlTools = angular.module('dl-tools', ['highpine',...packages.dependencies]);
 
     /*
      * Initializing components.

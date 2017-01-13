@@ -1,4 +1,4 @@
-let basicMeta = {
+module.exports = {
     backendUrl: 'http://highpine-server.me:3030',
     vendor: {
         cwd: 'node_modules',
@@ -23,7 +23,9 @@ let basicMeta = {
             'chart.js/dist/Chart.js',
             'chart.js/dist/Chart.min.js',
             'angular-chart.js/dist/angular-chart.min.js',
-            'angular-chart.js/dist/angular-chart.min.js.map'
+            'angular-chart.js/dist/angular-chart.min.js.map',
+            'marked/marked.min.js',
+            'angular-marked/dist/angular-marked.min.js'
         ],
         css: [
             'angular/angular-csp.css',
@@ -38,27 +40,3 @@ let basicMeta = {
         tpl: []
     }
 };
-
-let extend = require('util')._extend;
-function mergeMeta(basicMeta, packageMeta) {
-    let mergedMeta = extend({}, basicMeta);
-    for (let section of ['js', 'css', 'fonts']) {
-        if (packageMeta.vendor && packageMeta.vendor[section]) {
-            mergedMeta.vendor[section] = mergedMeta.vendor[section].concat(packageMeta.vendor[section]);
-        }
-    }
-    return mergedMeta;
-}
-
-let packages = require('./grunt.packages.js');
-let mergedMeta = packages.reduce(function(mergedMeta, packagePath) {
-    try {
-        let packageMeta = require('./' + packagePath + '/.grunt.meta.js');
-        return mergeMeta(mergedMeta, packageMeta);
-    } catch (e) {
-        console.log(packagePath + ' doesn\'t have a .grunt.meta.js file.');
-    }
-    return mergedMeta;
-}, basicMeta);
-
-module.exports = mergedMeta;

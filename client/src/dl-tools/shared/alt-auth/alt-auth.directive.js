@@ -39,7 +39,7 @@ define([
                     $scope.shownServiceForm = null;
                 };
             },
-            templateUrl: 'shared/alt-auth/alt-auth.tpl.html'
+            templateUrl: 'dl-tools/shared/alt-auth/alt-auth.tpl.html'
         };
     }
 

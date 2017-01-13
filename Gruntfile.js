@@ -73,31 +73,31 @@ module.exports = function (grunt) {
             }
         },
         html2js: {
-            dlTools: {
+            all: {
                 options: {
-                    base: 'client/src/dl-tools',
+                    base: 'client/src',
                     fileHeaderString: 'define([\'angular\'], function(angular) {',
                     fileFooterString: '});'
                 },
-                src: ['client/src/dl-tools/**/*.tpl.html'],
-                dest: 'public/javascripts/dl-tools/templates.js',
-                module: 'dl-tools-templates'
+                src: ['client/src/**/*.tpl.html'],
+                dest: 'public/javascripts/compiled-templates.js',
+                module: 'compiled-templates'
             },
-            vendor: {
-                options: {
-                    base: '<%= meta.vendor.cwd %>',
-                    fileHeaderString: 'define([\'angular\'], function(angular) {',
-                    fileFooterString: '});'
-                },
-                src: ['<%= meta.vendor.tpl %>'],
-                dest: 'public/javascripts/dl-tools/vendor-templates.js',
-                module: 'dl-tools-vendor-templates'
-            }
+            // vendor: {
+            //     options: {
+            //         base: '<%= meta.vendor.cwd %>',
+            //         fileHeaderString: 'define([\'angular\'], function(angular) {',
+            //         fileFooterString: '});'
+            //     },
+            //     src: ['<%= meta.vendor.tpl %>'],
+            //     dest: 'public/javascripts/dl-tools/vendor-templates.js',
+            //     module: 'dl-tools-vendor-templates'
+            // }
         },
         less: {
             build: {
                 files: {
-                    'public/stylesheets/dl-tools.css': 'client/src/dl-tools/styles.less'
+                    'public/stylesheets/compiled-styles.css': 'client/src/*/styles.less'
                 }
             }
         },

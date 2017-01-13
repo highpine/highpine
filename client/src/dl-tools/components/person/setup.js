@@ -34,7 +34,7 @@ define([
                     $stateProvider
                         .state('person', {
                             url: '/person/:username?period',
-                            templateUrl: 'components/person/person.tpl.html',
+                            templateUrl: 'dl-tools/components/person/person.tpl.html',
                             controller: 'PersonController'
                         });
 

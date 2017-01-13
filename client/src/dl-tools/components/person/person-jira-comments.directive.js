@@ -38,7 +38,7 @@ define([
                         $scope.comments = comments.map(convertJiraComment);
                     });
             },
-            templateUrl: 'components/person/person-jira-comments.directive.tpl.html'
+            templateUrl: 'dl-tools/components/person/person-jira-comments.directive.tpl.html'
         };
     }
 

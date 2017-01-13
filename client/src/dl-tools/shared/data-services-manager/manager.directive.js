@@ -44,7 +44,7 @@ define(['angular'], function(angular) {
                     });
                 }
             },
-            templateUrl: 'shared/data-services-manager/data-services.tpl.html'
+            templateUrl: 'dl-tools/shared/data-services-manager/data-services.tpl.html'
         };
     }
 

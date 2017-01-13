@@ -23,7 +23,7 @@ define([
                     });
                 };
             },
-            templateUrl: 'shared/jira-alt-auth-cookies/jira-alt-auth-cookies.tpl.html'
+            templateUrl: 'dl-tools/shared/jira-alt-auth-cookies/jira-alt-auth-cookies.tpl.html'
         };
     }
 

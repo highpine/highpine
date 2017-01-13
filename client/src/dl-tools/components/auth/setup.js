@@ -11,7 +11,7 @@ define([
                 $stateProvider
                     .state('login', {
                         url: '/login',
-                        templateUrl: 'components/auth/login.tpl.html',
+                        templateUrl: 'dl-tools/components/auth/login.tpl.html',
                         controller: 'AuthController',
                         data: {
                             guestAccess: true

@@ -8,7 +8,7 @@ define([
             $stateProvider
                 .state('projects', {
                     url: '/projects',
-                    templateUrl: 'components/projects/projects.tpl.html',
+                    templateUrl: 'dl-tools/components/projects/projects.tpl.html',
                     controller: 'ProjectsController'
                 });
         });
