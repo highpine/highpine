@@ -9,6 +9,7 @@ define([
     'client-shared-gitlab',
     'client-shared-data-services-manager',
     'client-shared-loading-indicator',
+    'client-shared-people',
 
     'dl-tools-app',
     'dl-tools-dashboard',

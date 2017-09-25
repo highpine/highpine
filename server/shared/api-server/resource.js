@@ -1,14 +1,27 @@
-var ApiError = require('./api-error');
+let ApiError = require('./api-error');
 
 /**
  * @param {object} mongooseModel Mongoose model.
+ * @param {boolean} get
+ * @param {boolean} list
+ * @param {boolean} create
+ * @param {boolean} update
+ * @param {boolean} remove
  */
-function createResourceRouter(mongooseModel) {
-    var router = require('express').Router();
+function createResourceRouter(mongooseModel,
+                              get = true,
+                              list = true,
+                              create = true,
+                              update = true,
+                              remove = true) {
+
+    let router = require('express').Router();
 
     router.param('documentId', function (req, res, next, id) {
-        var queryParams = typeof mongooseModel.getIdQuery == "function" ? mongooseModel.getIdQuery(id) : {_id: id};
-        var query = mongooseModel.findOne(queryParams);
+        let queryParams = typeof mongooseModel.getIdQuery === "function" ?
+            mongooseModel.getIdQuery(id, req) :
+            {_id: id};
+        let query = mongooseModel.findOne(queryParams);
         if (req.query.populate) {
             query.populate(req.query.populate);
         }
@@ -24,79 +37,94 @@ function createResourceRouter(mongooseModel) {
         });
     });
 
-    router.get('/', function (req, res, next) {
-        var query = mongooseModel.find({});
-        if (req.query.populate) {
-            query.populate(req.query.populate);
-        }
-        query.exec(function (err, documents) {
-            if (err) {
-                return next(err);
+    if (list) {
+        router.get('/', function (req, res, next) {
+            let query = mongooseModel.find({});
+            if (req.query.populate) {
+                query.populate(req.query.populate);
             }
-            res.json(documents.map(function (document) {
-                return document.toObject();
-            }));
+            query.exec(function (err, documents) {
+                if (err) {
+                    return next(err);
+                }
+                res.json(documents.map(function (document) {
+                    return document.toObject();
+                }));
+            });
         });
-    });
+    }
 
-    router.post('/', function (req, res, next) {
-        var documentData = req.body;
-        var document = new mongooseModel(documentData);
-        document.save(function (err) {
-            if (err) {
-                return next(err);
-            }
-            res.statusCode = 201;
-            return res.send();
+    if (create) {
+        router.post('/', function (req, res, next) {
+            let documentData = req.body;
+            let document = new mongooseModel(documentData);
+            document.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.statusCode = 201;
+                return res.send();
+            });
         });
-    });
+    }
 
-    router.get('/:documentId', function (req, res) {
-        res.json(req.document.toObject());
-    });
-
-    router.put('/:documentId', function (req, res, next) {
-        var fieldsToSet = req.body;
-        req.document.set(fieldsToSet);
-        req.document.save(function (err) {
-            if (err) {
-                return next(err);
-            }
-            res.statusCode = 200;
-            return res.send();
+    if (get) {
+        router.get('/:documentId', function (req, res) {
+            res.json(req.document.toObject());
         });
-    });
+    }
 
-    // router.patch('/:documentId', function (req, res, next) {
-    //     console.log(req.document);
-    //     var fieldsToSet = req.body;
-    //     mongooseModel.update({_id: req.document.id}, {$set: fieldsToSet}, function (err) {
-    //         if (err) {
-    //             return next(err);
-    //         }
-    //         res.statusCode = 200;
-    //         return res.send();
-    //     });
-    // });
-
-    router.delete('/:documentId', function (req, res, next) {
-        req.document.remove(function (err, raw) {
-            if (err) {
-                return next(err);
-            }
-            res.statusCode = 200;
-            return res.send();
+    if (update) {
+        router.put('/:documentId', function (req, res, next) {
+            let fieldsToSet = req.body;
+            req.document.set(fieldsToSet);
+            req.document.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.statusCode = 200;
+                return res.send();
+            });
         });
-    });
+
+        // router.patch('/:documentId', function (req, res, next) {
+        //     console.log(req.document);
+        //     var fieldsToSet = req.body;
+        //     mongooseModel.update({_id: req.document.id}, {$set: fieldsToSet}, function (err) {
+        //         if (err) {
+        //             return next(err);
+        //         }
+        //         res.statusCode = 200;
+        //         return res.send();
+        //     });
+        // });
+    }
+
+    if (remove) {
+        router.delete('/:documentId', function (req, res, next) {
+            req.document.remove(function (err, raw) {
+                if (err) {
+                    return next(err);
+                }
+                res.statusCode = 200;
+                return res.send();
+            });
+        });
+    }
 
     return router;
 }
 
 /**
  * @param {object} mongooseModel Mongoose model.
+ * @param {boolean} get
+ * @param {boolean} list
+ * @param {boolean} create
+ * @param {boolean} update
+ * @param {boolean} remove
  */
-function ApiResource(mongooseModel, populate) {
-    this.router = createResourceRouter(mongooseModel, populate);
+function ApiResource(mongooseModel, get = true, list = true, create = true, update = true, remove = true) {
+    this.router = createResourceRouter(mongooseModel, get, list, create, update, remove);
 }
 
 module.exports = ApiResource;

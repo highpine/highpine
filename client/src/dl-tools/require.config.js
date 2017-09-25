@@ -12,7 +12,8 @@ define(['highpine/require.config'], function(customizeConfig) {
             'jira-alt-auth-cookies',
             'jira-alt-auth-oauth',
             'jira-user-finder',
-            'loading-indicator'
+            'loading-indicator',
+            'people'
         ].map(function (component) {
             return {
                 name: 'client-shared-' + component,

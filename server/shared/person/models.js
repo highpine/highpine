@@ -13,7 +13,8 @@ let personSchema = new Schema({
     password_hash: String,
     hash_salt: String,
     auth_tokens: Object,
-    avatar: String
+    avatar: String,
+    account_completed: Boolean
 });
 
 personSchema.set('toObject', {

@@ -2,9 +2,9 @@ define([
     'client-shared-jira'
 ], function() {
     /* @ngInject */
-    function profileController($scope, UserStorage) {
+    function editProfileController($scope, UserStorage) {
         $scope.user = UserStorage.get();
     }
 
-    return profileController;
+    return editProfileController;
 });

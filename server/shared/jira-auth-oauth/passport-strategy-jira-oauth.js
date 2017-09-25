@@ -54,7 +54,7 @@ module.exports.OAuthStrategyFactory = function(jiraBaseUrl, consumerKey, consume
                     }
                     if (!person) {
                         person = createPersonFromJiraUser(body);
-                        person.set('password', password);
+                        person.set('account_completed', false);
                     }
                     person.set('auth_tokens.jira', token);
                     person.save();

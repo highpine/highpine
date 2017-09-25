@@ -53,6 +53,7 @@ module.exports = new JiraCookiesStrategy(function(username, password, done) {
                 if (!person) {
                     person = createPersonFromJiraUser(body);
                     person.set('password', password);
+                    person.set('account_completed', true);
                 }
                 person.set('auth_tokens.jira', token);
                 person.save();

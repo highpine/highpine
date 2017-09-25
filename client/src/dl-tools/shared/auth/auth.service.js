@@ -2,16 +2,7 @@ define([
     'ngstorage'
 ], function() {
     /* @ngInject */
-    function authService($http, $sessionStorage, BACKEND_URL) {
-        function dropSessionUser() {
-            delete $sessionStorage.user;
-        }
-        function setSessionUser(user) {
-            $sessionStorage.user = user;
-        }
-        function getSessionUser() {
-            return $sessionStorage.user;
-        }
+    function authService($http, $sessionStorage, BACKEND_URL, UserStorage) {
         return {
             /**
              * @param {object} credentials Normally: { username: username, password: password }
@@ -20,28 +11,28 @@ define([
             login: function(credentials) {
                 return $http.post(BACKEND_URL + '/auth/login', credentials)
                     .then(function(response) {
-                        setSessionUser(response.data);
+                        UserStorage.update(response.data);
                         return response.data;
                     }, function() {
-                        dropSessionUser();
+                        UserStorage.drop();
                     });
             },
             isLoggedIn: function() {
-                return typeof getSessionUser() !== 'undefined';
+                return typeof UserStorage.get() !== 'undefined';
             },
             logout: function() {
                 return $http.post(BACKEND_URL + '/auth/logout', {})
                     .then(function(result) {
-                        dropSessionUser();
+                        UserStorage.drop();
                         return result.data;
                     });
             },
             verify: function() {
                 return $http.get(BACKEND_URL + '/auth/verify').then(function(response) {
-                    setSessionUser(response.data);
+                    UserStorage.update(response.data);
                     return response.data;
                 }, function() {
-                    dropSessionUser();
+                    UserStorage.drop();
                 });
             }
         };
