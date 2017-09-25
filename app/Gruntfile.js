@@ -130,7 +130,7 @@ module.exports = function (grunt) {
         'clean',
         'copy',
         'replace',
-        'ngAnnotate',
+        // 'ngAnnotate',
         'html2js',
         'less'
         //'concat',

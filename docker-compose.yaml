@@ -1,0 +1,32 @@
+version: "3"
+services:
+  node-client:
+    build:
+      context: .
+      dockerfile: "./docker/nodejs.dockerfile"
+    volumes:
+        - "./app:/src/app"
+    ports:
+      - "3030:3000"
+    links:
+      - mongo
+    command: node ./bin/www ../client 3000
+
+  node-server:
+    build:
+      context: .
+      dockerfile: "./docker/nodejs.dockerfile"
+    volumes:
+        - "./app:/src/app"
+    ports:
+      - "3031:3001"
+    links:
+      - mongo
+    command: node ./bin/www ../server 3001
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017"
+    volumes:
+      - ./docker/mongo/data:/data/db

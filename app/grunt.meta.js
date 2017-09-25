@@ -1,5 +1,5 @@
 module.exports = {
-    backendUrl: 'http://highpine-server.me:3030',
+    backendUrl: 'http://localhost:3031',
     vendor: {
         cwd: 'node_modules',
         js: [
