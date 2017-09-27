@@ -10,7 +10,7 @@ services:
       - "3030:3000"
     links:
       - mongo
-    command: node ./bin/www ../client 3000
+    command: nodemon --legacy-watch ./bin/www ../client 3000
 
   node-server:
     build:
@@ -22,7 +22,7 @@ services:
       - "3031:3001"
     links:
       - mongo
-    command: node ./bin/www ../server 3001
+    command: nodemon --legacy-watch ./bin/www ../server 3001
 
   mongo:
     image: mongo:latest

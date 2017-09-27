@@ -22,9 +22,6 @@ See: [doc/functionality.md](doc/functionality.md)
 
 ```
 docker-compose build
-if [ ! -e app/.env.json ]; then
-    cp docker/app/.env.json app/.env.json
-fi
 docker-compose up -d
 ```
 ### Modularity problems
