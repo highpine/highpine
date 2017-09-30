@@ -119,7 +119,9 @@ var AbstractApiProxy = function (serviceUrl, mountPath) {
         this.authorizeRequest(options);
 
         var debugMode = this.debugMode;
-        debugMode && console.log('Requesting:', options);
+        if (debugMode) {
+            console.log('Requesting:', options);
+        }
 
         request(options, function (error, response, body) {
             //debugMode && console.log(error, response && response.statusCode, body);

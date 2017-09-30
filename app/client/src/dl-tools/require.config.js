@@ -51,5 +51,5 @@ define(['highpine/require.config'], function(customizeConfig) {
         baseConfig.packages = [...(baseConfig.packages || []), ...shared, ...components, ...vendor];
 
         return baseConfig;
-    }
+    };
 });

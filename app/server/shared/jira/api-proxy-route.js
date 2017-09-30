@@ -4,7 +4,7 @@ var DataServicesManager = require('shared/data-services-manager').manager;
 
 function getAuthorizedProxy(user) {
     var jiraProxyRegistry = DataServicesManager.getService('jira').getProxyRegistry();
-    return jiraProxyRegistry.withToken(user.auth_tokens.jira)
+    return jiraProxyRegistry.withToken(user.auth_tokens.jira);
 }
 
 router.get(/\/.*/, function(req, res, next) {

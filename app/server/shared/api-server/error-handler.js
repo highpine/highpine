@@ -2,7 +2,7 @@ module.exports = function(environment) {
     let isDevMode = environment === 'development';
     return function(err, req, res, next) {
         if (err instanceof Error) {
-            if (err.name == 'ValidationError') {
+            if (err.name === 'ValidationError') {
                 err.status = 400;
             }
             res.statusCode = err.status || 500;
@@ -22,5 +22,5 @@ module.exports = function(environment) {
         } else {
             next();
         }
-    }
+    };
 };
