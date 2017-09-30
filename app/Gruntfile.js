@@ -15,7 +15,7 @@ module.exports = function (grunt) {
             },
             client: {
                 files: {
-                    src: ['client/src/**/*.js']
+                        src: ['client/**/*.js']
                 }
             },
             server: {
@@ -51,7 +51,7 @@ module.exports = function (grunt) {
                 cwd: 'client/src',
                 expand: true
             },
-            vendor: {
+            clientVendor: {
                 src: [
                     '<%= meta.vendor.js %>',
                     '<%= meta.vendor.css %>',
@@ -79,7 +79,7 @@ module.exports = function (grunt) {
                     fileHeaderString: 'define([\'angular\'], function(angular) {',
                     fileFooterString: '});'
                 },
-                src: ['client/src/**/*.tpl.html'],
+                src: ['client/**/*.tpl.html'],
                 dest: 'public/javascripts/compiled-templates.js',
                 module: 'compiled-templates'
             },
@@ -97,7 +97,7 @@ module.exports = function (grunt) {
         less: {
             build: {
                 files: {
-                    'public/stylesheets/compiled-styles.css': 'client/src/*/styles.less'
+                    'public/stylesheets/compiled-styles.css': 'client/**/*/styles.less'
                 }
             }
         },
@@ -124,15 +124,16 @@ module.exports = function (grunt) {
 
     grunt.initConfig(gruntConfig);
 
-    grunt.registerTask('default', []);
+    grunt.registerTask('default', ['build']);
+
     grunt.registerTask('build', [
-        'default',
+        'jshint',
         'clean',
         'copy',
         'replace',
+        // todo: Uncomment ngAnnotate when fix support of ES6
         // 'ngAnnotate',
         'html2js',
         'less'
-        //'concat',
     ]);
 };

@@ -9,21 +9,61 @@ It allows to:
 
 ## Functionality
 
-See: [doc/functionality.md](doc/functionality.md)
+See: [doc/functionality.md](doc/functionality.md).
 
 ## Technical
 
 ### Requirements
 
-- Node.js
+**With Docker:**
+
+- docker
+- docker-compose
+
+**Without Docker:**
+
+- Node.js + npm
 - Mongodb
 
 ### Installation
 
+**With Docker:**
+
 ```
 docker-compose build
 docker-compose up -d
+sudo docker-compose exec node-client ./node_modules/grunt/bin/grunt build
 ```
+
+You can also run `grunt watch` with the following command:
+
+```
+sudo docker-compose exec node-client ./node_modules/grunt/bin/grunt watch
+```
+
+You can now visit [http://localhost:3030](http://localhost:3030).
+
+**Without Docker:**
+
+1. Build client with grunt
+```
+./app/node_modules/grunt/bin/grunt build --gruntfile=app/Gruntfile.js
+```
+2. Run server:
+```
+node ./app/bin/www ../server 3001
+```
+3. Run client:
+```
+node ./app/bin/www ../client 3000
+```
+
+You can now visit [http://localhost:3000](http://localhost:3000).
+
+### Grant tasks
+
+See: [doc/grunt.md](doc/grunt.md).
+
 ### Modularity problems
 
 1. Include .less files from client packages.

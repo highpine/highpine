@@ -13,7 +13,13 @@ module.exports = {
 
     clientJs: {
         files: ['client/src/**/*.js'],
-        tasks: ['jshint:client', 'copy:clientJs', 'replace', 'ngAnnotate']
+        tasks: [
+            'jshint:client',
+            'copy:clientJs',
+            'replace',
+            // todo: Uncomment ngAnnotate when fix support of ES6
+            // 'ngAnnotate'
+        ]
     },
     clientTpl: {
         files: ['client/src/**/*.tpl.html'],
@@ -25,6 +31,6 @@ module.exports = {
     },
     vendor: {
         files: ['package.json', 'grunt.meta.js'],
-        tasks: ['copy:vendor']
+        tasks: ['copy:clientVendor']
     }
 };
