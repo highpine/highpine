@@ -1,7 +1,17 @@
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
 let ApiError = require('./api-error');
+let BasicApiModel = require('./basic-api-model');
 
 /**
  * @param {object} mongooseModel Mongoose model.
+ * @param {object} apiModel API model.
  * @param {boolean} get
  * @param {boolean} list
  * @param {boolean} create
@@ -9,6 +19,7 @@ let ApiError = require('./api-error');
  * @param {boolean} remove
  */
 function createResourceRouter(mongooseModel,
+                              apiModel = null,
                               get = true,
                               list = true,
                               create = true,
@@ -16,11 +27,12 @@ function createResourceRouter(mongooseModel,
                               remove = true) {
 
     let router = require('express').Router();
+    if (!apiModel) {
+        apiModel = new BasicApiModel;
+    }
 
     router.param('documentId', function (req, res, next, id) {
-        let queryParams = typeof mongooseModel.getIdQuery === "function" ?
-            mongooseModel.getIdQuery(id, req) :
-            {_id: id};
+        let queryParams = apiModel.getIdQuery(id, req);
         let query = mongooseModel.findOne(queryParams);
         if (req.query.populate) {
             query.populate(req.query.populate);
@@ -48,7 +60,7 @@ function createResourceRouter(mongooseModel,
                     return next(err);
                 }
                 res.json(documents.map(function (document) {
-                    return document.toObject();
+                    return apiModel.toPlainObject(document);
                 }));
             });
         });
@@ -70,7 +82,7 @@ function createResourceRouter(mongooseModel,
 
     if (get) {
         router.get('/:documentId', function (req, res) {
-            res.json(req.document.toObject());
+            res.json(apiModel.toPlainObject(req.document));
         });
     }
 
@@ -117,14 +129,15 @@ function createResourceRouter(mongooseModel,
 
 /**
  * @param {object} mongooseModel Mongoose model.
+ * @param {object} apiModel Api model.
  * @param {boolean} get
  * @param {boolean} list
  * @param {boolean} create
  * @param {boolean} update
  * @param {boolean} remove
  */
-function ApiResource(mongooseModel, get = true, list = true, create = true, update = true, remove = true) {
-    this.router = createResourceRouter(mongooseModel, get, list, create, update, remove);
+function ApiResource(mongooseModel, apiModel = null, get = true, list = true, create = true, update = true, remove = true) {
+    this.router = createResourceRouter(mongooseModel, apiModel, get, list, create, update, remove);
 }
 
 module.exports = ApiResource;

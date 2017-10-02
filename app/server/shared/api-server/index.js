@@ -1,8 +1,16 @@
-var helper = require('./helper');
-var errorHandler = require('./error-handler');
-var ApiError = require('./api-error');
-var ApiResource = require('./resource');
-var passport = require('passport');
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
+let errorHandler = require('./error-handler');
+let ApiError = require('./api-error');
+let ApiResource = require('./resource');
+let BasicApiModel = require('./basic-api-model');
+// let passport = require('passport');
 
 /**
  * Setup component.
@@ -24,6 +32,6 @@ module.exports.setup = function(app, env) {
     });
 };
 
-module.exports.helper = helper;
 module.exports.ApiError = ApiError;
 module.exports.ApiResource = ApiResource;
+module.exports.BasicApiModel = BasicApiModel;

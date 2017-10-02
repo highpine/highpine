@@ -6,11 +6,14 @@
  * @license   https://opensource.org/licenses/MIT  MIT License
  */
 
-let Project = require('./models/project');
 let BasicApiModel = require('shared/api-server').BasicApiModel;
-let ApiResource = require('shared/api-server').ApiResource;
 
-module.exports = {
-    projects: (new ApiResource(Project, new BasicApiModel({ versionKey: false }))).router
-};
+class ProfileApiModel extends BasicApiModel {
+    construct (toObjectOptions) {
+        this.toObjectOptions = toObjectOptions || {
+            versionKey: false
+        };
+    }
+}
 
+module.exports = ProfileApiModel;

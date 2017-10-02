@@ -1,29 +1,48 @@
 /**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
+/**
  * Person component schemas.
  */
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let personSchema = new Schema({
-    first_name: String,
-    last_name: String,
-    jira_id: String,
-    email: String,
-    username: String,
-    password_hash: String,
-    hash_salt: String,
-    auth_tokens: Object,
-    avatar: String,
-    account_completed: Boolean
-});
-
-personSchema.set('toObject', {
-    versionKey: false,
-    transform: function (doc, plain, options) {
-        delete plain.password_hash;
-        delete plain.hash_salt;
-        delete plain.auth_tokens;
-        return plain;
+    username: {
+        type: String,
+        required: true
+    },
+    first_name: {
+        type: String
+    },
+    last_name: {
+        type: String
+    },
+    jira_id: {
+        type: String
+    },
+    email: {
+        type: String
+    },
+    password_hash: {
+        type: String
+    },
+    hash_salt: {
+        type: String
+    },
+    auth_tokens: {
+        type: Object
+    },
+    avatar: {
+        type: String
+    },
+    account_completed: {
+        type: Boolean
     }
 });
 
@@ -38,7 +57,7 @@ personSchema.virtual('full_name')
         if (typeof name !== 'string') {
             return;
         }
-        [this.first_name, this.last_name] = name.split(' ');
+        [this.first_name, this.last_name] = name.split(' ', 2);
     });
 
 personSchema.virtual('password')
@@ -56,14 +75,6 @@ function generateHashSalt() {
     return '' + Math.random();  // todo: add real hashing
 }
 
-personSchema.statics.getIdQuery = function(id) {
-    if (id.charAt(0) === '@') {
-        return { username: id.substr(1) };
-    } else {
-        return { _id: id };
-    }
-};
-
 personSchema.statics.findByUsername = function(username, callback) {
     return this.findOne({ username: username }, callback);
 };
@@ -72,4 +83,4 @@ personSchema.methods.passwordIsValid = function (password) {
     return this.password_hash === hashPassword(password, this.hash_salt);
 };
 
-module.exports.Person = mongoose.model('Person', personSchema);
+module.exports = mongoose.model('Person', personSchema);

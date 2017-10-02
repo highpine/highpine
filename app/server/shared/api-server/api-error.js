@@ -1,15 +1,21 @@
-function ApiError(message) {
-    this.message = message;
-    this.stack = Error().stack;
-}
-ApiError.prototype = Object.create(Error.prototype);
-ApiError.prototype.name = "ApiError";
-ApiError.prototype.constructor = ApiError;
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
 
-ApiError.withStatusCode = function(statusCode, message) {
-    var apiError = new ApiError(message);
-    apiError.status = statusCode;
-    return apiError;
-};
+class ApiError {
+    constructor(message) {
+        this.message = message;
+        this.stack = Error().stack;
+    }
+    static withStatusCode (statusCode, message) {
+        let apiError = new ApiError(message);
+        apiError.status = statusCode;
+        return apiError;
+    };
+}
 
 module.exports = ApiError;

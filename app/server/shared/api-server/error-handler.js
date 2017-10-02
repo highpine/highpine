@@ -1,3 +1,11 @@
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
 module.exports = function(environment) {
     let isDevMode = environment === 'development';
     return function(err, req, res, next) {
