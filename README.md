@@ -32,30 +32,29 @@ See: [doc/functionality.md](doc/functionality.md).
 ```
 docker-compose build
 docker-compose up -d
-sudo docker-compose exec node-client ./node_modules/grunt/bin/grunt build
+sudo docker-compose exec node-client ./node_modules/.bin/grunt build
 ```
 
 You can also run `grunt watch` with the following command:
 
 ```
-sudo docker-compose exec node-client ./node_modules/grunt/bin/grunt watch
+sudo docker-compose exec node-client ./node_modules/.bin/grunt watch
 ```
 
 You can now visit [http://localhost:3030](http://localhost:3030).
 
 **Without Docker:**
 
-1. Build client with grunt
 ```
-./app/node_modules/grunt/bin/grunt build --gruntfile=app/Gruntfile.js
-```
-2. Run server:
-```
-node ./app/bin/www ../server 3001
-```
-3. Run client:
-```
-node ./app/bin/www ../client 3000
+cd app
+# Install dependencies
+npm install
+# Build client with grunt
+./node_modules/.bin/grunt build
+# Run server
+node ./bin/www ../server 3001
+# Run client
+node ./bin/www ../client 3000
 ```
 
 You can now visit [http://localhost:3000](http://localhost:3000).

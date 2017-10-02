@@ -1,18 +1,12 @@
 version: "3"
 services:
-  node-client:
-    build:
-      context: .
-      dockerfile: "./docker/nodejs.dockerfile"
-    volumes:
-        - "./app:/src/app"
+
+  mongo:
+    image: mongo:latest
     ports:
-      - "3030:3000"
-    depends_on:
-      - node-server
-    links:
-      - node-server
-    command: nodemon --legacy-watch ./bin/www ../client 3000
+      - "27017"
+    volumes:
+      - ./docker/mongo/data:/data/db
 
   node-server:
     build:
@@ -26,11 +20,18 @@ services:
       - mongo
     links:
       - mongo
-    command: nodemon --legacy-watch ./bin/www ../server 3001
+    command: bash -c "npm install && nodemon --legacy-watch ./bin/www ../server 3001"
 
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017"
+  node-client:
+    build:
+      context: .
+      dockerfile: "./docker/nodejs.dockerfile"
     volumes:
-      - ./docker/mongo/data:/data/db
+        - "./app:/src/app"
+    ports:
+      - "3030:3000"
+    depends_on:
+      - node-server
+    links:
+      - node-server
+    command: bash -c "./node_modules/.bin/grunt build && nodemon --legacy-watch ./bin/www ../client 3000"
