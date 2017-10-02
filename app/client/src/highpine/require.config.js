@@ -4,7 +4,7 @@ define([], function() {
             'angular-route': '/vendor/angular-route/angular-route.min',
             'angular-resource': '/vendor/angular-resource/angular-resource.min',
             'angular-messages': '/vendor/angular-messages/angular-messages.min',
-            'angular-ui-router': '/vendor/angular-ui-router/release/angular-ui-router.min',
+            'angular-ui-router': '/vendor/@uirouter/angularjs/release/angular-ui-router.min',
             'ngstorage': '/vendor/ngstorage/ngStorage.min',
             'async': '/vendor/async/lib/async',
             'moment': '/vendor/moment/moment',
