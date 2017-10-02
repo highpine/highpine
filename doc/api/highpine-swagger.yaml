@@ -1,0 +1,184 @@
+swagger: '2.0'
+info:
+  description: Highpine API
+  version: 1.0.0
+  title: Highpine API
+  contact:
+    email: gopeyx@gmail.com
+
+host: localhost:3031
+basePath: /api
+schemes:
+  - http
+ 
+paths:
+  /projects:
+    get:
+      summary: List projects
+      operationId: listProjects
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: populate
+        description: Pass the linked objects names to populate them.
+        required: false
+        type: string
+      responses:
+        200:
+          description: Projects list
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Project'
+        500:
+          description: Internal error
+          schema:
+              $ref: '#/definitions/ErrorResponse'
+    post:
+      summary: Add a project
+      operationId: addProject
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: project
+        description: Project to add
+        schema:
+          $ref: '#/definitions/Project'
+      responses:
+        201:
+          description: Project created
+#        400:
+#          description: Invalid input, object invalid
+        500:
+          description: Internal error
+          schema:
+              $ref: '#/definitions/ErrorResponse'
+  /projects/{projectId}:
+    get:
+      summary: Get project details
+      operationId: getProject
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: projectId
+        description: ID of the project to view
+        required: true
+        type: string
+      responses:
+        200:
+          description: Project details
+          schema:
+            $ref: '#/definitions/Project'
+        404:
+          description: Project not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Internal error
+    put:
+      summary: Edit a project
+      operationId: editProject
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: projectId
+        description: ID of the project to edit
+        required: true
+        type: string
+      - in: body
+        name: project
+        description: Project data to set
+        schema:
+          $ref: '#/definitions/Project'
+      responses:
+        200:
+          description: Project changed
+          schema:
+            $ref: '#/definitions/Project'
+        404:
+          description: Project not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Internal error
+    delete:
+      summary: Delete a project
+      operationId: deleteProject
+      produces:
+      - application/json
+      parameters:
+        - in: path
+          name: projectId
+          description: ID of the project to delete
+          required: true
+          type: string
+      responses:
+        200:
+          description: Project deleted
+          schema:
+            $ref: '#/definitions/Project'
+        404:
+          description: Project not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Internal error
+definitions:
+  Project:
+    type: object
+    required:
+    - name
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      jira_id:
+        type: string
+      desired_number_of_assignees:
+        type: string
+      assignees:
+        type: array
+        items:
+          $ref: '#/definitions/Person'
+  Person:
+    required:
+    - username
+    properties:
+      _id:
+        type: string
+      username:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      email:
+        type: string
+        format: email
+      password_hash:
+        type: string
+      hash_salt:
+        type: string
+      auth_tokens:
+        type: object
+      avatar:
+        type: string
+      account_completed:
+        type: boolean
+  BasicResponse:
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    properties:
+      message:
+        type: string
