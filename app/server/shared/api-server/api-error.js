@@ -6,8 +6,9 @@
  * @license   https://opensource.org/licenses/MIT  MIT License
  */
 
-class ApiError {
-    constructor(message) {
+class ApiError extends Error {
+    constructor(message, id) {
+        super(message, id);
         this.message = message;
         this.stack = Error().stack;
     }
