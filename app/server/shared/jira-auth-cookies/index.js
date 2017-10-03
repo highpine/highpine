@@ -1,5 +1,13 @@
-let passportStrategyJiraCookies = require('./passport-strategy-jira-cookies');
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
 let passport = require('passport');
+let jiraCookiesPassportStrategy = require('./passport-strategy');
 
 /**
  * Setup component.
@@ -7,5 +15,5 @@ let passport = require('passport');
  * @param {Object}   env Environment variables.
  */
 module.exports.setup = function(app, env) {
-    passport.use(passportStrategyJiraCookies);
+    passport.use(jiraCookiesPassportStrategy);
 };
