@@ -10,9 +10,14 @@ module.exports = {
             livereload: false
         }
     },
-
+    serverJs: {
+        files: ['server/**/*.js'],
+        tasks: [
+            'jshint:server',
+        ]
+    },
     clientJs: {
-        files: ['client/src/**/*.js'],
+        files: ['client/**/*.js'],
         tasks: [
             'jshint:client',
             'copy:clientJs',
