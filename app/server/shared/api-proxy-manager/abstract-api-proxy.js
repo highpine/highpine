@@ -1,103 +1,116 @@
-var url = require('url');
-var querystring = require('querystring');
-var request = require('request');
-
 /**
- * Abstract Api Proxy.
+ * Copyright © 2017 Highpine. All rights reserved.
  *
- * @param {string} serviceUrl - Fecru base URL.
- * @param {string} mountPath - Proxy mount path. Will be cut off from the request url.
- * @constructor
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
  */
-var AbstractApiProxy = function (serviceUrl, mountPath) {
 
-    this.urlOptions = url.parse(serviceUrl);
-    this.mountPath = mountPath;
+let url = require('url');
+let querystring = require('querystring');
+let request = require('request');
 
-    this.proxyHeaderPrefix = 'X-Api-Proxy-';
-    this.headersPreset = {};
+class AbstractApiProxy {
+    constructor(serviceUrl, mountPath) {
+        this.urlOptions = url.parse(serviceUrl);
+        this.mountPath = mountPath;
 
-    this.strictSSL = true;
-    this.debugMode = false;
-    this.userToken = null;
-};
+        this.proxyHeaderPrefix = 'X-Api-Proxy-';
+        this.headersPreset = {};
 
-(function () {
+        this.strictSSL = true;
+        this.debugMode = false;
+        this.userToken = null;
+    }
 
-    this.setUserToken = function (token) {
+    setUserToken(token) {
         this.userToken = token;
-    };
+    }
 
-    this.getUserToken = function () {
+    getUserToken() {
         return this.userToken;
-    };
+    }
 
-    this.setStrictSSL = function (strictSSL) {
+    setStrictSSL(strictSSL) {
         this.strictSSL = !!strictSSL;
-    };
+    }
 
-    this.setDebugMode = function (debugMode) {
+    setDebugMode(debugMode) {
         this.debugMode = !!debugMode;
-    };
+    }
 
     /**
-     * Proxy headers matching starting with "X-Jira-Proxy-" from original request to Jira Api.
-     * @param {object} originalHeaders
-     * @returns {object}
+     * Proxy headers matching starting with "X-Api-Proxy-" from original request to Jira Api.
+     * You may change this.proxyHeaderPrefix to adjust the prefix value.
+     *
+     * @param {Object} originalHeaders
+     * @returns {Object}
      */
-    this.proxyHeaders = function (originalHeaders) {
-        var proxyHeaderPrefix = this.proxyHeaderPrefix;
+    proxyHeaders(originalHeaders) {
+        let proxyHeaderPrefix = this.proxyHeaderPrefix;
         return Object.keys(originalHeaders).reduce(function (previous, originalHeaderKey) {
             if (originalHeaderKey.indexOf(proxyHeaderPrefix) === 0) {
-                var headerKey = originalHeaderKey.substring(proxyHeaderPrefix.length);
+                let headerKey = originalHeaderKey.substring(proxyHeaderPrefix.length);
                 previous[headerKey] = originalHeaders[originalHeaderKey];
             }
             return previous;
         }, this.headersPreset);
-    };
+    }
 
-    this.proxyParams = function (originalParams) {
+    proxyParams(originalParams) {
         return originalParams;
-    };
+    }
 
-    this.proxyMethod = function (originalMethod) {
+    proxyMethod(originalMethod) {
         return originalMethod;
-    };
+    }
 
-    this.proxyUrl = function (originalUrl) {
-        var remotePath = this.getRemoteApiPath(originalUrl);
-        var relativeUrl = this.getRelativeUrl(originalUrl);
-        var uri = url.format({
+    proxyUrl(originalUrl) {
+        let remotePath = this.getRemoteApiPath(originalUrl);
+        let relativeUrl = this.getRelativeUrl(originalUrl);
+        let uri = url.format({
             protocol: this.urlOptions.protocol,
             hostname: this.urlOptions.hostname,
             port: this.urlOptions.port,
             pathname: remotePath + relativeUrl
         });
         return decodeURIComponent(uri);
-    };
+    }
 
     /**
-     * @abstract
+     * Get remote api path basing on the requested URL.
+     *
+     * @param {String} originalUrl
      * @returns {string}
+     * @abstract
      */
-    this.getRemoteApiPath = function() {
+    getRemoteApiPath(originalUrl) {
         return '';
-    };
+    }
 
-    this.getRelativeUrl = function (originalUrl) {
+    getRelativeUrl(originalUrl) {
         return originalUrl.replace(this.mountPath, '');
-    };
+    }
 
     /**
+     * Inject user token to the relayed request options in an API-specific way.
+     *
+     * @param {Object} options Relayed request options
+     * @return {Object} Modified options
      * @abstract
-     * @param options
      */
-    this.authorizeRequest = function (options) {
+    authorizeRequest(options) {
         // Normally add this.getUserToken() to options somehow.
-    };
+    }
 
-    this.relay = function (request, callback) {
-        var options = {};
+    /**
+     * Relay the Express request object to the API.
+     *
+     * @param {Object} request Express request object
+     * @param {Function} callback
+     */
+    relay(request, callback) {
+        let options = {};
         options.url = this.proxyUrl(request.originalUrl || request.url);
         options.method = this.proxyMethod(request.method);
 
@@ -112,13 +125,19 @@ var AbstractApiProxy = function (serviceUrl, mountPath) {
         }
 
         this.request(options, callback);
-    };
+    }
 
-    this.request = function (options, callback) {
+    /**
+     * Make a request to the proxied API providing a list of options.
+     *
+     * @param {Object} options
+     * @param {Function} callback
+     */
+    request(options, callback) {
         options.rejectUnauthorized = this.strictSSL;
         this.authorizeRequest(options);
 
-        var debugMode = this.debugMode;
+        let debugMode = this.debugMode;
         if (debugMode) {
             console.log('Requesting:', options);
         }
@@ -127,8 +146,7 @@ var AbstractApiProxy = function (serviceUrl, mountPath) {
             //debugMode && console.log(error, response && response.statusCode, body);
             callback(error, response, body);
         });
-    };
-
-}).call(AbstractApiProxy.prototype);
+    }
+}
 
 module.exports = AbstractApiProxy;

@@ -1,7 +1,15 @@
-let passportStrategyJiraOauthFactory = require('./passport-strategy-jira-oauth').OAuthStrategyFactory;
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
 let passport = require('passport');
-let routes = require('./routes');
 let fs = require('fs');
+let routes = require('./routes');
+let jiraOauthPassportStrategyFactory = require('./passport-strategy-factory');
 
 /**
  * Setup component.
@@ -10,7 +18,11 @@ let fs = require('fs');
  */
 module.exports.setup = function(app, env) {
     app.use('/jira-auth', routes);
+
+    let jiraBaseUrl = env.JIRA_URL;
     let consumerKey = env.JIRA_OAUTH_CONSUMER_KEY;
     let consumerSecret = fs.readFileSync(env.JIRA_OAUTH_CONSUMER_SECRET_PATH, 'utf8');
-    passport.use(passportStrategyJiraOauthFactory(env.JIRA_URL, consumerKey, consumerSecret));
+    passport.use(
+        jiraOauthPassportStrategyFactory(jiraBaseUrl, consumerKey, consumerSecret)
+    );
 };

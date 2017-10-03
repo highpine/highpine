@@ -1,9 +1,17 @@
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
 let OAuthStrategy = require('passport-oauth').OAuthStrategy;
-let DataServicesManager = require('shared/data-services-manager').manager;
+let DataServicesRegistry = require('shared/data-services-manager').registry;
 let BadResponseError = require('shared/api-client').BadResponseError;
 let Person = require('shared/person').models.Person;
 
-let jira = DataServicesManager.getService('jira');
+let JiraDataService = DataServicesRegistry.get('jira');
 
 function loadCurrentJiraUser(authorizedProxy, callback) {
     return authorizedProxy.request({
@@ -11,9 +19,11 @@ function loadCurrentJiraUser(authorizedProxy, callback) {
         json: true
     }, callback);
 }
+
 function findPersonByUsername(username, callback) {
     return Person.findByUsername(username, callback);
 }
+
 function createPersonFromJiraUser(jiraUser) {
     return new Person({
         full_name: jiraUser.displayName,
@@ -23,7 +33,7 @@ function createPersonFromJiraUser(jiraUser) {
     });
 }
 
-module.exports.OAuthStrategyFactory = function(jiraBaseUrl, consumerKey, consumerSecret) {
+module.exports = function(jiraBaseUrl, consumerKey, consumerSecret) {
     return new OAuthStrategy({
             consumerKey: consumerKey,
             consumerSecret: consumerSecret,
@@ -39,8 +49,10 @@ module.exports.OAuthStrategyFactory = function(jiraBaseUrl, consumerKey, consume
                 accessToken: accessToken,
                 accessTokenSecret: accessTokenSecret
             };
-            let proxy = jira.getProxyRegistry().withToken(token);
-            loadCurrentJiraUser(proxy, function(error, response, body) {
+            let jiraProxyRegistry = JiraDataService.getProxyRegistry();
+            jiraProxyRegistry.registerToken(token);
+
+            loadCurrentJiraUser(jiraProxyRegistry.withToken(token), function(error, response, user) {
                 if (error) {
                     return done(error);
                 }
@@ -48,12 +60,12 @@ module.exports.OAuthStrategyFactory = function(jiraBaseUrl, consumerKey, consume
                     return done(BadResponseError.withStatusCode(
                         response.statusCode, 'Failed retrieving logged in user information.'));
                 }
-                findPersonByUsername(body.name, function(err, person) {
+                findPersonByUsername(user.name, function(err, person) {
                     if (err) {
                         return done(err);
                     }
                     if (!person) {
-                        person = createPersonFromJiraUser(body);
+                        person = createPersonFromJiraUser(user);
                         person.set('account_completed', false);
                     }
                     person.set('auth_tokens.jira', token);

@@ -1,55 +1,57 @@
-var querystring = require('querystring');
-
 /**
- * Jira Api Proxy Registry.
+ * Copyright © 2017 Highpine. All rights reserved.
  *
- * @param {function} proxyFactory - Api Proxy factory
- * @constructor
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
  */
-var ApiProxyRegistry = function (proxyFactory) {
 
-    var anonymous;
-    var proxiesRegistry = {};
+const anonymous = Symbol('Anonymous property key');
+const registry = Symbol('Registry property key');
 
-    function authorizedProxyFactory(token) {
-        var proxy = proxyFactory();
-        proxy.setUserToken(token);
-        return proxy;
+class ApiProxyRegistry {
+    constructor(proxyFactory) {
+        this[anonymous] = null;
+        this[registry] = new Map();
+        this.factory = proxyFactory;
     }
 
-    function getTokenHash(token) {
-        return querystring.stringify(token);
-    }
-
-    this.anonymous = function () {
-        if (!anonymous) {
-            anonymous = proxyFactory();
+    anonymous() {
+        if (!this[anonymous]) {
+            this[anonymous] = this.factory();
         }
-        return anonymous;
-    };
+        return this[anonymous];
+    }
 
-    this.withToken = function (token) {
+    withToken(token) {
         if (!token) {
             return this.anonymous();
         }
         this.registerToken(token);
-        var tokenHash = getTokenHash(token);
-        return proxiesRegistry[tokenHash];
-    };
+        let tokenHash = this.constructor.getTokenHash(token);
+        return this[registry].get(tokenHash);
+    }
 
-    this.registerToken = function (token) {
-        var tokenHash = getTokenHash(token);
-        if (!(tokenHash in proxiesRegistry)) {
-            proxiesRegistry[tokenHash] = authorizedProxyFactory(token);
+    registerToken(token) {
+        let tokenHash = this.constructor.getTokenHash(token);
+        if (!this[registry].has(tokenHash)) {
+            this[registry].set(tokenHash, this.createAuthorizedProxy(token));
         }
-    };
+    }
 
-    this.dropToken = function (token) {
-        var tokenHash = getTokenHash(token);
-        if (tokenHash in proxiesRegistry) {
-            delete proxiesRegistry[tokenHash];
-        }
-    };
-};
+    dropToken(token) {
+        this[registry].delete(this.constructor.getTokenHash(token));
+    }
+
+    createAuthorizedProxy(token) {
+        let proxy = this.factory();
+        proxy.setUserToken(token);
+        return proxy;
+    }
+
+    static getTokenHash(token) {
+        return JSON.stringify(token);
+    }
+}
 
 module.exports = ApiProxyRegistry;

@@ -1,4 +1,11 @@
-let auth = require('shared/auth');
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
 let express = require('express');
 let router = express.Router();
 let passport = require('passport');

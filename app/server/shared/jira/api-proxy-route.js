@@ -1,9 +1,17 @@
-var express = require('express');
-var router = express.Router();
-var DataServicesManager = require('shared/data-services-manager').manager;
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
+let express = require('express');
+let router = express.Router();
+let DataServicesManager = require('shared/data-services-manager').manager;
 
 function getAuthorizedProxy(user) {
-    var jiraProxyRegistry = DataServicesManager.getService('jira').getProxyRegistry();
+    let jiraProxyRegistry = DataServicesManager.getService('jira').getProxyRegistry();
     return jiraProxyRegistry.withToken(user.auth_tokens.jira);
 }
 

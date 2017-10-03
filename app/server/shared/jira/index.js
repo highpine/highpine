@@ -1,9 +1,17 @@
-var ApiProxyRegistry = require('shared/api-proxy-manager').proxyRegistry;
-var DataServicesManager = require('shared/data-services-manager').manager;
-var proxyRouter = require('./api-proxy-route');
-var ApiProxy = require('./api-proxy');
-var DataService = require('./data-service');
-var fs = require('fs');
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
+let ApiProxyRegistry = require('shared/api-proxy-manager').ApiProxyRegistry;
+let DataServicesRegistry = require('shared/data-services-manager').registry;
+let proxyRouter = require('./api-proxy-route');
+let ApiProxy = require('./api-proxy');
+let JiraDataService = require('./data-service');
+let fs = require('fs');
 
 /**
  * Setup component.
@@ -12,27 +20,30 @@ var fs = require('fs');
  */
 module.exports.setup = function(app, env) {
 
-    var jiraUrl = env.JIRA_URL;
-    var jiraApiVersion = env.JIRA_API_VERSION;
-    var jiraAuthVersion = env.JIRA_AUTH_VERSION;
-    var useStrictSsl = env.JIRA_API_PROXY_USE_STRICT_SSL === 'yes';
-    var debugMode = env.JIRA_API_PROXY_DEBUG_MODE === 'yes';
-    var jiraOauthConfig = {
+    let proxyMountPath = '/api/proxy/jira';
+
+    let jiraUrl         = env.JIRA_URL;
+    let jiraApiVersion  = env.JIRA_API_VERSION;
+    let jiraAuthVersion = env.JIRA_AUTH_VERSION;
+    let useStrictSsl    = env.JIRA_API_PROXY_USE_STRICT_SSL === 'yes';
+    let debugMode       = env.JIRA_API_PROXY_DEBUG_MODE === 'yes';
+    let jiraOauthConfig = {
         consumer_key: env.JIRA_OAUTH_CONSUMER_KEY,
         consumer_secret: fs.readFileSync(env.JIRA_OAUTH_CONSUMER_SECRET_PATH, 'utf8'),
     };
 
-    var proxyMountPath = '/api/proxy/jira';
-
-    var jiraApiProxyRegistry = new ApiProxyRegistry(function() {
-        var instance = new ApiProxy(jiraUrl, proxyMountPath, jiraApiVersion, jiraAuthVersion, jiraOauthConfig);
+    let jiraApiProxyFactory = function() {
+        let instance = new ApiProxy(jiraUrl, proxyMountPath, jiraApiVersion, jiraAuthVersion, jiraOauthConfig);
         instance.setStrictSSL(useStrictSsl);
         instance.setDebugMode(debugMode);
         return instance;
-    });
-    DataServicesManager.register(new DataService(jiraApiProxyRegistry));
+    };
+    let jiraApiProxyRegistry = new ApiProxyRegistry(jiraApiProxyFactory);
+
+    DataServicesRegistry.register(new JiraDataService(jiraApiProxyRegistry));
+
     app.use(proxyMountPath, proxyRouter);
 };
 
 module.exports.ApiProxy = ApiProxy;
-module.exports.dataService = DataService;
+module.exports.dataService = JiraDataService;
