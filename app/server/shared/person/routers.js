@@ -11,5 +11,5 @@ let PersonApiModel = require('./models/person-api');
 let ApiResource = require('shared/api-server').ApiResource;
 
 module.exports = {
-    people: (new ApiResource(Person, new PersonApiModel)).router
+    people: (new ApiResource(Person, new PersonApiModel())).router
 };

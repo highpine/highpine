@@ -72,7 +72,7 @@ let profileSchema = new Schema({
     ],
     karma: {
         type: karmaSchema,
-        default: () => new Karma,
+        default: () => new Karma(),
     }
 });
 

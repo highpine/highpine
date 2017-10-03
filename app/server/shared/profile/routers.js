@@ -11,5 +11,5 @@ let ProfileApiModel = require('./models/profile-api');
 let ApiResource = require('shared/api-server').ApiResource;
 
 module.exports = {
-    profiles: (new ApiResource(Profile, new ProfileApiModel)).router
+    profiles: (new ApiResource(Profile, new ProfileApiModel())).router
 };

@@ -28,7 +28,7 @@ function createResourceRouter(mongooseModel,
 
     let router = require('express').Router();
     if (!apiModel) {
-        apiModel = new BasicApiModel;
+        apiModel = new BasicApiModel();
     }
 
     router.param('documentId', function (req, res, next, id) {

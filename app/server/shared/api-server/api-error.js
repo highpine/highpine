@@ -16,7 +16,7 @@ class ApiError extends Error {
         let apiError = new ApiError(message);
         apiError.status = statusCode;
         return apiError;
-    };
+    }
 }
 
 module.exports = ApiError;
