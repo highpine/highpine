@@ -7,10 +7,12 @@ let passport = require('passport');
 router.post('/login', function(req, res, next) {
     passport.authenticate(req.body.strategy || 'local', function(err, user) {
         if (err || !user) {
+            let errorResponse = { err: err };
+            if (err.message) {
+                errorResponse.message = err.message;
+            }
             res.statusCode = 401;
-            res.json({
-                err: err
-            });
+            res.json(errorResponse);
             return;
         }
         req.logIn(user, function(err) {
