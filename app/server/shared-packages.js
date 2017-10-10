@@ -6,7 +6,8 @@ module.exports = [
     'shared/jira',
     'shared/jira-auth-cookies',
     'shared/jira-auth-oauth',
-    // 'shared/fecru',
+    'shared/fecru',
+    'shared/fecru-auth-token',
     // 'shared/gitlab',
 
     'shared/person',

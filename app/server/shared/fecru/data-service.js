@@ -1,6 +1,57 @@
-var Auth = require('shared/auth');
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
 
-var fecruDataService = {
+let AbstractDataService = require('shared/data-services-manager').AbstractDataService;
+let querystring = require('querystring');
+let Auth = require('shared/auth');
+
+class FecruDataService extends AbstractDataService {
+
+    getKey() {
+        return 'fecru';
+    }
+
+    authorize(username, password, callback) {
+        let anonymousProxy = this.proxyRegistry.anonymous();
+        let options = {
+            url: anonymousProxy.proxyUrl('/rest-service-fecru/auth/login'),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            json: true,
+            body: querystring.stringify({
+                userName: username,
+                password: password
+            })
+        };
+        anonymousProxy.request(options, function (error, apiResponse, body) {
+            if (error) {
+                return callback(error);
+            }
+            if (apiResponse.statusCode !== 200 || !body.token) {
+                let error = new Error(
+                    body.error || 'Fecru authorization failed.'
+                );
+                error.statusCode = apiResponse.statusCode;
+                error.responseBody = body;
+                callback(error);
+                return;
+            }
+
+            callback(null, {
+                token: body.token
+            });
+        });
+    }
+}
+
+var fecruDataService_ = {
     getKey: function() {
         return 'fecru';
     },
@@ -50,4 +101,4 @@ var fecruDataService = {
     }
 };
 
-module.exports = fecruDataService;
+module.exports = FecruDataService;

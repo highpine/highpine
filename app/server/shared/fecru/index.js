@@ -1,9 +1,16 @@
-var ApiProxyManager = require('shared/api-proxy-manager');
-var DataServicesManager = require('shared/data-services-manager').manager;
-var ApiProxy = require('./api-proxy');
-var proxyRouter = require('./api-proxy-route');
-//var dataService = require('./data-service');
-var dataService = require('./data-service-deprecated');
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
+let ApiProxyRegistry = require('shared/api-proxy-manager').ApiProxyRegistry;
+let DataServicesRegistry = require('shared/data-services-manager').registry;
+let proxyRouter = require('./api-proxy-route');
+let FecruApiProxy = require('./api-proxy');
+let FecruDataService = require('./data-service');
 
 /**
  * Setup component.
@@ -12,26 +19,25 @@ var dataService = require('./data-service-deprecated');
  */
 module.exports.setup = function(app, env) {
 
-    var fecruUrl = env.FECRU_URL;
-    var fecruApiVersion = env.FECRU_API_VERSION;
-    var useStrictSsl = env.FECRU_API_PROXY_USE_STRICT_SSL == 'yes';
-    var debugMode = env.FECRU_API_PROXY_DEBUG_MODE == 'yes';
+    let proxyMountPath = '/api/proxy/fecru';
 
-    var proxyMountPath = '/api/proxy/fecru';
+    let fecruUrl        = env.FECRU_URL;
+    let fecruApiVersion = env.FECRU_API_VERSION;
+    let useStrictSsl    = env.FECRU_API_PROXY_USE_STRICT_SSL === 'yes';
+    let debugMode       = env.FECRU_API_PROXY_DEBUG_MODE === 'yes';
 
-    app.set('fecru-proxy-registry', new ApiProxyManager.proxyRegistry(function() {
-        var instance = new ApiProxy(
-            fecruUrl, proxyMountPath, fecruApiVersion, ''
-        );
+    let fecruProxyFactory = function() {
+        let instance = new FecruApiProxy(fecruUrl, proxyMountPath, fecruApiVersion);
         instance.setStrictSSL(useStrictSsl);
         instance.setDebugMode(debugMode);
         return instance;
-    }));
+    };
+    let fecruApiProxyRegistry = new ApiProxyRegistry(fecruProxyFactory);
+
+    DataServicesRegistry.register(new FecruDataService(fecruApiProxyRegistry));
 
     app.use(proxyMountPath, proxyRouter);
-
-    DataServicesManager.register(dataService);
 };
 
-module.exports.ApiProxy = ApiProxy;
-module.exports.dataService = dataService;
+module.exports.FecruApiProxy = FecruApiProxy;
+module.exports.FecruDataService = FecruDataService;
