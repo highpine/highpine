@@ -7,7 +7,7 @@ define([
     return {
         init: function(module) {
             /* @ngInject */
-            module.config(function($stateProvider, $urlRouterProvider) {
+            module.config(function($stateProvider) {
                 $stateProvider
                     .state('login', {
                         url: '/login',
@@ -25,19 +25,17 @@ define([
         },
         run: function(module, $injector) {
             let Auth = $injector.get('Auth');
-            let $rootScope = $injector.get('$rootScope');
-            let $state = $rootScope.$state;
-            $rootScope.$on('$stateChangeStart',
-                function (event, toState, toParams, fromState, fromParams) {
-                    let guestAccessAllowed = toState.data && toState.data.guestAccess;
-                    Auth.verify().then((res) => res, function() {
-                        if (guestAccessAllowed) {
-                            return;
-                        }
-                        $state.go('login');
-                    });
-                }
-            );
+            let $transitions = $injector.get('$transitions');
+            $transitions.onStart({}, transition => {
+                let toState = transition.to();
+                let guestAccessAllowed = toState.data && toState.data.guestAccess;
+                Auth.verify().then((res) => res, function() {
+                    if (guestAccessAllowed) {
+                        return;
+                    }
+                    transition.router.stateService.target('login');
+                });
+            })
         }
     };
 });

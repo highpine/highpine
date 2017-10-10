@@ -1,7 +1,8 @@
 define(['async', 'moment'], function(async, moment) {
     /* @ngInject */
-    function controller($scope, $stateParams, JiraDataService) {
-        var projectKey = $stateParams.key;
+    function controller($scope, $transition$, JiraDataService) {
+        let stateParams = $transition$.params();
+        var projectKey = stateParams.key;
         var jiraApiClient = JiraDataService.getApiClient();
         var dateFormat = 'DD MMM, YYYY';
         $scope.stats = {};

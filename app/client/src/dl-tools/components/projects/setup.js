@@ -4,7 +4,7 @@ define([
 ], function(angularUiRouter, projectsController) {
     return function(module) {
         /* @ngInject */
-        module.config(function($stateProvider, $urlRouterProvider) {
+        module.config(function($stateProvider) {
             $stateProvider
                 .state('projects', {
                     url: '/projects',

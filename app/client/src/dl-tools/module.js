@@ -15,7 +15,7 @@ define([
      * Running the app.
      */
     /* @ngInject */
-    dlTools.run(function ($rootScope, $state, $stateParams, $injector) {
+    dlTools.run(function ($rootScope, $state, $injector) {
 
         $rootScope.document = $rootScope.document || {};
 
@@ -26,7 +26,7 @@ define([
         });
 
         $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;
+        // $rootScope.$stateParams = $transition$.params();
 
         /*
          * Running components.

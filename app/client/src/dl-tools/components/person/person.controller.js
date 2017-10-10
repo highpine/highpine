@@ -3,22 +3,23 @@ define([
     'client-shared-jira'
 ], function() {
     /* @ngInject */
-    function personController($scope, $stateParams, $state, JiraDataService) {
+    function personController($scope, $transition$, $state, JiraDataService) {
 
+        let stateParams = $transition$.params();
         $scope.showJira = true;
         $scope.showFecru = true;
         $scope.showGit = false; // it is slow and produces tens of requests to gitlab API.
 
         $scope.person = null;
-        $scope.username = $stateParams.username;
-        $scope.period = parseInt($stateParams.period) || 0;
+        $scope.username = stateParams.username;
+        $scope.period = parseInt(stateParams.period) || 0;
         if (!$scope.period) {
-            $state.go('person', {username: $stateParams.username, period: 1});
+            $state.go('person', {username: stateParams.username, period: 1});
         }
         $scope.fromDate = getFromDate($scope.period);
 
         JiraDataService.getApiClient().user().get({
-            username: $stateParams.username
+            username: stateParams.username
         }, function(user) {
             $scope.person = user;
             $scope.document.title = user.displayName;
