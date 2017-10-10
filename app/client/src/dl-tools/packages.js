@@ -1,12 +1,17 @@
 define([
     'client-shared-auth',
     'client-shared-alt-auth',
+
     'client-shared-jira',
     'client-shared-jira-alt-auth-cookies',
     'client-shared-jira-alt-auth-oauth',
     'client-shared-jira-user-finder',
+
     'client-shared-fecru',
+    'client-shared-fecru-alt-auth-token',
+
     'client-shared-gitlab',
+
     'client-shared-data-services-manager',
     'client-shared-loading-indicator',
     'client-shared-people',

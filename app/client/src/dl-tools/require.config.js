@@ -7,6 +7,7 @@ define(['highpine/require.config'], function(customizeConfig) {
             'alt-auth',
             'data-services-manager',
             'fecru',
+            'fecru-alt-auth-token',
             'gitlab',
             'jira',
             'jira-alt-auth-cookies',
