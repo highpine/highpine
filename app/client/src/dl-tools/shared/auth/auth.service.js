@@ -2,7 +2,7 @@ define([
     'ngstorage'
 ], function() {
     /* @ngInject */
-    function authService($http, $sessionStorage, BACKEND_URL, UserStorage) {
+    function authService($http, $q, $sessionStorage, BACKEND_URL, UserStorage) {
         return {
             /**
              * @param {object} credentials Normally: { username: username, password: password }
@@ -13,8 +13,9 @@ define([
                     .then(function(response) {
                         UserStorage.update(response.data);
                         return response.data;
-                    }, function() {
+                    }, function(response) {
                         UserStorage.drop();
+                        return $q.reject(response.data);
                     });
             },
             isLoggedIn: function() {
@@ -22,17 +23,20 @@ define([
             },
             logout: function() {
                 return $http.post(BACKEND_URL + '/auth/logout', {})
-                    .then(function(result) {
+                    .then(function(response) {
                         UserStorage.drop();
-                        return result.data;
+                        return response.data;
+                    }, function(response) {
+                        return $q.reject(response.data);
                     });
             },
             verify: function() {
                 return $http.get(BACKEND_URL + '/auth/verify').then(function(response) {
                     UserStorage.update(response.data);
                     return response.data;
-                }, function() {
+                }, function(response) {
                     UserStorage.drop();
+                    return $q.reject(response.data);
                 });
             }
         };
