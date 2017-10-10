@@ -9,7 +9,7 @@
 let ApiProxyRegistry = require('shared/api-proxy-manager').ApiProxyRegistry;
 let DataServicesRegistry = require('shared/data-services-manager').registry;
 let proxyRouter = require('./api-proxy-route');
-let ApiProxy = require('./api-proxy');
+let JiraApiProxy = require('./api-proxy');
 let JiraDataService = require('./data-service');
 let fs = require('fs');
 
@@ -33,7 +33,7 @@ module.exports.setup = function(app, env) {
     };
 
     let jiraApiProxyFactory = function() {
-        let instance = new ApiProxy(jiraUrl, proxyMountPath, jiraApiVersion, jiraAuthVersion, jiraOauthConfig);
+        let instance = new JiraApiProxy(jiraUrl, proxyMountPath, jiraApiVersion, jiraAuthVersion, jiraOauthConfig);
         instance.setStrictSSL(useStrictSsl);
         instance.setDebugMode(debugMode);
         return instance;
@@ -45,5 +45,5 @@ module.exports.setup = function(app, env) {
     app.use(proxyMountPath, proxyRouter);
 };
 
-module.exports.ApiProxy = ApiProxy;
-module.exports.dataService = JiraDataService;
+module.exports.JiraApiProxy = JiraApiProxy;
+module.exports.JiraDataService = JiraDataService;

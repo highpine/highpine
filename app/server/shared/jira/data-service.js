@@ -5,12 +5,10 @@
  * @copyright 2017 Highpine
  * @license   https://opensource.org/licenses/MIT  MIT License
  */
+
 let AbstractDataService = require('shared/data-services-manager').AbstractDataService;
 
 class JiraDataService extends AbstractDataService {
-    constructor(JiraProxyRegistry) {
-        super(JiraProxyRegistry);
-    }
 
     getKey() {
         return 'jira';
@@ -32,7 +30,9 @@ class JiraDataService extends AbstractDataService {
                 return callback(error);
             }
             if (apiResponse.statusCode !== 200 || !body.session) {
-                let error = new Error('Jira authorization failed.');
+                let error = new Error(
+                    body.errorMessages ? body.errorMessages.join("\n") : 'Jira authorization failed.'
+                );
                 error.statusCode = apiResponse.statusCode;
                 error.responseBody = body;
                 callback(error);

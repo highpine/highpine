@@ -8,10 +8,10 @@
 
 let express = require('express');
 let router = express.Router();
-let DataServicesManager = require('shared/data-services-manager').manager;
+let DataServicesRegistry = require('shared/data-services-manager').registry;
 
 function getAuthorizedProxy(user) {
-    let jiraProxyRegistry = DataServicesManager.getService('jira').getProxyRegistry();
+    let jiraProxyRegistry = DataServicesRegistry.get('jira').getProxyRegistry();
     return jiraProxyRegistry.withToken(user.auth_tokens.jira);
 }
 

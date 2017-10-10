@@ -9,7 +9,17 @@
 let AbstractApiProxy = require('shared/api-proxy-manager').AbstractApiProxy;
 let proxyConfig = require('./config.json');
 
+/**
+ * Jira API Proxy.
+ */
 class JiraApiProxy extends AbstractApiProxy {
+    /**
+     * @param {string} serviceUrl - Jira base URL.
+     * @param {string} mountPath - Proxy mount path. Will be cut off from the request url.
+     * @param {string} apiVersion - API version. Optional. Default is 'latest'.
+     * @param {string} authVersion - Auth API version. Optional. Default is 'latest'.
+     * @param {{consumer_key: String, consumer_secret: String}} oauth - Oauth Token
+     */
     constructor(serviceUrl, mountPath, apiVersion, authVersion, oauth) {
         super(serviceUrl, mountPath);
 
