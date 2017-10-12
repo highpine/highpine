@@ -34,7 +34,7 @@ class JiraApiProxy extends AbstractApiProxy {
         this.authorizationStrategies = new Map([
             ['basic', basicAuthorizationStrategy],
             ['cookies', cookiesAuthorizationStrategy],
-            ['oauth', oauthAuthorizationStrategy],
+            ['oauth', oauthAuthorizationStrategyFactory(oauth.consumer_key, oauth.consumer_secret)],
         ]);
     }
 
@@ -74,16 +74,18 @@ function cookiesAuthorizationStrategy(options, userToken) {
     return options;
 }
 
-function oauthAuthorizationStrategy(options, userToken) {
-    options.oauth = {
-        consumer_key: this.oauth.consumer_key,
-        consumer_secret: this.oauth.consumer_secret,
-        signature_method: 'RSA-SHA1',
-        token: userToken.accessToken,
-        token_secret: userToken.accessTokenSecret
-    };
+function oauthAuthorizationStrategyFactory(consumerKey, consumerSecret) {
+    return function oauthAuthorizationStrategy(options, userToken) {
+        options.oauth = {
+            consumer_key: consumerKey,
+            consumer_secret: consumerSecret,
+            signature_method: 'RSA-SHA1',
+            token: userToken.accessToken,
+            token_secret: userToken.accessTokenSecret
+        };
 
-    return options;
+        return options;
+    }
 }
 
 module.exports = JiraApiProxy;
