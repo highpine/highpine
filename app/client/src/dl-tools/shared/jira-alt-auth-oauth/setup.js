@@ -1,5 +1,5 @@
 define([
-    'client-shared-alt-auth'
+    '@shared/alt-auth'
 ], function(altAuth) {
     return {
         init: function(module) {

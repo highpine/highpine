@@ -1,6 +1,6 @@
 define([
     'angular-ui-router',
-    'client-shared-alt-auth',
+    '@shared/alt-auth',
     'dl-tools/components/auth/auth.controller',
     'dl-tools/components/auth/logout-link.directive'
 ], function(angularUiRouter, altAuth, authController, logoutLinkDirective) {

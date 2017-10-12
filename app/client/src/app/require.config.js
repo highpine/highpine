@@ -1,1 +1,0 @@
-define(['dl-tools/require.config'], customizeConfig => baseConfig => customizeConfig(baseConfig));

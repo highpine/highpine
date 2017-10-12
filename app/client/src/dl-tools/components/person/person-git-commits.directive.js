@@ -1,5 +1,5 @@
 define([
-    'client-shared-gitlab'
+    '@shared/gitlab'
 ], function() {
     /* @ngInject */
     function personGitlabCommentsDirective() {

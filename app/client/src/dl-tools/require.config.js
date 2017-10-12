@@ -1,56 +1,17 @@
-define(['highpine/require.config'], function(customizeConfig) {
-    return function(baseConfig) {
-        baseConfig = customizeConfig(baseConfig);
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
 
-        let shared = [
-            'auth',
-            'alt-auth',
-            'data-services-manager',
-            'fecru',
-            'fecru-alt-auth-token',
-            'gitlab',
-            'jira',
-            'jira-alt-auth-cookies',
-            'jira-alt-auth-oauth',
-            'jira-user-finder',
-            'loading-indicator',
-            'people'
-        ].map(function (component) {
-            return {
-                name: 'client-shared-' + component,
-                location: 'dl-tools/shared/' + component,
-                main: 'setup'
-            };
-        });
-
-        let components = [
-            'app',
-            'dashboard',
-            'auth',
-            'person',
-            'profile',
-            'project',
-            'projects'
-        ].map(function (component) {
-            return {
-                name: 'dl-tools-' + component,
-                location: 'dl-tools/components/' + component,
-                main: 'setup'
-            };
-        });
-
-        let vendor = [
-
-        ].map(function(packageName) {
-            return {
-                name: packageName,
-                location: '/vendor/' + packageName,
-                main: 'setup'
-            };
-        });
-
-        baseConfig.packages = [...(baseConfig.packages || []), ...shared, ...components, ...vendor];
-
-        return baseConfig;
-    };
-});
+/**
+ * Will be merged by Grunt into the basic configuration.
+ */
+module.exports = {
+    app: {
+        name: 'dl-tools',
+        path: 'dl-tools/module',
+    },
+};

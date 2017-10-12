@@ -1,29 +1,27 @@
-let baseRequireConfig = {
-    paths: {
-        'angular': '/vendor/angular/angular.min',
-        'bootstrap': '/vendor/bootstrap/dist/js/bootstrap.min',
-        'jquery': '/vendor/jquery/dist/jquery.min',
-    },
-    shim: {
-        'angular': {exports: 'angular'},
-        'bootstrap': ['jquery'],
-    },
-    packages: [],
-    deps: [],
-    map: {}
-};
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
 
-require(['app/require.config'], function(customizeRequireConfig) {
+/**
+ * - 'require.config.compiled.js' will be compiled via Grunt by merging 'require.config.js' files into one.
+ * - 'templates.compiled.js' will be compiled via Grunt from .html templates.
+ */
+require(['require.config.compiled'], function(requireConfig) {
 
-    require.config(customizeRequireConfig(baseRequireConfig));
+    require.config(requireConfig);
 
     require([
         'angular',
         'bootstrap',
-        'app/module'
+        'templates.compiled',
+        requireConfig.app.path,
     ], function(angular) {
         angular.element(document).ready(function() {
-            angular.bootstrap(document, ['app']);
+            angular.bootstrap(document, [requireConfig.app.name]);
         });
     });
 });

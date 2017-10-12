@@ -8,7 +8,10 @@ define([
     'angular-chart',
     'moment',
     'config',
-    'highpine/packages'
+    'highpine/packages-loader'
+
+    // add highpine core packages below
+
 ], function(
     angular,
     ngRoute,
@@ -19,7 +22,8 @@ define([
     angularChart,
     moment,
     config,
-    packages
+    packagesLoader,
+    ...setups
 ) {
     let highpine = angular.module('highpine', [
         'ngRoute',
@@ -49,6 +53,7 @@ define([
     /*
      * Initializing components.
      */
+    let packages = packagesLoader(...setups);
     packages.init(highpine);
 
     /* @ngInject */

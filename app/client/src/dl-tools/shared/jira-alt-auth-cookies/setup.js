@@ -1,5 +1,5 @@
 define([
-    'client-shared-alt-auth',
+    '@shared/alt-auth',
     'dl-tools/shared/jira-alt-auth-cookies/jira-alt-auth-cookies.directive'
 ], function(altAuth, jiraAltAuthCookiesDirective) {
     return function(module) {

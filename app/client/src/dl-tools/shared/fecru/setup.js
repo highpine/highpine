@@ -2,7 +2,7 @@ define([
     './client.service',
     './helper.service',
     './data-service.service',
-    'client-shared-data-services-manager'
+    '@shared/data-services-manager'
 ], function(FecruApiClientFactory, FecruHelperFactory, FecruDataServiceFactory) {
     return {
         init: function(module) {

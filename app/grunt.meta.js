@@ -15,6 +15,7 @@ module.exports = {
             'angular-resource/angular-resource.min.js',
             'angular-resource/angular-resource.min.js.map',
             '@uirouter/angularjs/release/angular-ui-router.min.js',
+            '@uirouter/angularjs/release/angular-ui-router.min.js.map',
             'ngstorage/ngStorage.min.js',
             'bootstrap/dist/js/bootstrap.min.js',
             'async/lib/async.js',

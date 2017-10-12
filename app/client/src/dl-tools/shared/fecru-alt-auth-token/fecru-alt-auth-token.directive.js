@@ -1,5 +1,5 @@
 define([
-    'client-shared-auth'
+    '@shared/auth'
 ], function() {
     /* @ngInject */
     function fecruAltAuthTokenDirective() {

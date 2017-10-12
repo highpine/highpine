@@ -1,6 +1,9 @@
 module.exports = function (grunt) {
 
+    // Load tasks from node_modules
     require('load-grunt-tasks')(grunt);
+    // Load custom tasks from 'grunt/tasks'
+    grunt.loadTasks('./grunt/tasks');
 
     let meta = require('./grunt.meta.js');
     let watchConfig = require('./grunt.watch.js');
@@ -30,11 +33,17 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            build: {
+            beforeBuild: {
                 src: [
                     'public/stylesheets/*',
                     'public/javascripts/*',
                     'public/vendor/*'
+                ]
+            },
+            afterBuild: {
+                src: [
+                    'public/javascripts/**/require.config.js',
+                    'public/javascripts/require.config.packages.compiled.js',
                 ]
             }
         },
@@ -80,7 +89,7 @@ module.exports = function (grunt) {
                     fileFooterString: '});'
                 },
                 src: ['client/**/*.tpl.html'],
-                dest: 'public/javascripts/compiled-templates.js',
+                dest: 'public/javascripts/templates.compiled.js',
                 module: 'compiled-templates'
             },
             // vendor: {
@@ -119,6 +128,41 @@ module.exports = function (grunt) {
             }
         },
 
+        'compile-requirejs-config': {
+            client: {
+                src: [
+                    'client/src/require.config',
+                    'client/src/highpine/require.config',
+                    'client/src/dl-tools/require.config',
+                    'public/javascripts/require.config.packages.compiled'
+                ],
+                dest: 'public/javascripts/require.config.compiled.js'
+            }
+        },
+        'compile-requirejs-packages-map': {
+            all: {
+                files: [{
+                    cwd: 'client/src',
+                    src: ['dl-tools/shared/*'],
+                    namespace: '@shared',
+                    main: 'setup'
+                }, {
+                    cwd: 'client/src',
+                    src: ['dl-tools/components/*'],
+                    namespace: '@dl-tools',
+                    main: 'setup'
+                }, {
+                    cwd: 'node_modules',
+                    src: [
+                        'client-shared-fecru',
+                    ],
+                    pathPrefix: '/vendor/',
+                    main: 'setup'
+                }],
+                destination: 'public/javascripts/require.config.packages.compiled.js'
+            },
+        },
+
         watch: watchConfig
     };
 
@@ -128,12 +172,15 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'jshint',
-        'clean',
+        'clean:beforeBuild',
         'copy',
         'replace',
+        'compile-requirejs-packages-map',
+        'compile-requirejs-config',
         // todo: Uncomment ngAnnotate when fix support of ES6
         // 'ngAnnotate',
         'html2js',
-        'less'
+        'less',
+        'clean:afterBuild',
     ]);
 };

@@ -1,6 +1,6 @@
 define([
     'angular-ui-router',
-    'client-shared-auth'
+    '@shared/auth'
 ], function() {
     /* @ngInject */
     function authController($scope, $rootScope, $location, Auth) {

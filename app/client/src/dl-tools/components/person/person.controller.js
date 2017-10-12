@@ -1,6 +1,6 @@
 define([
     'angular-ui-router',
-    'client-shared-jira'
+    '@shared/jira'
 ], function() {
     /* @ngInject */
     function personController($scope, $transition$, $state, JiraDataService) {

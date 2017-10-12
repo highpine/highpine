@@ -2,7 +2,7 @@ define([
     'dl-tools/shared/jira/client.service',
     'dl-tools/shared/jira/helper.service',
     'dl-tools/shared/jira/data-service.service',
-    'client-shared-data-services-manager'
+    '@shared/data-services-manager'
 ], function(JiraApiClientFactory, JiraHelperFactory, JiraDataServiceFactory) {
     return {
         init: function(module) {

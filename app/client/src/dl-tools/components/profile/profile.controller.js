@@ -1,5 +1,5 @@
 define([
-    'client-shared-jira'
+    '@shared/jira'
 ], function() {
     /* @ngInject */
     function profileController($scope, UserStorage) {

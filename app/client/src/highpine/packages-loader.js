@@ -1,6 +1,4 @@
-define([
-
-], function(...setups) {
+define(() => (...setups) => {
 
     function init(module) {
         setups.forEach(function(setup) {
@@ -27,6 +25,6 @@ define([
     return {
         init: init,
         run: run,
-        dependencies: dependencies
+        angularDependencies: dependencies
     };
 });

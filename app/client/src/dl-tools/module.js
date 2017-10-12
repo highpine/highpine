@@ -1,10 +1,34 @@
 define([
     'angular',
     'highpine/module',
-    'dl-tools/packages'
-], function(angular, highpine, packages, templates, vendorTemplates) {
+    'highpine/packages-loader',
 
-    let dlTools = angular.module('dl-tools', ['highpine',...packages.dependencies]);
+    // add module packages below
+
+    '@shared/auth',
+    '@shared/alt-auth',
+    '@shared/jira',
+    '@shared/jira-alt-auth-cookies',
+    '@shared/jira-alt-auth-oauth',
+    '@shared/jira-user-finder',
+    '@shared/fecru',
+    '@shared/fecru-alt-auth-token',
+    '@shared/gitlab',
+    '@shared/data-services-manager',
+    '@shared/loading-indicator',
+    '@shared/people',
+    '@dl-tools/app',
+    '@dl-tools/dashboard',
+    '@dl-tools/auth',
+    '@dl-tools/profile',
+    '@dl-tools/person',
+    '@dl-tools/project',
+    '@dl-tools/projects'
+
+], function(angular, highpine, packagesLoader, ...setups) {
+
+    let packages = packagesLoader(...setups);
+    let dlTools = angular.module('dl-tools', ['highpine', 'compiled-templates',...packages.angularDependencies]);
 
     /*
      * Initializing components.

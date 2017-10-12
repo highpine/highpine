@@ -1,5 +1,5 @@
 define([
-    'client-shared-fecru'
+    '@shared/fecru'
 ], function() {
     /* @ngInject */
     function personFecruCommentsDirective() {
