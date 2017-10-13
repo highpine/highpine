@@ -1,4 +1,11 @@
 <div class="container">
+
+    <ol class="breadcrumb">
+        <li><a ui-sref="dashboard">Home</a></li>
+        <li><a ui-sref="people">People</a></li>
+        <li class="active">{{ $ctrl.person.displayName }}</li>
+    </ol>
+
     <div data-ng-if="$ctrl.person">
         <div class="media">
             <div class="media-left">
@@ -12,8 +19,8 @@
     </div>
 
     <ul class="nav nav-tabs">
-        <li role="presentation" ui-sref-active="active"><a ui-sref="person.overview">Overview</a></li>
-        <li role="presentation" ui-sref-active="active"><a ui-sref="person.activity">Activity</a></li>
+        <li ui-sref-active="active"><a ui-sref="person.overview">Overview</a></li>
+        <li ui-sref-active="active"><a ui-sref="person.activity">Activity</a></li>
     </ul>
 
     <ui-view></ui-view>

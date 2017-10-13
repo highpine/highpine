@@ -6,10 +6,7 @@ define([
         personComponent
     ) {
         return {
-            dependencies: [
-                'hc.marked'
-            ],
-            init: function(module) {
+            init(module) {
                 /* @ngInject */
                 module.config(function($stateProvider) {
                     $stateProvider

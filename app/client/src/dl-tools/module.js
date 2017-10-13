@@ -21,6 +21,8 @@ define([
     '@dl-tools/dashboard',
     '@dl-tools/auth',
     '@dl-tools/profile',
+    '@dl-tools/people',
+    '@dl-tools/import-people-from-jira',
     '@dl-tools/people-activity',
     '@dl-tools/person',
     '@dl-tools/project',

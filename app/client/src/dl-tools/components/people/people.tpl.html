@@ -1,0 +1,27 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="active">People</li>
+    </ol>
+
+    <h1>People</h1>
+
+    <div class="media" ng-repeat="person in $ctrl.people | filter:filter">
+        <div class="media-left">
+            <img class="media-object" src="" alt="{{ person.displayName }}"
+                 data-ng-src="{{ person.avatar }}">
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">
+                <a ui-sref="person.overview({ username: person.username })">{{ person.full_name }}</a>
+            </h4>
+        </div>
+    </div>
+
+    <div data-ng-if="!$ctrl.people">
+        <p>Unfortunately no people are there yet.</p>
+    </div>
+
+    <import-people-from-jira />
+</div>

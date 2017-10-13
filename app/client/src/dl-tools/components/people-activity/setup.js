@@ -11,7 +11,6 @@ define([
     'angular-ui-router',
     'marked',
     'angular-marked',
-    './people/activity.controller',
     './person/activity.component',
     './person/person-jira-comments.directive',
     './person/person-fecru-comments.directive',
@@ -20,7 +19,6 @@ define([
     angularUiRouter,
     marked,
     angularMarked,
-    peopleActivityController,
     personActivityComponent,
     personJiraCommentsDirective,
     personFecruCommentsDirective,
@@ -32,17 +30,7 @@ define([
         ],
         init(module) {
             /* @ngInject */
-            module.config(function($stateProvider, markedProvider) {
-                $stateProvider
-                    .state('people-activity', {
-                        url: '/people-activity',
-                        templateUrl: 'dl-tools/components/people-activity/people/activity.tpl.html',
-                        controller: 'PeopleActivityController',
-                        data: {
-                            documentTitle: 'People Activity'
-                        }
-                    });
-
+            module.config(function(markedProvider) {
                 // Set markdown options.
                 markedProvider.setOptions({
                     gfm: true,
@@ -51,7 +39,6 @@ define([
                 });
             });
 
-            module.controller('PeopleActivityController', peopleActivityController);
             module.component('personActivity', personActivityComponent);
             module.directive('personJiraComments', personJiraCommentsDirective);
             module.directive('personFecruComments', personFecruCommentsDirective);

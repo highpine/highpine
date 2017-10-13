@@ -35,7 +35,7 @@ define([
                     }
                     transition.router.stateService.target('login');
                 });
-            })
+            });
         }
     };
 });
