@@ -9,18 +9,19 @@
 let BasicApiModel = require('shared/api-server').BasicApiModel;
 
 class PersonApiModel extends BasicApiModel {
-    construct (toObjectOptions) {
-        this.toObjectOptions = toObjectOptions || {
+    constructor(toObjectOptions) {
+        super(toObjectOptions || {
             versionKey: false,
+            virtuals: true,
             transform: function (doc, plain, options) {
                 delete plain.password_hash;
                 delete plain.hash_salt;
                 delete plain.auth_tokens;
                 return plain;
             }
-        };
+        });
     }
-    getIdQuery (id, req) {
+    getIdQuery(id, req) {
         if (id.charAt(0) === '@') {
             return { username: id.substr(1) };
         } else {
