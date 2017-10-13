@@ -10,8 +10,8 @@ define([
          * @returns {{date: Date, dateFormatted: string, body: *, review: {key: *, summary: *}}}
          */
         function convertFecruComment(comment) {
-            var date = new Date(comment.createDate);
-            var id = (typeof comment.permaId == 'object') ? comment.permaId.id : comment.permaId;
+            let date = new Date(comment.createDate);
+            let id = (typeof comment.permaId === 'object') ? comment.permaId.id : comment.permaId;
             return {
                 id: ('' + id).replace('CMT:', ''),
                 date: date,
@@ -26,20 +26,22 @@ define([
 
         return {
             scope: {
-                username: '=',
-                fromDate: '=',
-                toDate: '=',
-                fecruBaseUrl: '='
+                username: '<',
+                fromDate: '<',
+                toDate: '<',
+                fecruBaseUrl: '<'
             },
             /* @ngInject */
             controller: function($scope, FecruHelper) {
-                FecruHelper.getUserComments(
-                    $scope.username, $scope.fromDate, $scope.toDate,
-                    function(comments) {
-                        $scope.comments = comments.map(convertFecruComment);
-                    });
+                $scope.$watchGroup(['username', 'fromDate', 'toDate'], () => {
+                    FecruHelper.getUserComments(
+                        $scope.username, $scope.fromDate, $scope.toDate,
+                        function (comments) {
+                            $scope.comments = comments.map(convertFecruComment);
+                        });
+                });
             },
-            templateUrl: 'dl-tools/components/person/person-fecru-comments.directive.tpl.html'
+            templateUrl: 'dl-tools/components/people-activity/person/person-fecru-comments.directive.tpl.html'
         };
     }
 

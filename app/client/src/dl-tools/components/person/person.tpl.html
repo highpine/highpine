@@ -1,55 +1,20 @@
 <div class="container">
-    <div data-ng-if="person">
+    <div data-ng-if="$ctrl.person">
         <div class="media">
             <div class="media-left">
-                <img class="media-object" src="" alt="{{ person.displayName }}"
-                     data-ng-src="{{ person.avatarUrls['48x48'] }}">
+                <img class="media-object" src="" alt="{{ $ctrl.person.displayName }}"
+                     data-ng-src="{{ $ctrl.person.avatarUrls['48x48'] }}">
             </div>
             <div class="media-body">
-                <h2 class="media-heading">{{ person.displayName }}</h2>
-                <div class="form-inline person-comments-filter">
-                    <strong>Display: </strong>
-                    <div class="checkbox">
-                        <label><input type="checkbox" ng-model="showJira" /> Jira comments</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" ng-model="showFecru"/> Fecru comments</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" ng-model="showGit"/> Git commits</label>
-                    </div>
-                    <br/>
-                    <div class="form-group">
-                        <label for="period">For the last:</label>
-                        <input type="number" min="1" id="period" class="form-control"  ng-model="period"/>
-                            day{{ period > 1 ? 's (including today)' : ' (today)' }}
-                    </div>
-                    <button class="btn btn-primary" ng-click="$state.go('person', {period: period})">Show</button>
-                </div>
+                <h1 class="media-heading">{{ $ctrl.person.displayName }}</h1>
             </div>
         </div>
-
-        <div class="comments-block" ng-if="showJira">
-            <h3>Latest Jira comments</h3>
-            <div data-person-jira-comments
-                 data-jira-base-url="'https://jira.symmetrics.de'"
-                 data-username="username" data-from-date="fromDate"></div>
-        </div>
-
-        <div class="comments-block" ng-if="showFecru">
-            <h3>Latest Fecru comments</h3>
-            <div data-person-fecru-comments
-                 data-fecru-base-url="'https://fecru.symmetrics.de'"
-                 data-username="username" data-from-date="fromDate"></div>
-        </div>
-
-        <!-- todo: MP-CR-287 is not shown in list for 200n days -->
-        <!-- todo: check replies in comments also -->
-        <div class="comments-block" ng-if="showGit">
-            <h3>Latest Git commits</h3>
-            <div data-person-git-commits
-                 data-gitlab-base-url="'https://gitlab.symmetrics.de'"
-                 data-username="username" data-from-date="fromDate"></div>
-        </div>
     </div>
+
+    <ul class="nav nav-tabs">
+        <li role="presentation" ui-sref-active="active"><a ui-sref="person.overview">Overview</a></li>
+        <li role="presentation" ui-sref-active="active"><a ui-sref="person.activity">Activity</a></li>
+    </ul>
+
+    <ui-view></ui-view>
 </div>

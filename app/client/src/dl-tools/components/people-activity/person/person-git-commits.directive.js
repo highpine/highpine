@@ -21,21 +21,23 @@ define([
 
         return {
             scope: {
-                username: '=',
-                fromDate: '=',
-                toDate: '=',
-                gitlabBaseUrl: '='
+                username: '<',
+                fromDate: '<',
+                toDate: '<',
+                gitlabBaseUrl: '<'
             },
             /* @ngInject */
             controller: function($scope, GitlabHelper) {
-                GitlabHelper.getUserCommits(
-                    $scope.username, $scope.fromDate, $scope.toDate,
-                    function(commits) {
-                        $scope.commits = commits.map(convertGitlabCommit)
-                            .filter(commitsFilter);
-                    });
+                $scope.$watchGroup(['username', 'fromDate', 'toDate'], () => {
+                    GitlabHelper.getUserCommits(
+                        $scope.username, $scope.fromDate, $scope.toDate,
+                        function(commits) {
+                            $scope.commits = commits.map(convertGitlabCommit)
+                                .filter(commitsFilter);
+                        });
+                });
             },
-            templateUrl: 'dl-tools/components/person/person-git-commits.directive.tpl.html'
+            templateUrl: 'dl-tools/components/people-activity/person/person-git-commits.directive.tpl.html'
         };
     }
 

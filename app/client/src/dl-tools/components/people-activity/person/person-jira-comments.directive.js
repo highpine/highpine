@@ -10,7 +10,7 @@ define([
          * @returns {{date: Date, dateFormatted: string, body: *, issue: {key: *, summary: (*|string)}}}
          */
         function convertJiraComment(comment) {
-            var date = new Date(comment.updated);
+            let date = new Date(comment.updated);
             return {
                 date: date,
                 dateFormatted: date.toLocaleString(),
@@ -24,21 +24,23 @@ define([
 
         return {
             scope: {
-                username: '=',
-                fromDate: '=',
-                toDate: '=',
-                issueFilter: '=',
-                jiraBaseUrl: '='
+                username: '<',
+                fromDate: '<',
+                toDate: '<',
+                issueFilter: '<',
+                jiraBaseUrl: '<'
             },
             /* @ngInject */
             controller: function($scope, JiraHelper) {
-                JiraHelper.getUserComments(
-                    $scope.username, $scope.fromDate, $scope.toDate, $scope.issueFilter,
-                    function(comments) {
-                        $scope.comments = comments.map(convertJiraComment);
-                    });
+                $scope.$watchGroup(['username', 'fromDate', 'toDate', 'issueFilter'], () => {
+                    JiraHelper.getUserComments(
+                        $scope.username, $scope.fromDate, $scope.toDate, $scope.issueFilter,
+                        function (comments) {
+                            $scope.comments = comments.map(convertJiraComment);
+                        });
+                });
             },
-            templateUrl: 'dl-tools/components/person/person-jira-comments.directive.tpl.html'
+            templateUrl: 'dl-tools/components/people-activity/person/person-jira-comments.directive.tpl.html'
         };
     }
 

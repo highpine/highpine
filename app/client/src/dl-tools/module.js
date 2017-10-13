@@ -21,6 +21,7 @@ define([
     '@dl-tools/dashboard',
     '@dl-tools/auth',
     '@dl-tools/profile',
+    '@dl-tools/people-activity',
     '@dl-tools/person',
     '@dl-tools/project',
     '@dl-tools/projects'
@@ -39,18 +40,19 @@ define([
      * Running the app.
      */
     /* @ngInject */
-    dlTools.run(function ($rootScope, $state, $injector) {
+    dlTools.run(function ($rootScope, $state, $injector, $transitions) {
 
         $rootScope.document = $rootScope.document || {};
 
-        let defaultDocumentTitle = 'Highpine';
+        const defaultDocumentTitle = 'Highpine';
+
         $rootScope.document.title = defaultDocumentTitle;
-        $rootScope.$on('$stateChangeStart', function (event, toState) {
-            $rootScope.document.title = (toState.data ? toState.data.documentTitle : null) || defaultDocumentTitle;
+        $transitions.onStart({}, transition => {
+            let toState = transition.to();
+            $rootScope.document.title = (toState.data && toState.data.documentTitle) || defaultDocumentTitle;
         });
 
         $rootScope.$state = $state;
-        // $rootScope.$stateParams = $transition$.params();
 
         /*
          * Running components.

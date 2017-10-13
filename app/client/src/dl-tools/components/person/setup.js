@@ -1,28 +1,9 @@
-require.config({
-    paths: {
-        'marked': '/vendor/marked/marked.min',
-        'angular-marked': '/vendor/angular-marked/dist/angular-marked.min'
-    },
-    shim: {
-        'angular-marked': ['angular', 'marked']
-    }
-});
 define([
     'angular-ui-router',
-    'marked',
-    'angular-marked',
-    'dl-tools/components/person/person.controller',
-    'dl-tools/components/person/person-jira-comments.directive',
-    'dl-tools/components/person/person-fecru-comments.directive',
-    'dl-tools/components/person/person-git-commits.directive'
+    'dl-tools/components/person/person.component',
 ], function(
         angularUiRouter,
-        marked,
-        angularMarked,
-        personController,
-        personJiraCommentsDirective,
-        personFecruCommentsDirective,
-        personGitCommitsDirective
+        personComponent
     ) {
         return {
             dependencies: [
@@ -30,29 +11,36 @@ define([
             ],
             init: function(module) {
                 /* @ngInject */
-                module.config(function($stateProvider, markedProvider) {
+                module.config(function($stateProvider) {
                     $stateProvider
                         .state('person', {
-                            url: '/person/:username?period',
-                            templateUrl: 'dl-tools/components/person/person.tpl.html',
-                            controller: 'PersonController',
+                            url: '/person/:username',
+                            component: 'personComponent',
+                            resolve: {
+                                person: (JiraDataService, $stateParams) => {
+                                    // todo: change to retrieving the person from internal database
+                                    return JiraDataService.getApiClient().user().get({
+                                        username: $stateParams.username
+                                    });
+                                }
+                            },
+                            data: {
+                                documentTitle: 'Person'
+                            }
+                        })
+                        .state('person.overview', {
+                            url: ''
+                        })
+                        .state('person.activity', {
+                            url: '/activity',
+                            component: 'personActivity',
                             data: {
                                 documentTitle: 'Person'
                             }
                         });
-
-                    // Set markdown options.
-                    markedProvider.setOptions({
-                        gfm: true,
-                        tables: true,
-                        breaks: true
-                    });
                 });
 
-                module.controller('PersonController', personController);
-                module.directive('personJiraComments', personJiraCommentsDirective);
-                module.directive('personFecruComments', personFecruCommentsDirective);
-                module.directive('personGitCommits', personGitCommitsDirective);
+                module.component('personComponent', personComponent);
             }
         };
 });
