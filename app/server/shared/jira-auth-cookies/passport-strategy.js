@@ -18,6 +18,42 @@ class JiraCookiesStrategy extends LocalStrategy {
     }
 }
 
+function getJiraProxyRegistry() {
+    let jiraDataService = DataServicesRegistry.get('jira');
+    return jiraDataService.getProxyRegistry();
+}
+
+function authorize(username, password, callback) {
+    let anonymousProxy = getJiraProxyRegistry().anonymous();
+    let options = {
+        url: anonymousProxy.proxyUrl('/session'),
+        method: 'POST',
+        json: true,
+        body: {
+            username: username,
+            password: password
+        }
+    };
+    anonymousProxy.request(options, function (error, apiResponse, body) {
+        if (error) {
+            return callback(error);
+        }
+        if (apiResponse.statusCode !== 200 || !body.session) {
+            let error = new Error(
+                body.errorMessages ? body.errorMessages.join("\n") : 'Jira authorization failed.'
+            );
+            error.statusCode = apiResponse.statusCode;
+            error.responseBody = body;
+            callback(error);
+            return;
+        }
+
+        callback(null, {
+            token: body.session
+        });
+    });
+}
+
 function loadCurrentJiraUser(authorizedProxy, callback) {
     return authorizedProxy.request({
         url: authorizedProxy.proxyUrl('/myself'),
@@ -39,14 +75,13 @@ function createPersonFromJiraUser(jiraUser) {
 }
 
 module.exports = new JiraCookiesStrategy(function(username, password, done) {
-    let JiraDataService = DataServicesRegistry.get('jira');
-    JiraDataService.authorize(username, password, function (error, result) {
+    authorize(username, password, function (error, result) {
         if (error) {
             return done(error);
         }
         let token = result.token;
         token.type = 'cookies';
-        let jiraProxyRegistry = JiraDataService.getProxyRegistry();
+        let jiraProxyRegistry = getJiraProxyRegistry();
         jiraProxyRegistry.registerToken(token);
 
         let proxy = jiraProxyRegistry.withToken(token);

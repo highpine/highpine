@@ -10,12 +10,53 @@ let LocalStrategy = require('passport-local').Strategy;
 let Person = require('shared/person').models.Person;
 let DataServicesRegistry = require('shared/data-services-manager').registry;
 let BadResponseError = require('shared/api-client').BadResponseError;
+let querystring = require('querystring');
 
 class FecruTokenStrategy extends LocalStrategy {
     constructor(options, verify) {
         super(options, verify);
         this.name = 'fecru-token';
     }
+}
+
+function getFecruProxyRegistry() {
+    let fecruDataService = DataServicesRegistry.get('fecru');
+    return fecruDataService.getProxyRegistry();
+}
+
+function authorize(username, password, callback) {
+    let fecruProxyRegistry = getFecruProxyRegistry();
+    let anonymousProxy = fecruProxyRegistry.anonymous();
+    let options = {
+        url: anonymousProxy.proxyUrl('/rest-service-fecru/auth/login'),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        json: true,
+        body: querystring.stringify({
+            userName: username,
+            password: password
+        })
+    };
+    anonymousProxy.request(options, function (error, apiResponse, body) {
+        if (error) {
+            return callback(error);
+        }
+        if (apiResponse.statusCode !== 200 || !body.token) {
+            let error = new Error(
+                body.error || 'Fecru authorization failed.'
+            );
+            error.statusCode = apiResponse.statusCode;
+            error.responseBody = body;
+            callback(error);
+            return;
+        }
+
+        callback(null, {
+            token: body.token
+        });
+    });
 }
 
 function loadCurrentFecruUser(authorizedProxy, username, callback) {
@@ -39,16 +80,17 @@ function createPersonFromFecruUser(fecruUser) {
 }
 
 module.exports = new FecruTokenStrategy(function(username, password, done) {
-    let FecruDataService = DataServicesRegistry.get('fecru');
-    FecruDataService.authorize(username, password, function (error, result) {
+    authorize(username, password, function (error, result) {
         if (error) {
             return done(error);
         }
+
         let token = {
             type: 'token',
             token: result.token
         };
-        let fecruProxyRegistry = FecruDataService.getProxyRegistry();
+
+        let fecruProxyRegistry = getFecruProxyRegistry();
         fecruProxyRegistry.registerToken(token);
 
         let proxy = fecruProxyRegistry.withToken(token);
