@@ -1,17 +1,30 @@
 module.exports = [
+
+    // Api
     'shared/api-client',
     'shared/api-server',
     'shared/api-proxy-manager',
     'shared/data-services-manager',
+
+    // Auth:
+    'shared/auth',
+
+    // Jira:
     'shared/jira',
     'shared/jira-auth-cookies',
     'shared/jira-auth-oauth',
+
+    // Fecru:
     'shared/fecru',
     'shared/fecru-auth-token',
+
+    // Gitlab:
     // 'shared/gitlab',
 
+    // People
     'shared/person',
-    'shared/auth',
-    'shared/project',
-    'shared/profile'
+    'shared/profile',
+
+    // Projects
+    'shared/project'
 ];
