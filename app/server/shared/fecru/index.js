@@ -19,24 +19,27 @@ let FecruDataService = require('./data-service');
  */
 module.exports.setup = function(app, env) {
 
-    let proxyMountPath = '/api/proxy/fecru';
+    const proxyMountPath = '/api/proxy/fecru';
 
-    let fecruUrl        = env.FECRU_URL;
-    let fecruApiVersion = env.FECRU_API_VERSION;
-    let useStrictSsl    = env.FECRU_API_PROXY_USE_STRICT_SSL === 'yes';
-    let debugMode       = env.FECRU_API_PROXY_DEBUG_MODE === 'yes';
+    app.use(proxyMountPath, proxyRouter);
 
-    let fecruProxyFactory = function() {
+    const fecruUrl        = env.FECRU_URL;
+    const fecruApiVersion = env.FECRU_API_VERSION;
+    const useStrictSsl    = env.FECRU_API_PROXY_USE_STRICT_SSL === 'yes';
+    const debugMode       = env.FECRU_API_PROXY_DEBUG_MODE === 'yes';
+
+    let fecruProxyFactory = function(token) {
         let instance = new FecruApiProxy(fecruUrl, proxyMountPath, fecruApiVersion);
         instance.setStrictSSL(useStrictSsl);
         instance.setDebugMode(debugMode);
+        if (token) {
+            instance.setUserToken(token);
+        }
         return instance;
     };
+
     let fecruApiProxyRegistry = new ApiProxyRegistry(fecruProxyFactory);
-
     DataServicesRegistry.register(new FecruDataService(fecruApiProxyRegistry));
-
-    app.use(proxyMountPath, proxyRouter);
 };
 
 module.exports.FecruApiProxy = FecruApiProxy;

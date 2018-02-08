@@ -20,29 +20,32 @@ let fs = require('fs');
  */
 module.exports.setup = function(app, env) {
 
-    let proxyMountPath = '/api/proxy/jira';
+    const proxyMountPath = '/api/proxy/jira';
 
-    let jiraUrl         = env.JIRA_URL;
-    let jiraApiVersion  = env.JIRA_API_VERSION;
-    let jiraAuthVersion = env.JIRA_AUTH_VERSION;
-    let useStrictSsl    = env.JIRA_API_PROXY_USE_STRICT_SSL === 'yes';
-    let debugMode       = env.JIRA_API_PROXY_DEBUG_MODE === 'yes';
-    let jiraOauthConfig = {
+    app.use(proxyMountPath, proxyRouter);
+
+    const jiraUrl         = env.JIRA_URL;
+    const jiraApiVersion  = env.JIRA_API_VERSION;
+    const jiraAuthVersion = env.JIRA_AUTH_VERSION;
+    const useStrictSsl    = env.JIRA_API_PROXY_USE_STRICT_SSL === 'yes';
+    const debugMode       = env.JIRA_API_PROXY_DEBUG_MODE === 'yes';
+    const jiraOauthConfig = {
         consumer_key: env.JIRA_OAUTH_CONSUMER_KEY,
         consumer_secret: fs.readFileSync(env.JIRA_OAUTH_CONSUMER_SECRET_PATH, 'utf8'),
     };
 
-    let jiraApiProxyFactory = function() {
+    let jiraApiProxyFactory = function(token = null) {
         let instance = new JiraApiProxy(jiraUrl, proxyMountPath, jiraApiVersion, jiraAuthVersion, jiraOauthConfig);
         instance.setStrictSSL(useStrictSsl);
         instance.setDebugMode(debugMode);
+        if (token) {
+            instance.setUserToken(token);
+        }
         return instance;
     };
     let jiraApiProxyRegistry = new ApiProxyRegistry(jiraApiProxyFactory);
 
     DataServicesRegistry.register(new JiraDataService(jiraApiProxyRegistry));
-
-    app.use(proxyMountPath, proxyRouter);
 };
 
 module.exports.JiraApiProxy = JiraApiProxy;

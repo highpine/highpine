@@ -40,13 +40,12 @@ class ApiProxyRegistry {
     }
 
     dropToken(token) {
-        this[registry].delete(this.constructor.getTokenHash(token));
+        let tokenHash = this.constructor.getTokenHash(token);
+        this[registry].delete(tokenHash);
     }
 
     createAuthorizedProxy(token) {
-        let proxy = this.factory();
-        proxy.setUserToken(token);
-        return proxy;
+        return this.factory(token);
     }
 
     static getTokenHash(token) {
