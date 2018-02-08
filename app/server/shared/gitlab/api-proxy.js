@@ -1,40 +1,45 @@
-var AbstractApiProxy = require('shared/api-proxy-manager').AbstractApiProxy;
-var proxyConfig = require('./config.json');
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
+let AbstractApiProxy = require('shared/api-proxy-manager').AbstractApiProxy;
+let proxyConfig = require('./config.json');
 
 /**
- * Gitlab Api Proxy.
- *
- * @param {string} serviceUrl - Gitlab base URL.
- * @param {string} mountPath - Proxy mount path. Will be cut off from the request url.
- * @param {string} apiVersion - Api version. Optional. Default is 'latest'.
- * @constructor
+ * Gitlab API Proxy.
  */
-var GitlabApiProxy = function (serviceUrl, mountPath, apiVersion) {
+class GitlabApiProxy extends AbstractApiProxy {
+    /**
+     * @param {string} serviceUrl - Gitlab base URL.
+     * @param {string} mountPath - Proxy mount path. Will be cut off from the request url.
+     * @param {string} apiVersion - Api version. Optional. Default is 'latest'.
+     * @constructor
+     */
+    constructor(serviceUrl, mountPath, apiVersion) {
+        super(serviceUrl, mountPath);
 
-    AbstractApiProxy.call(this, serviceUrl, mountPath);
+        this.headersPreset = Object.assign(this.headersPreset, proxyConfig.headersPreset);
+        this.proxyHeaderPrefix = proxyConfig.proxyHeaderPrefix;
 
-    this.headersPreset = Object.assign(this.headersPreset, proxyConfig.headersPreset);
-    this.proxyHeaderPrefix = proxyConfig.proxyHeaderPrefix;
+        this.apiVersion = apiVersion || 'v4';
+    };
 
-    this.apiVersion = apiVersion || 'v3';
-};
-
-GitlabApiProxy.prototype = Object.create(AbstractApiProxy.prototype);
-GitlabApiProxy.prototype.constructor = GitlabApiProxy;
-
-(function () {
-
-    GitlabApiProxy.prototype.getRemoteApiPath = function () {
+    getRemoteApiPath(relativeUrl) {
         return proxyConfig.remoteApiPath + '/' + this.apiVersion;
-    };
+    }
 
-    GitlabApiProxy.prototype.authorizeRequest = function (options) {
-        if (this.getUserToken()) {
-            options.url += (options.url.indexOf('?') >= 0 ? '&' : '?') +
-                proxyConfig.authTokenKey + '=' + this.getUserToken();
+    authorizeRequest(options) {
+        const userToken = this.getUserToken();
+        if (!userToken) {
+            return;
         }
-    };
-
-})();
+        // @see: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html
+        options.headers['Private-Token'] = userToken.token;
+    }
+}
 
 module.exports = GitlabApiProxy;

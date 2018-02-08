@@ -1,8 +1,16 @@
-var ApiProxyManager = require('shared/api-proxy-manager');
-var DataServicesManager = require('shared/data-services-manager').manager;
-var proxyRouter = require('./api-proxy-router');
-var ApiProxy = require('./api-proxy');
-var dataService = require('./data-service');
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
+let ApiProxyRegistry = require('shared/api-proxy-manager').ApiProxyRegistry;
+let DataServicesRegistry = require('shared/data-services-manager').registry;
+let proxyRouter = require('./api-proxy-route');
+let GitlabApiProxy = require('./api-proxy');
+let GitlabDataService = require('./data-service');
 
 /**
  * Setup component.
@@ -11,26 +19,28 @@ var dataService = require('./data-service');
  */
 module.exports.setup = function(app, env) {
 
-    var gitlabUrl = env.GITLAB_URL;
-    var gitlabApiVersion = env.GITLAB_API_VERSION;
-    var useStrictSsl = env.GITLAB_API_PROXY_USE_STRICT_SSL == 'yes';
-    var debugMode = env.GITLAB_API_PROXY_DEBUG_MODE == 'yes';
-
-    var proxyMountPath = '/api/proxy/gitlab';
-
-    app.set('gitlab-proxy-registry', new ApiProxyManager.proxyRegistry(function() {
-        var instance = new ApiProxy(
-            gitlabUrl, proxyMountPath, gitlabApiVersion
-        );
-        instance.setStrictSSL(useStrictSsl);
-        instance.setDebugMode(debugMode);
-        return instance;
-    }));
+    const proxyMountPath = '/api/proxy/gitlab';
 
     app.use(proxyMountPath, proxyRouter);
 
-    DataServicesManager.register(dataService);
+    const gitlabUrl        = env.GITLAB_URL;
+    const gitlabApiVersion = env.GITLAB_API_VERSION;
+    const useStrictSsl     = env.GITLAB_API_PROXY_USE_STRICT_SSL === 'yes';
+    const debugMode        = env.GITLAB_API_PROXY_DEBUG_MODE === 'yes';
+
+    let gitlabProxyFactory = function(token) {
+        let instance = new GitlabApiProxy(gitlabUrl, proxyMountPath, gitlabApiVersion);
+        instance.setStrictSSL(useStrictSsl);
+        instance.setDebugMode(debugMode);
+        if (token) {
+            instance.setUserToken(token);
+        }
+        return instance;
+    };
+
+    let gitlabApiProxyRegistry = new ApiProxyRegistry(gitlabProxyFactory);
+    DataServicesRegistry.register(new GitlabDataService(gitlabApiProxyRegistry));
 };
 
-module.exports.ApiProxy = ApiProxy;
+module.exports.ApiProxy = GitlabApiProxy;
 module.exports.dataService = dataService;
