@@ -1,6 +1,6 @@
 # Api proxy manager
 
-This packages provides ability to create and store REST API proxies.
+This package provides ability to create and store REST API proxies.
 
 API Proxy is an object which can relay the Express request to the given API
 and forward the response from API to the client as an Express response.
@@ -16,8 +16,8 @@ Example usage:
 
 ```
 let proxy = new AbstractApiProxy(
-    'http://example.com/rest/api/',
-    '/api/proxy/example'
+    'http://example.com/rest/api/', // service ulr
+    '/api/proxy/example' // mount path
 );
 
 app.use('/api/proxy/example', function(req, res, next) {
