@@ -37,8 +37,9 @@ class GitlabApiProxy extends AbstractApiProxy {
         if (!userToken) {
             return;
         }
+        options.headers = options.headers || [];
         // @see: https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html
-        options.headers['Private-Token'] = userToken.token;
+        options.headers['Authorization'] = 'Bearer ' + userToken.accessToken;
     }
 }
 

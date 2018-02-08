@@ -14,6 +14,7 @@ define([
     '@shared/fecru',
     '@shared/fecru-alt-auth-token',
     '@shared/gitlab',
+    '@shared/gitlab-alt-auth-oauth',
     '@shared/data-services-manager',
     '@shared/loading-indicator',
     '@shared/people',

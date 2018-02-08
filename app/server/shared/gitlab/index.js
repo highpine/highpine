@@ -42,5 +42,5 @@ module.exports.setup = function(app, env) {
     DataServicesRegistry.register(new GitlabDataService(gitlabApiProxyRegistry));
 };
 
-module.exports.ApiProxy = GitlabApiProxy;
-module.exports.dataService = dataService;
+module.exports.GitlabApiProxy = GitlabApiProxy;
+module.exports.GitlabDataService = GitlabDataService;

@@ -19,7 +19,8 @@ module.exports = [
     'shared/fecru-auth-token',
 
     // Gitlab:
-    // 'shared/gitlab',
+    'shared/gitlab',
+    'shared/gitlab-auth-oauth',
 
     // People
     'shared/person',
