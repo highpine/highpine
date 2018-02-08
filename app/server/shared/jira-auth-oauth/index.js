@@ -22,7 +22,9 @@ module.exports.setup = function(app, env) {
     let jiraBaseUrl = env.JIRA_URL;
     let consumerKey = env.JIRA_OAUTH_CONSUMER_KEY;
     let consumerSecret = fs.readFileSync(env.JIRA_OAUTH_CONSUMER_SECRET_PATH, 'utf8');
+
     passport.use(
+        'jira-oauth',
         jiraOauthPassportStrategyFactory(jiraBaseUrl, consumerKey, consumerSecret)
     );
 };

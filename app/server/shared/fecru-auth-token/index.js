@@ -15,5 +15,5 @@ let fecruTokenPassportStrategy = require('./passport-strategy');
  * @param {Object}   env Environment variables.
  */
 module.exports.setup = function(app, env) {
-    passport.use(fecruTokenPassportStrategy);
+    passport.use('fecru-token', fecruTokenPassportStrategy);
 };
