@@ -15,7 +15,7 @@ function getAuthorizedProxy(user) {
     return fecruProxyRegistry.withToken(user.auth_tokens.gitlab);
 }
 
-router.get(/\/.*/, function(req, res, next) {
+router.all(/\/.*/, function(req, res, next) {
     getAuthorizedProxy(req.user)
         .relay(req, function(error, response, body) {
             if (error) {

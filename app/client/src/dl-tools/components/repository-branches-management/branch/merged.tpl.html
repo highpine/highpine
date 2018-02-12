@@ -1,0 +1,4 @@
+<span loading-indicator data-flag="$ctrl.merged === undefined" data-type="inline"></span>
+<span class="glyphicon" aria-hidden="true"
+      ng-if="$ctrl.merged !== undefined"
+      ng-class="{'glyphicon-ok text-success': $ctrl.merged, 'glyphicon-minus text-muted': !$ctrl.merged }"></span>

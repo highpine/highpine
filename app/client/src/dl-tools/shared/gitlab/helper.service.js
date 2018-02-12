@@ -20,6 +20,7 @@ define(['async'], function(async) {
                 for (var i = 0; i < limit / maxPerPage; i++) {
                     pages.push(i + 1);
                 }
+                // let pages = Array.from(new Array(limit / maxPerPage), (val, index) => index + 1);
 
                 var apiClient = GitlabDataService.getApiClient();
                 async.parallel(pages.map(function(page) {

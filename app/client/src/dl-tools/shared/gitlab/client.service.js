@@ -5,11 +5,24 @@ define([], function() {
             return API_BASE_URL + '/proxy/gitlab' + path;
         }
         return {
-            projects: function() {
-                return $resource(url('/projects'), {});
+            projects() {
+                return $resource(url('/projects'), {}, {
+                    query: { method:'GET', isArray: true, cache: true, cancellable: true }
+                });
             },
-            projectCommits: function() {
+            project() {
+                return $resource(url('/projects/:project_id'), {});
+            },
+            projectCommits() {
                 return $resource(url('/projects/:project_id/repository/commits'), {});
+            },
+            projectBranches() {
+                return $resource(url('/projects/:project_id/repository/branches'), {}, {
+                    query: { method:'GET', isArray: true, cache: true, cancellable: true }
+                });
+            },
+            projectBranch() {
+                return $resource(url('/projects/:project_id/repository/branches/:branch_name'), {});
             }
         };
     }

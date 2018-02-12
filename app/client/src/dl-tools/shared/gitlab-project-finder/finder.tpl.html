@@ -1,0 +1,15 @@
+<div class="gitlab-project-finder">
+    <div class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Name"
+                   ng-model="searchTerm"
+                   ng-change="search(searchTerm)" />
+            <ul class="list-group">
+                <li class="list-group-item"
+                    ng-repeat="project in projects">
+                    <a ng-click="selectProject(project)">{{ project.name_with_namespace }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -15,9 +15,11 @@ define([
     '@shared/fecru-alt-auth-token',
     '@shared/gitlab',
     '@shared/gitlab-alt-auth-oauth',
+    '@shared/gitlab-project-finder',
     '@shared/data-services-manager',
     '@shared/loading-indicator',
     '@shared/people',
+
     '@dl-tools/app',
     '@dl-tools/dashboard',
     '@dl-tools/auth',
@@ -27,7 +29,10 @@ define([
     '@dl-tools/people-activity',
     '@dl-tools/person',
     '@dl-tools/project',
-    '@dl-tools/projects'
+    '@dl-tools/projects',
+    '@dl-tools/repositories',
+    '@dl-tools/repository',
+    '@dl-tools/repository-branches-management',
 
 ], function(angular, highpine, packagesLoader, ...setups) {
 

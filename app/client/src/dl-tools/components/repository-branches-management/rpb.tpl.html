@@ -1,0 +1,58 @@
+<div class="repository-branches-management">
+    <form>
+        <div class="form-group">
+            <label>Main branch</label>
+            <select title="Main branch" class="form-control" ng-model="$ctrl.mainBranch">
+                <option>— Select —</option>
+                <option ng-repeat="branch in $ctrl.branches"
+                        ng-value="branch">{{ branch.name }}</option>
+            </select>
+            <span class="help-block">We will check and show if branches bellow are merged into the main branch.</span>
+        </div>
+    </form>
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading" ng-if="$ctrl.branches.length">{{ $ctrl.branches.length }} branches shown.</div>
+        <div class="panel-body" ng-if="$ctrl.branches.length">
+            <button type="button" class="btn btn-danger"
+                    ng-click="$ctrl.deleteSelectedBranches()">Delete selected branches</button>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center">Delete</th>
+                    <th class="text-center">Merged</th>
+                    <th>Name</th>
+                    <th>Last changed</th>
+                    <th>by</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="branch in $ctrl.branches"
+                    ng-class="{ active: branch === $ctrl.mainBranch, danger: branch.deleted }"
+                    lazy-merged-detection>
+
+                    <td class="text-center">
+                        <input type="checkbox" title="Delete branch"
+                               ng-if="branch !== $ctrl.mainBranch"
+                               ng-model="branch.delete"/>
+                    </td>
+                    <td class="text-center merged-state-container"></td>
+                    <td>{{ branch.name }}</td>
+                    <td>
+                        {{ branch.commit.created_at | date : 'medium' }}
+                        (<a href="https://gitlab.symmetrics.de/{{ $ctrl.project.path_with_namespace }}/commit/{{ branch.commit.id }}">{{ branch.commit.short_id }}</a>)
+                    </td>
+                    <td>
+                        {{ branch.commit.author_name }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div loading-indicator data-flag="!$ctrl.allBranchesLoaded" data-type="big"></div>
+    </div>
+</div>

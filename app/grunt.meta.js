@@ -26,7 +26,8 @@ module.exports = {
             'angular-chart.js/dist/angular-chart.min.js',
             'angular-chart.js/dist/angular-chart.min.js.map',
             'marked/marked.min.js',
-            'angular-marked/dist/angular-marked.min.js'
+            'angular-marked/dist/angular-marked.min.js',
+            'waypoints/lib/jquery.waypoints.js',
         ],
         css: [
             'angular/angular-csp.css',

@@ -20,7 +20,8 @@ module.exports = {
         'moment': '/vendor/moment/moment',
         'moment-adapter': 'highpine/moment-adapter',
         'chart': '/vendor/chart.js/dist/Chart',
-        'angular-chart': '/vendor/angular-chart.js/dist/angular-chart.min'
+        'angular-chart': '/vendor/angular-chart.js/dist/angular-chart.min',
+        'waypoints': '/vendor/waypoints/lib/jquery.waypoints'
     },
     shim: {
         'angular-route': ['angular'],
@@ -30,7 +31,8 @@ module.exports = {
         'ngstorage': ['angular'],
         'angular-chart': ['angular', 'chart'],
         'moment': {exports: 'moment'},
-        'chart': ['moment']
+        'chart': ['moment'],
+        'waypoints': ['jquery']
     },
     map: {
         '*': {

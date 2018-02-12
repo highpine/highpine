@@ -1,0 +1,27 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/repositories">Repositories</a></li>
+        <li class="active">
+            <span loading-indicator data-flag="!project" data-type="inline"></span>
+            {{ project.name_with_namespace }}
+        </li>
+    </ol>
+
+    <div ng-if="project">
+        <h3>{{ project.name_with_namespace }}</h3>
+
+        <p>
+            <code>{{ project.ssh_url_to_repo }}</code>
+            <a class="pull-right" href="{{ project.web_url }}">Open on Gitlab</a>
+        </p>
+
+        <h4>Manage Branches</h4>
+
+        <repository-branches-management project="project" />
+
+    </div>
+    <div loading-indicator data-flag="!project" data-type="big"></div>
+
+</div>
