@@ -1,8 +1,14 @@
-let auth = require('./auth');
+/**
+ * Copyright © 2017 Highpine. All rights reserved.
+ *
+ * @author    Max Gopey <gopeyx@gmail.com>
+ * @copyright 2017 Highpine
+ * @license   https://opensource.org/licenses/MIT  MIT License
+ */
+
 let express = require('express');
 let router = express.Router();
 let passport = require('passport');
-
 
 router.post('/login', function(req, res, next) {
     passport.authenticate(req.body.strategy || 'local', function(err, user) {
@@ -25,11 +31,16 @@ router.post('/login', function(req, res, next) {
 });
 
 router.post('/logout', function (req, res, next) {
-    req.session.destroy();
-    res.json({
-        status: 'success'
+    req.session.regenerate(err => {
+        if (err) {
+            return next(err);
+        }
+        res.json({
+            status: 'success'
+        });
     });
 });
+
 
 router.get('/verify', function (req, res, next) {
     if (!req.isAuthenticated()) {
