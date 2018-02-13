@@ -68,13 +68,14 @@ class AbstractApiProxy {
     proxyUrl(originalUrl) {
         let remotePath = this.getRemoteApiPath(originalUrl);
         let relativeUrl = this.getRelativeUrl(originalUrl);
-        let uri = url.format({
+        let [relativePath, search] = relativeUrl.split('?', 2);
+        return url.format({
             protocol: this.urlOptions.protocol,
             hostname: this.urlOptions.hostname,
             port: this.urlOptions.port,
-            pathname: remotePath + relativeUrl
+            pathname: remotePath + relativePath,
+            search: search
         });
-        return decodeURIComponent(uri);
     }
 
     /**

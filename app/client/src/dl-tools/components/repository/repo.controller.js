@@ -8,7 +8,7 @@ define([], function() {
         let apiClient = GitlabDataService.getApiClient();
 
         apiClient.project()
-            .get({ project_id: namespace + '%2F' + name }, function (project) {
+            .get({ project_id: namespace + '/' + name }, function (project) {
                 $scope.project = project;
                 $scope.document.title = 'Project: ' + project.name_with_namespace;
             });
