@@ -12,9 +12,9 @@
     <div ng-if="project">
         <h3>{{ project.name_with_namespace }}</h3>
 
-        <p>
-            <code>{{ project.ssh_url_to_repo }}</code>
-            <a class="pull-right" href="{{ project.web_url }}">Open on Gitlab</a>
+        <p class="pull-right">
+            <code>{{ project.ssh_url_to_repo }}</code> |
+            <a href="{{ project.web_url }}">Open on Gitlab</a>
         </p>
 
         <h4>Manage Branches</h4>
@@ -22,6 +22,7 @@
         <repository-branches-management project="project" />
 
     </div>
+
     <div loading-indicator data-flag="!project" data-type="big"></div>
 
 </div>
