@@ -26,6 +26,7 @@
     "express-promise": "^0.4.0",
     "express-request-proxy": "^2.0.0",
     "express-session": "^1.15.6",
+    "express-sessions": "^1.0.6",
     "jira": "~0.9.2",
     "jquery": "^3.2.1",
     "markdown": "~0.5.0",

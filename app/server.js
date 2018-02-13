@@ -57,10 +57,18 @@ app.use(expressPromise());
  * Setup Session support.
  */
 let session = require('express-session');
+let sessionsStorage = require('express-sessions');
 app.use(session({
     resave: false,
     saveUninitialized: false,
-    secret: process.env.SESSION_SECRET
+    secret: process.env.SESSION_SECRET,
+    cookie: { secure: 'auto' },
+    store: new sessionsStorage({
+        storage: 'mongodb',
+        instance: mongoose,
+        collection: 'sessions',
+        expire: 86400
+    })
 }));
 
 /*
