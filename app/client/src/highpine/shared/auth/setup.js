@@ -1,6 +1,6 @@
 define([
-    'dl-tools/shared/auth/user-storage.service',
-    'dl-tools/shared/auth/auth.service'
+    './user-storage.service',
+    './auth.service'
 ], function(userStorageServiceFactory, authServiceFactory) {
     return function(module) {
         module.factory('UserStorage', userStorageServiceFactory);

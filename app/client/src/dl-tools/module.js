@@ -5,8 +5,6 @@ define([
 
     // add module packages below
 
-    '@shared/auth',
-    '@shared/alt-auth',
     '@shared/jira',
     '@shared/jira-alt-auth-cookies',
     '@shared/jira-alt-auth-oauth',
@@ -21,7 +19,6 @@ define([
 
     '@dl-tools/app',
     '@dl-tools/dashboard',
-    '@dl-tools/auth',
     '@dl-tools/profile',
     '@dl-tools/people',
     '@dl-tools/import-people-from-jira',

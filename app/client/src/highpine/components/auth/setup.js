@@ -1,9 +1,9 @@
 define([
+    './auth.controller',
+    './logout-link.directive',
     'angular-ui-router',
-    '@shared/alt-auth',
-    'dl-tools/components/auth/auth.controller',
-    'dl-tools/components/auth/logout-link.directive'
-], function(angularUiRouter, altAuth, authController, logoutLinkDirective) {
+    '@shared/alt-auth'
+], function(authController, logoutLinkDirective) {
     return {
         init: function(module) {
             /* @ngInject */
@@ -11,8 +11,8 @@ define([
                 $stateProvider
                     .state('login', {
                         url: '/login',
-                        templateUrl: 'dl-tools/components/auth/login.tpl.html',
-                        controller: 'AuthController',
+                        templateUrl: 'highpine/components/auth/login.tpl.html',
+                        controller: 'HpAuthController',
                         data: {
                             documentTitle: 'Sign in',
                             guestAccess: true
@@ -20,7 +20,7 @@ define([
                     });
             });
 
-            module.controller('AuthController', authController);
+            module.controller('HpAuthController', authController);
             module.directive('logoutLink', logoutLinkDirective);
         },
         run: function(module, $injector) {

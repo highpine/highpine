@@ -1,5 +1,5 @@
 define([
-    'dl-tools/shared/alt-auth/alt-auth.registry'
+    './alt-auth.registry'
 ], function(altAuthRegistry) {
     /* @ngInject */
     function alternativeAuthorizationDirective($compile) {
@@ -39,7 +39,7 @@ define([
                     $scope.shownServiceForm = null;
                 };
             },
-            templateUrl: 'dl-tools/shared/alt-auth/alt-auth.tpl.html'
+            templateUrl: 'highpine/shared/alt-auth/alt-auth.tpl.html'
         };
     }
 

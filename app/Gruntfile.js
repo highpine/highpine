@@ -105,8 +105,13 @@ module.exports = function (grunt) {
         },
         less: {
             build: {
-                files: {
-                    'public/stylesheets/compiled-styles.css': 'client/**/*/styles.less'
+                src: [
+                    'client/src/highpine/styles.less',
+                    'client/src/dl-tools/styles.less'
+                ],
+                dest: 'public/stylesheets/compiled-styles.css',
+                options: {
+                    compress: false
                 }
             }
         },

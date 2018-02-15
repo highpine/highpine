@@ -14,6 +14,10 @@ define([
     '@shared/alert',
     '@shared/modal',
     '@shared/data-source',
+    '@shared/auth',
+    '@shared/alt-auth',
+
+    '@highpine/auth',
 
 ], function(
     angular,

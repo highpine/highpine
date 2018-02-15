@@ -1,6 +1,4 @@
-define([
-    'angular-ui-router'
-], function(angularUiRouter, authSetup) {
+define([], function() {
     /* @ngInject */
     function logoutLinkDirective() {
         return {
