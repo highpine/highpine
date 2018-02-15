@@ -32,10 +32,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 /**
  * Setup basic routes.
  */
-app.use(/\/.*/, function(req, res, next) {
+app.use(/\/.*\.(js|css|jpg|jpeg|map|html)$/, function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+app.use('/*', function(req, res, next) {
     res.render('index');
 });
-
 
 /*
  * Handle errors.
