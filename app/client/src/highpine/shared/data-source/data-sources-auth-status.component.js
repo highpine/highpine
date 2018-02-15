@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
             this.dataSources = HpDataSourcesRegistry.getAll();
             // todo: get rid of using UserStorage here.
             // DataSources should know about their auth status by themselves.
-            let user = UserStorage.get();
+            let user = UserStorage.get() || {};
 
             if (user.auth_tokens) {
                 authorizeDataServices(user.auth_tokens);
