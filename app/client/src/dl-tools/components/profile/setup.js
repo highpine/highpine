@@ -15,7 +15,7 @@ define([
                         documentTitle: 'Profile'
                     }
                 })
-                .state('profile/edit', {
+                .state('profile.edit', {
                     url: '/profile/edit',
                     templateUrl: 'dl-tools/components/profile/edit-profile.tpl.html',
                     controller: 'EditProfileController',

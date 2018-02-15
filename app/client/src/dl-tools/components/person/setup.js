@@ -26,13 +26,19 @@ define([
                             }
                         })
                         .state('person.overview', {
-                            url: ''
+                            // todo: add a real person overview component
+                            url: '/overview',
+                            template: '<div class="card"><div class="card-body">' +
+                                '{{ $ctrl.person.displayName }} is a good person first of all.</div></div>',
+                            data: {
+                                documentTitle: 'Person Overview'
+                            }
                         })
                         .state('person.activity', {
                             url: '/activity',
                             component: 'personActivity',
                             data: {
-                                documentTitle: 'Person'
+                                documentTitle: 'Person Activity'
                             }
                         });
                 });

@@ -1,18 +1,20 @@
 <div class="container">
 
-    <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li><a href="/repositories">Repositories</a></li>
-        <li class="active">
-            <span loading-indicator data-flag="!project" data-type="inline"></span>
-            {{ project.name_with_namespace }}
-        </li>
-    </ol>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a ui-sref="dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a ui-sref="repositories">Repositories</a></li>
+            <li class="breadcrumb-item active">
+                <span loading-indicator data-flag="!project" data-type="inline"></span>
+                {{ project.name_with_namespace }}
+            </li>
+        </ol>
+    </nav>
 
     <div ng-if="project">
-        <h3>{{ project.name_with_namespace }}</h3>
+        <h2>{{ project.name_with_namespace }}</h2>
 
-        <p class="pull-right">
+        <p class="float-right">
             <code>{{ project.ssh_url_to_repo }}</code> |
             <a href="{{ project.web_url }}">Open on Gitlab</a>
         </p>

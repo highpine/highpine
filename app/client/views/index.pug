@@ -3,38 +3,41 @@ html
   head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     base(href='/')
     title(ng-bind='document.title') Highpine
     link(rel='stylesheet', href='/vendor/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/vendor/font-awesome/css/font-awesome.min.css')
     link(rel='stylesheet', href='/stylesheets/compiled-styles.css')
     script(src='/vendor/requirejs/require.js', data-main='/javascripts/require.main.js')
   body
-    nav.navbar.navbar-default.navbar-fixed-top
-      .container-fluid
-        .navbar-header
-          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#main-navbar-collapse', aria-expanded='false')
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href='/') Highpine
-        #main-navbar-collapse.collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li
-              a(href='/profile') Profile
-            li
-              a(href='/projects') Projects
-            li
-              a(href='/people') People
-            li
-              a(href='/repositories') Repositories
-    div(data-ui-view='')
-    .navbar.navbar-default.navbar-fixed-bottom
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top
       .container
-        div(data-data-services-manager='')
-        ul.navbar-nav.nav.navbar-right
-          li
-            div(data-logout-link='')
-          li
-            p.navbar-text © Highpine
+
+        a.navbar-brand(href='/') Highpine
+
+        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#main-navbar-collapse', aria-controls='#main-navbar-collapse', aria-expanded='false',aria-label="Toggle navigation")
+          span.navbar-toggler-icon
+
+        #main-navbar-collapse.collapse.navbar-collapse
+          ul.navbar-nav.mr-auto
+            li.nav-item
+              a.nav-link(href='/profile') Profile
+            li.nav-item
+              a.nav-link(href='/projects') Projects
+            li.nav-item
+              a.nav-link(href='/people') People
+            li.nav-item
+              a.nav-link(href='/repositories') Repositories
+
+    div(data-ui-view='')
+
+    .navbar.navbar-expand-lg.navbar-light.bg-light.fixed-bottom
+      .container
+        div.mr-auto(data-data-services-manager='')
+        ul.navbar-nav.navbar-right
+          li.nav-item
+            form.form-inline
+              div(data-logout-link='')
+          li.nav-item.ml-3
+            span.navbar-text © Highpine

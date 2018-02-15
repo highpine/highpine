@@ -1,14 +1,11 @@
 <div class="container">
-    <div data-ng-if="user">
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="" alt="{{ user.first_name }} {{ user.last_name }}"
-                     data-ng-src="{{ user.avatar }}">
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">{{ user.first_name }} {{ user.last_name }}</h4>
-                <a href="/profile/edit">Edit</a>
-            </div>
+    <div class="media" data-ng-if="user">
+        <img class="mr-3" src=""
+             alt="{{ user.first_name }} {{ user.last_name }}"
+             data-ng-src="{{ user.avatar }}">
+        <div class="media-body">
+            <h4 class="mt-0">{{ user.first_name }} {{ user.last_name }}</h4>
+            <a ui-sref="profile.edit">Edit</a>
         </div>
     </div>
 </div>

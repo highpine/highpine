@@ -1,26 +1,25 @@
 <div class="container">
 
-    <ol class="breadcrumb">
-        <li><a ui-sref="dashboard">Home</a></li>
-        <li><a ui-sref="people">People</a></li>
-        <li class="active">{{ $ctrl.person.displayName }}</li>
-    </ol>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a ui-sref="dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a ui-sref="people">People</a></li>
+            <li class="breadcrumb-item active">{{ $ctrl.person.displayName }}</li>
+        </ol>
+    </nav>
 
-    <div data-ng-if="$ctrl.person">
-        <div class="media">
-            <div class="media-left">
-                <img class="media-object" src="" alt="{{ $ctrl.person.displayName }}"
-                     data-ng-src="{{ $ctrl.person.avatarUrls['48x48'] }}">
-            </div>
-            <div class="media-body">
-                <h1 class="media-heading">{{ $ctrl.person.displayName }}</h1>
-            </div>
+    <div class="media" data-ng-if="$ctrl.person">
+        <img class="mr-3"  src=""
+             alt="{{ $ctrl.person.displayName }}"
+             data-ng-src="{{ $ctrl.person.avatarUrls['48x48'] }}">
+        <div class="media-body">
+            <h1 class="mt-0">{{ $ctrl.person.displayName }}</h1>
         </div>
     </div>
 
-    <ul class="nav nav-tabs">
-        <li ui-sref-active="active"><a ui-sref="person.overview">Overview</a></li>
-        <li ui-sref-active="active"><a ui-sref="person.activity">Activity</a></li>
+    <ul class="nav nav-tabs mb-4">
+        <li  class="nav-item"><a class="nav-link" ui-sref-active="active" ui-sref="person.overview">Overview</a></li>
+        <li  class="nav-item"><a class="nav-link" ui-sref-active="active" ui-sref="person.activity">Activity</a></li>
     </ul>
 
     <ui-view></ui-view>

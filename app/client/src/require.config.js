@@ -16,11 +16,13 @@ module.exports = {
     },
     paths: {
         'angular': '/vendor/angular/angular.min',
-        'bootstrap': '/vendor/bootstrap/dist/js/bootstrap.min',
+        'bootstrap': '/vendor/bootstrap/dist/js/bootstrap.bundle.min',
         'jquery': '/vendor/jquery/dist/jquery.min',
     },
     shim: {
-        'angular': {exports: 'angular'},
+        'angular': {
+            exports: 'angular'
+        },
         'bootstrap': ['jquery'],
     },
     packages: [],

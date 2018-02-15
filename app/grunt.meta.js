@@ -17,7 +17,8 @@ module.exports = {
             '@uirouter/angularjs/release/angular-ui-router.min.js',
             '@uirouter/angularjs/release/angular-ui-router.min.js.map',
             'ngstorage/ngStorage.min.js',
-            'bootstrap/dist/js/bootstrap.min.js',
+            'bootstrap/dist/js/*.min.js',
+            'bootstrap/dist/js/*.min.js.map',
             'async/lib/async.js',
             'moment/min/moment.min.js',
             'moment/moment.js',
@@ -33,11 +34,14 @@ module.exports = {
             'angular/angular-csp.css',
             'bootstrap/dist/css/bootstrap.min.css',
             'bootstrap/dist/css/bootstrap.min.css.map',
-            'bootstrap/dist/css/bootstrap-theme.min.css',
-            'bootstrap/dist/css/bootstrap-theme.min.css.map'
+            'bootstrap/dist/css/bootstrap-grid.min.css',
+            'bootstrap/dist/css/bootstrap-grid.min.css.map',
+            'bootstrap/dist/css/bootstrap-reboot.min.css',
+            'bootstrap/dist/css/bootstrap-reboot.min.css.map',
+            'font-awesome/css/*',
         ],
         fonts: [
-            'bootstrap/dist/fonts/*'
+            'font-awesome/fonts/*',
         ],
         tpl: []
     }

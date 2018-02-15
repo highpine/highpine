@@ -1,15 +1,14 @@
 <div class="container">
 
-    <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li class="active">Repositories</li>
-    </ol>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a ui-sref="dashboard">Home</a></li>
+            <li class="breadcrumb-item active">Repositories</li>
+        </ol>
+    </nav>
 
     <h3>Repositories</h3>
 
-    <div>
-        <h3>Search:</h3>
-        <div data-gitlab-project-finder data-callback="openProject" data-min-length="3"></div>
-    </div>
+    <div data-gitlab-project-finder data-callback="openProject" data-min-length="3"></div>
 
 </div>

@@ -1,13 +1,15 @@
 <div class="container">
 
-    <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li><a href="/projects">Projects</a></li>
-        <li class="active">
-            <span loading-indicator data-flag="!project" data-type="inline"></span>
-            {{ project.name }}
-        </li>
-    </ol>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a ui-sref="dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a ui-sref="projects">Projects</a></li>
+            <li class="breadcrumb-item active">
+                <span loading-indicator data-flag="!project" data-type="inline"></span>
+                {{ project.name }}
+            </li>
+        </ol>
+    </nav>
 
     <div ng-show="project">
         <h3>{{ project.name }}</h3>
