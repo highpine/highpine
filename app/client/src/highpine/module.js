@@ -8,9 +8,11 @@ define([
     'angular-chart',
     'moment',
     'config',
-    'highpine/packages-loader'
+    'highpine/packages-loader',
 
     // add highpine core packages below
+    '@shared/alert',
+    '@shared/modal',
 
 ], function(
     angular,

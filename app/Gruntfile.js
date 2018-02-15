@@ -143,6 +143,16 @@ module.exports = function (grunt) {
             all: {
                 files: [{
                     cwd: 'client/src',
+                    src: ['highpine/shared/*'],
+                    namespace: '@shared',
+                    main: 'setup'
+                }, {
+                    cwd: 'client/src',
+                    src: ['highpine/components/*'],
+                    namespace: '@highpine',
+                    main: 'setup'
+                }, {
+                    cwd: 'client/src',
                     src: ['dl-tools/shared/*'],
                     namespace: '@shared',
                     main: 'setup'
