@@ -13,11 +13,11 @@ define(['waypoints'], function() {
                         const html = $compile('<branch-merged project="$ctrl.project" ' +
                             'branch="branch" ' +
                             'main-branch="$ctrl.mainBranch" ' +
-                            'on-update="$ctrl.preSelectForDeletion(branch, merged)"></branch-merged>')(scope);
+                            'on-update="$ctrl.updateBranchMerged(branch, merged)"></branch-merged>')(scope);
                         $element.find('.merged-state-container').html(html);
                     },
                     offset: '110%'
-                })
+                });
             }
         };
     };

@@ -11,12 +11,19 @@ define([
             /* @ngInject */
             controller: function($scope, $timeout, $sce, GitlabDataService) {
 
-                $scope.projects = [];
-
                 const minSearchTermLength = $scope.minSearchTermLength || 1;
                 const searchRunTimeout = 150;
 
                 let searchPromise, searchRequest;
+
+                function startSearch() {
+                    $scope.projects = [];
+                    $scope.searchInProgress = true;
+                }
+                function finishSearch(result) {
+                    $scope.projects = result || [];
+                    $scope.searchInProgress = false;
+                }
 
                 $scope.search = function(searchTerm) {
                     if (searchPromise) {
@@ -26,14 +33,15 @@ define([
                         searchRequest.$cancelRequest();
                     }
                     if (!searchTerm || searchTerm.length < minSearchTermLength) {
-                        $scope.projects = [];
+                        finishSearch();
                         return;
                     }
                     searchPromise = $timeout(function() {
+                        startSearch();
                         searchPromise = null;
                         searchRequest = GitlabDataService.getApiClient().projects()
                             .query({ search: searchTerm }, function(result) {
-                                $scope.projects = result || [];
+                                finishSearch(result);
                             });
                     }, searchRunTimeout);
                 };

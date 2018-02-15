@@ -26,9 +26,9 @@ define([], function() {
                     this.merged = !! commits.find(commit => commit.id === lastCommit.id);
                     this.onUpdate({merged: this.merged});
                 });
-            }
+            };
         },
-        templateUrl: 'dl-tools/components/repository-branches-management/branch/merged.tpl.html',
+        templateUrl: 'dl-tools/components/delete-merged-branches/branch/merged.tpl.html',
         bindings: {
             project: '<',
             branch: '<',

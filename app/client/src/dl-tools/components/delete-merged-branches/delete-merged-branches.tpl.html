@@ -1,22 +1,35 @@
 <div class="repository-branches-management">
+
+    <hp-alert></hp-alert>
+
     <form>
         <div class="form-group">
-            <label>Main branch</label>
+            <label>Select main branch:</label>
             <select title="Main branch" class="form-control" ng-model="$ctrl.mainBranch">
                 <option>— Select —</option>
                 <option ng-repeat="branch in $ctrl.branches"
                         ng-value="branch">{{ branch.name }}</option>
             </select>
-            <span class="help-block">We will check and show if branches bellow are merged into the main branch.</span>
+            <span class="form-text text-muted">We will check and show if branches bellow are merged into the main branch.</span>
         </div>
     </form>
 
-    <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading" ng-if="$ctrl.branches.length">{{ $ctrl.branches.length }} branches shown.</div>
-        <div class="panel-body" ng-if="$ctrl.branches.length">
+    <div class="card mb-5">
+        <div class="card-header" ng-if="$ctrl.branches.length">
+            <strong>{{ $ctrl.branches.length }} branches shown.</strong><br/>
+            Scroll down to see them all. We only detect if the branch is merged when it is visible in order
+            to make less load on Gitlab API.
+        </div>
+        <div class="card-body" ng-if="$ctrl.branches.length">
+
+            <button type="button" class="btn btn-link" ng-click="$ctrl.selectMergedBranches()">Select merged</button>
+
+            <button type="button" class="btn btn-link" ng-click="$ctrl.deselectAllBranches()">Deselect all</button>
+
             <button type="button" class="btn btn-danger"
+                    ng-if="$ctrl.someBranchIsSelected()"
                     ng-click="$ctrl.deleteSelectedBranches()">Delete selected branches</button>
+
         </div>
 
         <table class="table">
@@ -32,7 +45,7 @@
 
             <tbody>
                 <tr ng-repeat="branch in $ctrl.branches"
-                    ng-class="{ active: branch === $ctrl.mainBranch, danger: branch.deleted }"
+                    ng-class="{ 'table-active': branch === $ctrl.mainBranch, 'table-warning': branch.deleted }"
                     lazy-merged-detection>
 
                     <td class="text-center">

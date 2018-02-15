@@ -32,7 +32,7 @@ define([
     '@dl-tools/projects',
     '@dl-tools/repositories',
     '@dl-tools/repository',
-    '@dl-tools/repository-branches-management',
+    '@dl-tools/delete-merged-branches',
 
 ], function(angular, highpine, packagesLoader, ...setups) {
 
