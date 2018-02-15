@@ -34,4 +34,4 @@ services:
       - node-server
     links:
       - node-server
-    command: bash -c "./node_modules/.bin/grunt build && node ./bin/www ../client 3000"
+    command: bash -c "./node_modules/.bin/grunt build && nodemon --legacy-watch ./bin/www ../client 3000"
