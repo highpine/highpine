@@ -14,9 +14,9 @@ define([
                             url: '/person/:username',
                             component: 'personComponent',
                             resolve: {
-                                person: (JiraDataService, $stateParams) => {
+                                person: (JiraDataSource, $stateParams) => {
                                     // todo: change to retrieving the person from internal database
-                                    return JiraDataService.getApiClient().user().get({
+                                    return JiraDataSource.getApiClient().user().get({
                                         username: $stateParams.username
                                     });
                                 }

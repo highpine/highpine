@@ -1,11 +1,11 @@
 define([], function() {
     /* @ngInject */
-    function controller($scope, $transition$, GitlabDataService) {
+    function controller($scope, $transition$, GitlabDataSource) {
         const stateParams = $transition$.params();
         const namespace = stateParams.namespace;
         const name = stateParams.name;
 
-        let apiClient = GitlabDataService.getApiClient();
+        let apiClient = GitlabDataSource.getApiClient();
 
         apiClient.project()
             .get({ project_id: namespace + '/' + name }, function (project) {

@@ -1,8 +1,8 @@
 define([], function() {
     /* @ngInject */
-    function controller($scope, JiraDataService) {
+    function controller($scope, JiraDataSource) {
 
-        JiraDataService.getApiClient().projects().query({}, function(projects) {
+        JiraDataSource.getApiClient().projects().query({}, function(projects) {
             $scope.projects = projects;
         });
     }

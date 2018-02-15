@@ -1,9 +1,9 @@
 define([], function() {
     return {
         /* @ngInject */
-        controller($scope, GitlabDataService) {
+        controller($scope, GitlabDataSource) {
 
-            const GitlabApiClient = GitlabDataService.getApiClient();
+            const GitlabApiClient = GitlabDataSource.getApiClient();
 
             this.$onChanges = function() {
 

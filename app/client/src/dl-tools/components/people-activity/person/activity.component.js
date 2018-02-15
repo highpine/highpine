@@ -3,7 +3,7 @@ define([
     '@shared/jira'
 ], function() {
     /* @ngInject */
-    function personActivityController($scope, JiraDataService) {
+    function personActivityController($scope) {
 
         this.showJira = true;
         this.showFecru = true;

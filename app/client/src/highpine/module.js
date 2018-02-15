@@ -13,6 +13,7 @@ define([
     // add highpine core packages below
     '@shared/alert',
     '@shared/modal',
+    '@shared/data-source',
 
 ], function(
     angular,

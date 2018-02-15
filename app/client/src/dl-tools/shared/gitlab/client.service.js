@@ -1,31 +1,40 @@
 define([], function() {
-    /* @ngInject */
-    function gitlabApiClientFactory($resource, API_BASE_URL) {
-        function url(path) {
-            return API_BASE_URL + '/proxy/gitlab' + path;
+
+    class GitlabApiClient {
+        /**
+         * @param {String} baseUrl Base API URL.
+         * @param {Function} $resource Angular ngResource.$resource service factory.
+         */
+        constructor(baseUrl, $resource) {
+            this.baseUrl = baseUrl;
+            this.$resource = $resource;
         }
-        return {
-            projects() {
-                return $resource(url('/projects'), {}, {
-                    query: { method:'GET', isArray: true, cache: true, cancellable: true }
-                });
-            },
-            project() {
-                return $resource(url('/projects/:project_id'), {});
-            },
-            projectCommits() {
-                return $resource(url('/projects/:project_id/repository/commits'), {});
-            },
-            projectBranches() {
-                return $resource(url('/projects/:project_id/repository/branches'), {}, {
-                    query: { method:'GET', isArray: true, cache: true, cancellable: true }
-                });
-            },
-            projectBranch() {
-                return $resource(url('/projects/:project_id/repository/branches/:branch_name'), {});
-            }
-        };
+        url(path) {
+            return this.baseUrl + '/proxy/gitlab' + path;
+        }
+        projects() {
+            return this.$resource(this.url('/projects'), {}, {
+                query: { method:'GET', isArray: true, cache: true, cancellable: true }
+            });
+        }
+        project() {
+            return this.$resource(this.url('/projects/:project_id'), {});
+        }
+        projectCommits() {
+            return this.$resource(this.url('/projects/:project_id/repository/commits'), {});
+        }
+        projectBranches() {
+            return this.$resource(this.url('/projects/:project_id/repository/branches'), {}, {
+                query: { method:'GET', isArray: true, cache: true, cancellable: true }
+            });
+        }
+        projectBranch() {
+            return this.$resource(this.url('/projects/:project_id/repository/branches/:branch_name'), {});
+        }
     }
 
-    return gitlabApiClientFactory;
+    /* @ngInject */
+    return function($resource, API_BASE_URL) {
+        return new GitlabApiClient(API_BASE_URL, $resource);
+    };
 });

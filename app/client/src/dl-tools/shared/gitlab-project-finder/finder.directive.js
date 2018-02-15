@@ -9,7 +9,7 @@ define([
                 minSearchTermLength: '=?minLength'
             },
             /* @ngInject */
-            controller: function($scope, $timeout, $sce, GitlabDataService) {
+            controller: function($scope, $timeout, $sce, GitlabDataSource) {
 
                 const minSearchTermLength = $scope.minSearchTermLength || 1;
                 const searchRunTimeout = 150;
@@ -39,7 +39,7 @@ define([
                     searchPromise = $timeout(function() {
                         startSearch();
                         searchPromise = null;
-                        searchRequest = GitlabDataService.getApiClient().projects()
+                        searchRequest = GitlabDataSource.getApiClient().projects()
                             .query({ search: searchTerm }, function(result) {
                                 finishSearch(result);
                             });

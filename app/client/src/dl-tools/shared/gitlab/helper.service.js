@@ -1,6 +1,6 @@
 define(['async'], function(async) {
     /* @ngInject */
-    function GitlabHelperFactory(GitlabDataService) {
+    function GitlabHelperFactory(GitlabDataSource) {
         return {
             /**
              * Get commits pushed by the user.
@@ -22,7 +22,7 @@ define(['async'], function(async) {
                 }
                 // let pages = Array.from(new Array(limit / maxPerPage), (val, index) => index + 1);
 
-                var apiClient = GitlabDataService.getApiClient();
+                var apiClient = GitlabDataSource.getApiClient();
                 async.parallel(pages.map(function(page) {
                     return function(projectsAsyncCallback) {
                         var filter = {

@@ -1,6 +1,6 @@
 define([], function() {
     /* @ngInject */
-    function FecruHelperFactory(FecruDataService) {
+    function FecruHelperFactory(FecruDataSource) {
         return {
             /**
              * Get comments posted by the user.
@@ -51,7 +51,7 @@ define([], function() {
                     return 0;
                 };
 
-                return FecruDataService.getApiClient().reviews().get(filter, function (result) {
+                return FecruDataSource.getApiClient().reviews().get(filter, function (result) {
                     var userComments = result.detailedReviewData.reduce(function(currentValue, review) {
                         var userReviewComments = review.generalComments.comments
                             .concat(review.versionedComments.comments)

@@ -1,19 +1,18 @@
 define([
     'dl-tools/shared/jira/client.service',
     'dl-tools/shared/jira/helper.service',
-    'dl-tools/shared/jira/data-service.service',
-    '@shared/data-services-manager'
-], function(JiraApiClientFactory, JiraHelperFactory, JiraDataServiceFactory) {
+    'dl-tools/shared/jira/data-source.service',
+    '@shared/data-source'
+], function(JiraApiClientFactory, JiraHelperFactory, JiraDataSourceFactory) {
     return {
         init: function(module) {
             module.factory('JiraApiClient', JiraApiClientFactory);
             module.factory('JiraHelper', JiraHelperFactory);
-            module.factory('JiraDataService', JiraDataServiceFactory);
+            module.factory('JiraDataSource', JiraDataSourceFactory);
         },
         run: function(module, $injector) {
-            let DataServicesManager = $injector.get('DataServicesManager');
-            let jiraDataService = $injector.get('JiraDataService');
-            DataServicesManager.register(jiraDataService);
+            $injector.get('HpDataSourcesRegistry')
+                .register($injector.get('JiraDataSource'));
         }
     };
 });

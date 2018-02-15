@@ -1,0 +1,7 @@
+<div class="data-services">
+    <div class="navbar-text mr-3" data-ng-repeat="dataSource in $ctrl.dataSources">
+        <i data-ng-show="dataSource.isAuthorized()" class="fa fa-check text-success" aria-hidden="true"></i>
+        <i data-ng-hide="dataSource.isAuthorized()" class="fa fa-remove text-danger" aria-hidden="true"></i>
+        {{ dataSource.getName() }}
+    </div>
+</div>

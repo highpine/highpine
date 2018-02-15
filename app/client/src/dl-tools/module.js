@@ -16,7 +16,6 @@ define([
     '@shared/gitlab',
     '@shared/gitlab-alt-auth-oauth',
     '@shared/gitlab-project-finder',
-    '@shared/data-services-manager',
     '@shared/loading-indicator',
     '@shared/people',
 

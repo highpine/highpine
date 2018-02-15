@@ -1,9 +1,9 @@
 define(['async'], function(async) {
     return {
         /* @ngInject */
-        controller($scope, GitlabDataService, HpModal, HpAlert) {
+        controller($scope, GitlabDataSource, HpModal, HpAlert) {
 
-            const GitlabApiClient = GitlabDataService.getApiClient();
+            const GitlabApiClient = GitlabDataSource.getApiClient();
 
             function loadAllBranches(projectId, iterationCallback, finalCallback, page = 1, perPage = 100) {
                 GitlabApiClient.projectBranches().query({

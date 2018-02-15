@@ -1,19 +1,18 @@
 define([
     './client.service',
     './helper.service',
-    './data-service.service',
-    '@shared/data-services-manager'
-], function(FecruApiClientFactory, FecruHelperFactory, FecruDataServiceFactory) {
+    './data-source.service',
+    '@shared/data-source'
+], function(FecruApiClientFactory, FecruHelperFactory, FecruDataSourceFactory) {
     return {
         init: function(module) {
             module.factory('FecruApiClient', FecruApiClientFactory);
             module.factory('FecruHelper', FecruHelperFactory);
-            module.factory('FecruDataService', FecruDataServiceFactory);
+            module.factory('FecruDataSource', FecruDataSourceFactory);
         },
         run: function(module, $injector) {
-            let DataServicesManager = $injector.get('DataServicesManager');
-            let fecruDataService = $injector.get('FecruDataService');
-            DataServicesManager.register(fecruDataService);
+            $injector.get('HpDataSourcesRegistry')
+                .register($injector.get('FecruDataSource'));
         }
     };
 });

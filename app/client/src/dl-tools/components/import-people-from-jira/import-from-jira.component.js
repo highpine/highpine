@@ -13,7 +13,7 @@ define([
 
     return {
         /* @ngInject */
-        controller($rootScope, PeopleApi, PersonApi, JiraDataService) {
+        controller($rootScope, PeopleApi, PersonApi, JiraDataSource) {
             this.importPerson = (jiraUser) => {
 
                 return JiraDataService.getApiClient().user()
