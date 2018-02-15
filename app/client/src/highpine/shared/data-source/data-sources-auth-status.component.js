@@ -6,7 +6,8 @@ define(['angular'], function(angular) {
 
             const $ctrl = this;
             this.dataSources = HpDataSourcesRegistry.getAll();
-
+            // todo: get rid of using UserStorage here.
+            // DataSources should know about their auth status by themselves.
             let user = UserStorage.get();
 
             if (user.auth_tokens) {
@@ -18,6 +19,9 @@ define(['angular'], function(angular) {
             });
             $scope.$on('logout', function(event) {
                 unauthorizeDataServices();
+                // todo: get rid of redirecting user by data sources component.
+                // This should be on another level.
+                // See also line 29.
                 $state.go('login');
             });
             $scope.$on('unauthorized', function(event) {
