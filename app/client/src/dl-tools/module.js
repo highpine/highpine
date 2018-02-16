@@ -6,13 +6,9 @@ define([
     // add module packages below
 
     '@shared/jira',
-    '@shared/jira-alt-auth-cookies',
-    '@shared/jira-alt-auth-oauth',
     '@shared/jira-user-finder',
     '@shared/fecru',
-    '@shared/fecru-alt-auth-token',
     '@shared/gitlab',
-    '@shared/gitlab-alt-auth-oauth',
     '@shared/gitlab-project-finder',
     '@shared/loading-indicator',
     '@shared/people',

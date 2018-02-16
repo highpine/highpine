@@ -6,15 +6,17 @@
 
     <form class="form-signin"
           ng-submit="$ctrl.login()">
-        <p class="alert alert-danger" data-ng-if="$ctrl.errorMessage">{{ $ctrl.errorMessage }}</p>
+        <p class="alert alert-danger" ng-if="$ctrl.errorMessage">{{ $ctrl.errorMessage }}</p>
         <label class="sr-only">Username</label>
-        <input type="text" class="form-control" data-ng-model="$ctrl.username"
+        <input type="text" class="form-control" ng-model="$ctrl.username"
                placeholder="Username" required autofocus>
         <label class="sr-only">Password</label>
-        <input type="password" class="form-control" data-ng-model="$ctrl.password"
+        <input type="password" class="form-control" ng-model="$ctrl.password"
                placeholder="Password" required>
-        <button class="btn btn-primary btn-block" type="submit">Login with Fecru</button>
+
+        <button class="btn btn-secondary" type="button" ng-click="$ctrl.expand = false">Cancel</button>
+        <button class="btn btn-primary" type="submit">Login with Fecru</button>
     </form>
 
-    <span class="fa fa-remove close-button" aria-hidden="true" data-ng-click="$ctrl.expand = false"></span>
+
 </div>

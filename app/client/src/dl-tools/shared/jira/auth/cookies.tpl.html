@@ -12,8 +12,9 @@
         <label class="sr-only">Password</label>
         <input type="password" class="form-control" data-ng-model="$ctrl.password"
                placeholder="Password" required>
-        <button class="btn btn-primary btn-block" type="submit">Login with Jira</button>
+
+        <button class="btn btn-secondary" type="button" ng-click="$ctrl.expand = false">Cancel</button>
+        <button class="btn btn-primary" type="submit">Login with Jira</button>
     </form>
 
-    <span class="fa fa-remove close-button" aria-hidden="true" data-ng-click="$ctrl.expand = false"></span>
 </div>

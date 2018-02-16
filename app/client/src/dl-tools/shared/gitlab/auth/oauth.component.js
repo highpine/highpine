@@ -10,5 +10,5 @@ define([], function() {
             };
         },
         template: '<button type="button" class="btn btn-primary" ng-click="$ctrl.auth()">Login with Gitlab (OAuth2)</button>'
-    }
+    };
 });
