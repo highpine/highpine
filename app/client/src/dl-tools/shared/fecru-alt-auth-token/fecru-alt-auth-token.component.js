@@ -19,6 +19,9 @@ define([
                 });
             };
         },
-        templateUrl: 'dl-tools/shared/fecru-alt-auth-token/fecru-alt-auth-token.tpl.html'
+        templateUrl: 'dl-tools/shared/fecru-alt-auth-token/fecru-alt-auth-token.tpl.html',
+        bindings: {
+            expand: '<'
+        }
     };
 });

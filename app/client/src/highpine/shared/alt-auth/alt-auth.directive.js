@@ -1,7 +1,6 @@
 define([
     'jquery',
-    './alt-auth.registry'
-], function($, altAuthRegistry) {
+], function($) {
     /* @ngInject */
     function alternativeAuthorizationDirective($compile, HpAltAuthRegistry) {
         return {

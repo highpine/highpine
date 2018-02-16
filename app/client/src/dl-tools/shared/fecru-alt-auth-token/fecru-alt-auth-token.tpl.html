@@ -1,8 +1,8 @@
 <button type="button" class="btn btn-primary"
-        ng-hide="$ctrl.showForm"
-        ng-click="$ctrl.showForm = true">Login with Fecru</button>
+        ng-hide="$ctrl.expand"
+        ng-click="$ctrl.expand = true">Login with Fecru</button>
 
-<div class="alt-auth-form-container" ng-show="$ctrl.showForm">
+<div class="alt-auth-form-container" ng-show="$ctrl.expand">
 
     <form class="form-signin"
           ng-submit="$ctrl.login()">
@@ -16,5 +16,5 @@
         <button class="btn btn-primary btn-block" type="submit">Login with Fecru</button>
     </form>
 
-    <span class="fa fa-remove close-button" aria-hidden="true" data-ng-click="$ctrl.showForm = false"></span>
+    <span class="fa fa-remove close-button" aria-hidden="true" data-ng-click="$ctrl.expand = false"></span>
 </div>
