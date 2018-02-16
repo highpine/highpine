@@ -13,7 +13,7 @@ define([], function() {
              * @param {DataSource} dataSource
              */
             register(dataSource) {
-                let key = dataSource.getKey();
+                let key = dataSource.key;
                 if (this.has(key)) {
                     throw new Error(`Data Source with key "${key}" is already registered.`);
                 }

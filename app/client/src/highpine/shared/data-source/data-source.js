@@ -4,13 +4,18 @@ define([], function() {
      * Data Source.
      */
     class DataSource {
+        /**
+         * @param {String} key
+         * @param {String} name
+         * @param {Object} apiClient
+         */
         constructor(key, name, apiClient) {
             this._authorized = false;
-            this.key = key;
-            this.name = name;
-            this.apiClient = apiClient;
+            this._key = key;
+            this._name = name;
+            this._apiClient = apiClient;
         }
-        isAuthorized() {
+        get isAuthorized() {
             // todo: maybe check using the API client.
             return this._authorized;
         }
@@ -23,26 +28,25 @@ define([], function() {
         onUnauthorized() {
             this.unauthorize();
         }
-        /**
-         * @abstract
-         * @returns {string}
-         */
-        getName() {
-            return this.name;
+
+        get name() {
+            return this._name;
         }
-        /**
-         * @abstract
-         * @returns {string}
-         */
-        getKey() {
-            return this.key;
+
+        get key() {
+            return this._key;
         }
+
+        get apiClient() {
+            return this._apiClient;
+        }
+
         /**
-         * @abstract
-         * @returns {null|Object}
+         * @deprecated
+         * @return {null|Object}
          */
         getApiClient() {
-            return this.apiClient;
+            return this._apiClient;
         }
     }
 

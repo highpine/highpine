@@ -32,7 +32,7 @@ define(['angular'], function(angular) {
             function authorizeDataServices(authTokens) {
                 authTokens = authTokens || {};
                 $ctrl.dataSources.forEach(function (dataSource) {
-                    if (authTokens[dataSource.getKey()]) {
+                    if (authTokens[dataSource.key]) {
                         dataSource.authorize();
                     } else {
                         dataSource.unauthorize();
