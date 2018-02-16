@@ -16,7 +16,7 @@ define([
         controller($rootScope, PeopleApi, PersonApi, JiraDataSource) {
             this.importPerson = (jiraUser) => {
 
-                return JiraDataService.getApiClient().user()
+                return JiraDataSource.getApiClient().user()
                     .get({
                         username: jiraUser.name
                     }, function(jiraUser) {
