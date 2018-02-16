@@ -1,22 +1,13 @@
 define([
-    '@shared/alt-auth'
-], function(altAuth) {
+    './gitlab-alt-auth-oauth.component',
+    '@shared/alt-auth',
+], function(gitlabAltAuthOauthComponent) {
     return {
         init: function(module) {
+            module.component('gitlabAltAuthOauth', gitlabAltAuthOauthComponent);
         },
         run: function(module, $injector) {
-            function getLocationOrigin() {
-                return window.location.origin || window.location.protocol + '//' + window.location.host;
-            }
-            altAuth.registry.registerService({
-                getLoginButtonTitle: function() {
-                    return 'Login with Gitlab OAuth2';
-                },
-                clickCallback: function() {
-                    window.location.href = $injector.get('BACKEND_URL') + '/gitlab-auth/oauth' +
-                        '?redirect=' + getLocationOrigin();
-                }
-            });
+            $injector.get('HpAltAuthRegistry').register('gitlab-oauth', 'gitlab-alt-auth-oauth');
         }
     };
 });

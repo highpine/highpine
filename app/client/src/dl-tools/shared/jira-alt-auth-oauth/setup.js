@@ -1,22 +1,13 @@
 define([
-    '@shared/alt-auth'
-], function(altAuth) {
+    './jira-alt-auth-oauth.component',
+    '@shared/alt-auth',
+], function(jiraAltAuthOauthComponent) {
     return {
         init: function(module) {
+            module.component('jiraAltAuthOauth', jiraAltAuthOauthComponent);
         },
         run: function(module, $injector) {
-            function getLocationOrigin() {
-                return window.location.origin || window.location.protocol + '//' + window.location.host;
-            }
-            altAuth.registry.registerService({
-                getLoginButtonTitle: function() {
-                    return 'Login with Jira OAuth';
-                },
-                clickCallback: function() {
-                    window.location.href = $injector.get('BACKEND_URL') + '/jira-auth/oauth' +
-                        '?redirect=' + getLocationOrigin();
-                }
-            });
+            $injector.get('HpAltAuthRegistry').register('jira-oauth', 'jira-alt-auth-oauth');
         }
     };
 });

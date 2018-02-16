@@ -1,18 +1,13 @@
 define([
+    'dl-tools/shared/fecru-alt-auth-token/fecru-alt-auth-token.component',
     '@shared/alt-auth',
-    'dl-tools/shared/fecru-alt-auth-token/fecru-alt-auth-token.directive'
-], function(altAuth, fecruAltAuthTokenDirective) {
-    return function(module) {
-
-        altAuth.registry.registerService({
-            getLoginButtonTitle: function() {
-                return 'Login with Fecru';
-            },
-            getDirectiveName: function() {
-                return 'fecru-alt-auth-token';
-            }
-        });
-
-        module.directive('fecruAltAuthToken', fecruAltAuthTokenDirective);
+], function(fecruAltAuthTokenComponent) {
+    return {
+        init(module) {
+            module.component('fecruAltAuthToken', fecruAltAuthTokenComponent);
+        },
+        run(module, $injector) {
+            $injector.get('HpAltAuthRegistry').register('fecru-token', 'fecru-alt-auth-token');
+        }
     };
 });
