@@ -1,7 +1,10 @@
 <div class="data-services">
-    <div class="navbar-text mr-3" data-ng-repeat="dataSource in $ctrl.dataSources">
-        <i data-ng-show="dataSource.isAuthorized" class="fa fa-check text-success" aria-hidden="true"></i>
-        <i data-ng-hide="dataSource.isAuthorized" class="fa fa-remove text-danger" aria-hidden="true"></i>
+    <button class="btn btn-secondary navbar-btn mr-3"
+            ng-class="{'btn-outline-success': dataSource.isAuthorized, 'btn-outline-warning': !dataSource.isAuthorized}"
+            ng-repeat="dataSource in dataSources"
+            ng-click="showAuthDialog(dataSource)">
+        <i class="fa" aria-hidden="true"
+           ng-class="{'fa-check': dataSource.isAuthorized, 'fa-remove': !dataSource.isAuthorized}"></i>
         {{ dataSource.name }}
-    </div>
+    </button>
 </div>

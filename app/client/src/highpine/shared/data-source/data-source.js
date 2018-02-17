@@ -8,25 +8,23 @@ define([], function() {
          * @param {String} key
          * @param {String} name
          * @param {Object} apiClient
+         * @param {{get: Function}} userStorage
+         * @param {String} authComponentName
          */
-        constructor(key, name, apiClient) {
-            this._authorized = false;
+        constructor(key, name, apiClient, userStorage, authComponentName) {
             this._key = key;
             this._name = name;
             this._apiClient = apiClient;
+            this._userStorage = userStorage;
+            this._authComponentName = authComponentName;
         }
+
         get isAuthorized() {
-            // todo: maybe check using the API client.
-            return this._authorized;
-        }
-        authorize() {
-            this._authorized = true;
-        }
-        unauthorize() {
-            this._authorized = false;
-        }
-        onUnauthorized() {
-            this.unauthorize();
+            const user = this._userStorage.get();
+            if (!user || !user.auth_tokens) {
+                return false;
+            }
+            return typeof user.auth_tokens[this.key] !== 'undefined';
         }
 
         get name() {
@@ -47,6 +45,10 @@ define([], function() {
          */
         getApiClient() {
             return this._apiClient;
+        }
+
+        get authComponentName() {
+            return this._authComponentName;
         }
     }
 
