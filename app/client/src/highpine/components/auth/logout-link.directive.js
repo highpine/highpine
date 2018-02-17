@@ -8,6 +8,7 @@ define([], function() {
                 $scope.logout = function() {
                     Auth.logout().then(function() {
                         $rootScope.$broadcast('logout');
+                        $state.go('login');
                     });
                 };
             },
