@@ -1,6 +1,6 @@
 define(['jquery', 'bootstrap'], function($) {
     /* @ngInject */
-    return function($compile, $sce) {
+    return function($compile) {
 
         return {
             link: function(scope, element, attrs) {
@@ -10,8 +10,6 @@ define(['jquery', 'bootstrap'], function($) {
                 $modal.on('hidden.bs.modal', event => {
                     delete scope.onConfirm;
                     delete scope.onCancel;
-                    delete scope.title;
-                    delete scope.message;
                 });
 
                 scope.$on('modal.confirm', function(event, title, message, onConfirm, onCancel) {
@@ -23,10 +21,13 @@ define(['jquery', 'bootstrap'], function($) {
 
                 function showModal(mode, title, message, onConfirm, onCancel) {
                     scope.mode = mode;
-                    scope.title = $sce.trustAsHtml(title);
-                    scope.message = $sce.trustAsHtml(message);
                     scope.onConfirm = onConfirm;
                     scope.onCancel = onCancel;
+
+                    $modal.find('.modal-title').html(title);
+                    $modal.find('.modal-body').html(message);
+
+                    $compile($modal)(scope);
 
                     $modal.modal();
                 }
