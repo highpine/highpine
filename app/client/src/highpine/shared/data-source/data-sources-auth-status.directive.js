@@ -9,7 +9,11 @@ define(['jquery'], function($) {
             controller: function($scope, HpDataSourcesRegistry, HpModal) {
                 $scope.dataSources = HpDataSourcesRegistry.getAll();
 
-                $scope.showAuthDialog = function(dataSource) {
+                $scope.$on('data-source.auth-request', function(event, dataSource, returnTo) {
+                    $scope.showAuthDialog(dataSource, returnTo);
+                });
+
+                $scope.showAuthDialog = function(dataSource, returnTo) {
 
                     if (dataSource.isAuthorized) {
                         return;
@@ -17,9 +21,9 @@ define(['jquery'], function($) {
 
                     let $authForm = $('<div />');
                     $authForm.append(`<p>Please authorize with ${dataSource.name} to proceed using its API.</p>`);
-                    $authForm.append($(`<${dataSource.authComponentName} />`));
+                    $authForm.append($(`<${dataSource.authComponentName} return-to="${returnTo}" />`));
 
-                    HpModal.alert(dataSource.name, $authForm.html());
+                    HpModal.popup(dataSource.name, $authForm.html());
                 };
             },
             templateUrl: 'highpine/shared/data-source/data-sources-auth-status.tpl.html'

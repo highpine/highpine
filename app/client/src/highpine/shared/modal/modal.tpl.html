@@ -10,6 +10,7 @@
             <div class="modal-body" xng-bind-html="message"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        ng-if="mode === 'confirm' || mode === 'alert'"
                         ng-click="onConfirm()">Ok</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                         ng-if="mode === 'confirm'"

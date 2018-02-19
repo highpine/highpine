@@ -7,22 +7,35 @@ define(['jquery', 'bootstrap'], function($) {
 
                 let $modal = $(element).find('.modal');
 
-                $modal.on('hidden.bs.modal', event => {
+                $modal.on('hide.bs.modal', () => {
+                    if (typeof scope.onClose === 'function') {
+                        scope.onClose();
+                    }
+                });
+                $modal.on('hidden.bs.modal', () => {
+                    $modal.find('.modal-title').html('');
+                    $modal.find('.modal-body').html('');
                     delete scope.onConfirm;
                     delete scope.onCancel;
+                    delete scope.onClose;
                 });
 
-                scope.$on('modal.confirm', function(event, title, message, onConfirm, onCancel) {
+                scope.$on('modal.confirm', (event, title, message, onConfirm, onCancel) => {
                     showModal('confirm', title, message, onConfirm, onCancel);
                 });
-                scope.$on('modal.alert', function(event, title, message, onConfirm) {
+                scope.$on('modal.alert', (event, title, message, onConfirm) => {
                     showModal('alert', title, message, onConfirm);
                 });
+                scope.$on('modal.popup', (event, title, message, onClose) => {
+                    showModal('popup', title, message, null, null, onClose);
+                });
+                scope.$on('modal.close', () => closeModal());
 
-                function showModal(mode, title, message, onConfirm, onCancel) {
+                function showModal(mode, title, message, onConfirm = null, onCancel = null, onClose = null) {
                     scope.mode = mode;
                     scope.onConfirm = onConfirm;
                     scope.onCancel = onCancel;
+                    scope.onClose = onClose;
 
                     $modal.find('.modal-title').html(title);
                     $modal.find('.modal-body').html(message);
@@ -31,6 +44,11 @@ define(['jquery', 'bootstrap'], function($) {
 
                     $modal.modal();
                 }
+
+                function closeModal() {
+                    $modal.modal('hide');
+                }
+
             },
             scope: {},
             templateUrl: 'highpine/shared/modal/modal.tpl.html'
