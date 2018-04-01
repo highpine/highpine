@@ -1,0 +1,26 @@
+<div class="container">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a ui-sref="dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a ui-sref="people">People</a></li>
+            <li class="breadcrumb-item active">{{ $ctrl.person.displayName }}</li>
+        </ol>
+    </nav>
+
+    <div class="media" data-ng-if="$ctrl.person">
+        <img class="mr-3"  src=""
+             alt="{{ $ctrl.person.displayName }}"
+             data-ng-src="{{ $ctrl.person.avatarUrls['48x48'] }}">
+        <div class="media-body">
+            <h1 class="mt-0">{{ $ctrl.person.displayName }}</h1>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs mb-4">
+        <li  class="nav-item"><a class="nav-link" ui-sref-active="active" ui-sref="person.overview">Overview</a></li>
+        <li  class="nav-item"><a class="nav-link" ui-sref-active="active" ui-sref="person.activity">Activity</a></li>
+    </ul>
+
+    <ui-view></ui-view>
+</div>

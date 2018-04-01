@@ -1,0 +1,14 @@
+<div spinner data-flag="!commits" data-type="medium"></div>
+<p>
+    <label>Branch:</label>
+    <!-- todo: implement selecting another branch -->
+    <select><option value="dev">dev</option></select>
+</p>
+<div class="user-commit git-commit" ng-repeat="commit in commits">
+    <p>
+        <strong><a href="{{ commit.project.web_url }}/commit/{{ commit.id }}">{{ commit.short_id }}</a></strong>@{{ commit.project.name }}
+        - {{ commit.dateFormatted }}
+    </p>
+    <div marked="commit.message"></div>
+</div>
+<p ng-if="commits && !commits.length">No commits were found for selected time period.</p>

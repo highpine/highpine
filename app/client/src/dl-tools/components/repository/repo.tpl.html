@@ -1,0 +1,30 @@
+<div class="container">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a ui-sref="dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a ui-sref="repositories">Repositories</a></li>
+            <li class="breadcrumb-item active">
+                <span loading-indicator data-flag="!project" data-type="inline"></span>
+                {{ project.name_with_namespace }}
+            </li>
+        </ol>
+    </nav>
+
+    <div ng-if="project">
+        <h2>{{ project.name_with_namespace }}</h2>
+
+        <p class="float-right">
+            <code>{{ project.ssh_url_to_repo }}</code> |
+            <a href="{{ project.web_url }}">Open on Gitlab</a>
+        </p>
+
+        <h4>Manage Branches</h4>
+
+        <delete-merged-branches project="project"></delete-merged-branches>
+
+    </div>
+
+    <div loading-indicator data-flag="!project" data-type="big"></div>
+
+</div>

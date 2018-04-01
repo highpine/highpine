@@ -1,0 +1,28 @@
+<div class="container">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a ui-sref="dashboard">Home</a></li>
+            <li  class="breadcrumb-item active">Projects</li>
+        </ol>
+    </nav>
+
+    <h3>Projects</h3>
+
+    <form>
+        <div class="form-group">
+            <input type="search" class="form-control" placeholder="Filter projects"
+                   data-ng-model="filter">
+        </div>
+    </form>
+
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="project in projects | filter:filter">
+            <a ui-sref="project({ key: project.key })">
+                <img data-ng-src="{{ project.avatarUrls['16x16'] }}" alt=""/>
+            </a>
+            <a ui-sref="project({ key: project.key })">{{ project.name }}</a>
+        </li>
+    </ul>
+
+</div>

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+client_path="../client"
+client_port=3000
+server_path="../server"
+server_port=3030
+
+if [ "$1" == "client" ]
+  then
+    node ./bin/www "${client_path}" ${client_port}
+fi
+
+if [ "$1" == "server" ]
+  then
+    node ./bin/www "${server_path}" ${server_port}
+fi
+
+if [ "$1" == "" ]
+  then
+    gnome-terminal \
+      --tab -e "node ./bin/www \"${client_path}\" ${client_port}" \
+      --tab -e "node ./bin/www \"${server_path}\" ${server_port}"
+fi

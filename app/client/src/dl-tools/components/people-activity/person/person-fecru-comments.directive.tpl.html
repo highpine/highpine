@@ -1,0 +1,12 @@
+<div spinner data-flag="!comments" data-type="medium"></div>
+<div class="user-comment fecru-comment" ng-repeat="comment in comments">
+    <p>
+        <strong>
+            <a href="{{ fecruBaseUrl }}/cru/{{ comment.review.key }}#c{{ comment.id }}">{{ comment.review.key }}</a>
+            {{ comment.review.summary }}
+        </strong>
+        - {{ comment.dateFormatted }}
+    </p>
+    <div marked="comment.body"></div>
+</div>
+<p ng-if="comments && !comments.length">No comments were found for selected time period.</p>

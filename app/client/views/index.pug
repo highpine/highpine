@@ -1,0 +1,48 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    base(href='/')
+    title(ng-bind='document.title') Highpine
+    link(rel='stylesheet', href='/vendor/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/vendor/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/stylesheets/compiled-styles.css')
+    script(src='/vendor/requirejs/require.js', data-main='/javascripts/require.main.js')
+  body
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top
+      .container
+
+        a.navbar-brand(href='/') Highpine
+
+        button.navbar-toggler(type='button', data-toggle='collapse', data-target='#main-navbar-collapse', aria-controls='#main-navbar-collapse', aria-expanded='false',aria-label="Toggle navigation")
+          span.navbar-toggler-icon
+
+        #main-navbar-collapse.collapse.navbar-collapse
+          ul.navbar-nav.mr-auto
+            li.nav-item
+              a.nav-link(href='/profile') Profile
+            li.nav-item
+              a.nav-link(href='/projects') Projects
+            li.nav-item
+              a.nav-link(href='/people') People
+            li.nav-item
+              a.nav-link(href='/repositories') Repositories
+
+    div(data-ui-view='')
+
+    .navbar.navbar-expand-lg.navbar-light.bg-light.fixed-bottom
+      .container
+
+        div.mr-auto
+          hp-data-sources-auth-status
+
+        ul.navbar-nav.navbar-right
+          li.nav-item
+            form.form-inline
+              div(data-logout-link='')
+          li.nav-item.ml-3
+            span.navbar-text © Highpine
+
+    hp-modal

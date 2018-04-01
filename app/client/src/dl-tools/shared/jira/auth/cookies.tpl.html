@@ -1,0 +1,20 @@
+<button type="button" class="btn btn-primary"
+        ng-hide="$ctrl.expand"
+        ng-click="$ctrl.expand = true">Login with Jira</button>
+
+<div class="alt-auth-form-container" ng-show="$ctrl.expand">
+
+    <form class="form-signin" data-ng-submit="$ctrl.login()">
+        <p class="alert alert-danger" data-ng-if="$ctrl.errorMessage">{{ $ctrl.errorMessage }}</p>
+        <label class="sr-only">Username</label>
+        <input type="text" class="form-control" data-ng-model="$ctrl.username"
+               placeholder="Username" required autofocus>
+        <label class="sr-only">Password</label>
+        <input type="password" class="form-control" data-ng-model="$ctrl.password"
+               placeholder="Password" required>
+
+        <button class="btn btn-secondary" type="button" ng-click="$ctrl.expand = false">Cancel</button>
+        <button class="btn btn-primary" type="submit">Login with Jira</button>
+    </form>
+
+</div>

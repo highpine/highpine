@@ -1,0 +1,12 @@
+<div spinner data-flag="!comments" data-type="medium"></div>
+<div class="user-comment jira-comment" ng-repeat="comment in comments">
+    <p>
+        <strong>
+            <a href="{{ jiraBaseUrl }}/browse/{{ comment.issue.key }}">{{ comment.issue.key }}</a>
+            {{ comment.issue.summary }}
+        </strong>
+        - {{ comment.dateFormatted }}
+    </p>
+    <div marked="comment.body"></div>
+</div>
+<p ng-if="comments && !comments.length">No comments were found for selected time period.</p>

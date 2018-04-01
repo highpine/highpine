@@ -1,0 +1,13 @@
+<div class="container">
+    <div data-ng-if="user">
+        <div class="media">
+            <img class="mr-3" src=""
+                 alt="{{ user.first_name }} {{ user.last_name }}"
+                 data-ng-src="{{ user.avatar }}">
+            <div class="media-body">
+                <h4 class="mt-0">{{ user.first_name }} {{ user.last_name }}</h4>
+            </div>
+        </div>
+        <p>EDIT PAGE</p>
+    </div>
+</div>

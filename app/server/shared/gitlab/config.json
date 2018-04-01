@@ -1,0 +1,8 @@
+{
+    "proxyHeaderPrefix": "X-Gitlab-Proxy-",
+    "headersPreset": {
+        "accept": "application/json"
+    },
+    "remoteApiPath": "/api",
+    "authTokenKey": "private_token"
+}

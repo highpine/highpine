@@ -1,0 +1,21 @@
+<div class="container form-signin-container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <form class="form-signin" data-ng-submit="login()">
+                <p class="alert alert-danger" ng-if="errorMessage">{{ errorMessage }}</p>
+                <label class="sr-only">Username</label>
+                <input type="text" class="form-control" data-ng-model="username"
+                       placeholder="Username" required autofocus>
+                <label class="sr-only">Password</label>
+                <input type="password" class="form-control" data-ng-model="password"
+                       placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+        </div>
+            <div class="col-md-6">
+            <h2>Or alternatively</h2>
+            <div class="alt-auth-container" hp-alt-auth></div>
+        </div>
+    </div>
+</div>
