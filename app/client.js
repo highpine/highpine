@@ -24,7 +24,7 @@ app.set('view engine', 'pug');
  * Setup application.
  */
 app.use(favicon(path.join(
-    __dirname, 'public', 'media', 'dl-tools', 'components', 'app', 'images', 'pine.ico'
+    __dirname, 'public', 'media', 'highpine', 'components', 'app', 'images', 'pine.ico'
 )));
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));

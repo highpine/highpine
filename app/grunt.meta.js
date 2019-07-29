@@ -19,7 +19,7 @@ module.exports = {
             'ngstorage/ngStorage.min.js',
             'bootstrap/dist/js/*.min.js',
             'bootstrap/dist/js/*.min.js.map',
-            'async/lib/async.js',
+            'async/dist/async.js',
             'moment/min/moment.min.js',
             'moment/moment.js',
             'chart.js/dist/Chart.js',

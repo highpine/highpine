@@ -21,6 +21,7 @@ module.exports.setup = function(app, env) {
 
     let jiraBaseUrl = env.JIRA_URL;
     let consumerKey = env.JIRA_OAUTH_CONSUMER_KEY;
+    // See: https://developer.atlassian.com/server/jira/platform/oauth/#JIRARESTAPIExample-OAuthauthentication-step1Step1:ConfiguringJIRA
     let consumerSecret = fs.readFileSync(env.JIRA_OAUTH_CONSUMER_SECRET_PATH, 'utf8');
 
     passport.use(

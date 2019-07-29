@@ -1,6 +1,7 @@
 /**
  * Highpine backend web server.
  */
+
 require('dot-env');
 require('app-module-path').addPath('./server');
 

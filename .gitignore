@@ -35,6 +35,8 @@ node_modules
 
 *.pem
 *.pub
+*.pcks8
+*.cer
 
 app/.env.json
 

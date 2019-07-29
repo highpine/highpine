@@ -16,7 +16,7 @@ module.exports = {
         'angular-messages': '/vendor/angular-messages/angular-messages.min',
         'angular-ui-router': '/vendor/@uirouter/angularjs/release/angular-ui-router.min',
         'ngstorage': '/vendor/ngstorage/ngStorage.min',
-        'async': '/vendor/async/lib/async',
+        'async': '/vendor/async/dist/async',
         'moment': '/vendor/moment/moment',
         'moment-adapter': 'highpine/moment-adapter',
         'chart': '/vendor/chart.js/dist/Chart',
