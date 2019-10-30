@@ -32,7 +32,7 @@
     "jquery": "^3.3.1",
     "markdown": "~0.5.0",
     "moment": "^2.22.0",
-    "mongoose": "^5.0.12",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.0",
     "ngstorage": "^0.3.11",
     "node-fecru-api": "0.0.1",
